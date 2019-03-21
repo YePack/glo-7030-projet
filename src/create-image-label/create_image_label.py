@@ -36,7 +36,7 @@ class CreateLabel:
         im = Image.open(self.path_image)
         labels, points = parse_xml_data(self.path_xml)
 
-        label_to_int = {'ice': 1, 'foz': 2, 'cz': 3, 'cm': 4, 'fon': 5, 'vert': 6, 'hor':7, 'corner': 8}
+        label_to_int = {'ice': 1, 'foz': 2, 'cz': 3, 'cm': 4, 'fon': 5, 'hor': 6, 'vert': 7, 'corner': 8}
         frame_image = np.zeros((im.size[0]+1, im.size[1]+1))
         for i in range(len(labels)):
             poly = points[i]
@@ -55,6 +55,6 @@ class CreateLabel:
             plt.show()
 
 
-Label2 = CreateLabel(path_xml='./data/xml/test2_polygon.xml', path_image='./data/image/test2_polygon.png')
+Label2 = CreateLabel(path_xml='./data/xml/Image2.xml', path_image='./data/image/image2.png')
 label2_array = Label2.get_label()
 Label2.show_plot()

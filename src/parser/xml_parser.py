@@ -43,8 +43,8 @@ def parse_xml_metadata(path):
 
 
 # Test
-path_xml = os.path.expanduser('./data/xml/test1.xml')
-labels, points = parse_xml_data(path_xml)
-parse_xml_metadata(path_xml)
+#path_xml = os.path.expanduser('./data/xml/test1.xml')
+#labels, points = parse_xml_data(path_xml)
+#parse_xml_metadata(path_xml)
 
 
