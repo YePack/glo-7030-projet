@@ -1,0 +1,3 @@
+[submodule "labeling-tool"]
+	path = labeling-tool
+	url = https://github.com/stecaron/cvat

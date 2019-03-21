@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <id>5</id>
+      <name>test-1-image</name>
+      <size>2</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker></bugtracker>
+      <flipped>False</flipped>
+      <created>2019-03-16 19:29:34.268487+03:00</created>
+      <updated>2019-03-16 19:49:55.653522+03:00</updated>
+      <source>2 images: image-1.png, image-6.png, ...</source>
+      <labels>
+        <label>
+          <name>foz</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>cz</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>corner</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>vert</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>hor</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>cn</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>ice</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>crowd</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>fon</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>5</id>
+          <start>0</start>
+          <stop>1</stop>
+          <url>http://localhost:8080/?id=5</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stcar123</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2019-03-16 19:50:30.346615+03:00</dumped>
+  </meta>
+  <image id="0" name="image-1.png" width="2874" height="1608">
+    <polygon label="vert" points="384.01,1599.13;2287.35,1105.16;2309.68,1119.11;476.11,1607.51" occluded="0">
+    </polygon>
+    <polygon label="foz" points="1231.03,1083.39;1180.79,1088.97;1169.63,1111.30;1225.44,1119.67;1258.93,1105.72;1250.56,1091.76" occluded="0">
+    </polygon>
+    <polygon label="foz" points="114.70,656.40;78.42,661.98;97.95,678.72;139.82,673.14;156.56,661.98;134.24,656.40" occluded="0">
+    </polygon>
+    <polygon label="cz" points="996.60,904.78;884.96,918.73;1085.90,901.99" occluded="0">
+    </polygon>
+    <polygon label="corner" points="146.79,446.53;146.79,480.02;523.55,463.27;877.99,480.02;886.36,454.90;526.35,435.36" occluded="0">
+    </polygon>
+    <polygon label="ice" points="7.81,480.02;535.28,466.06;886.92,482.81;1274.84,533.04;1707.42,669.79;1891.61,722.82;2017.20,761.89;2232.09,826.08;2402.33,915.38;2472.10,965.62;2472.10,993.53;2402.33,1049.34;2265.58,1107.95;348.29,1608.00;2.23,1604.72" occluded="0">
+    </polygon>
+    <polygon label="hor" points="895.68,451.27;1257.37,508.20;1565.48,591.93;1833.40,668.96;1913.77,695.75;1893.68,722.54;1501.85,601.98;1448.26,575.18;1337.75,538.35;1267.42,528.30;1032.99,494.81;885.63,478.06" occluded="0">
+    </polygon>
+    <polygon label="vert" points="1.50,451.27;132.11,444.57;135.46,471.37;1.50,474.71" occluded="0">
+    </polygon>
+    <polygon label="hor" points="1984.10,705.79;2235.27,792.87;2225.23,816.31;1984.10,742.63" occluded="0">
+    </polygon>
+    <polygon label="corner" points="2248.28,798.17;2237.12,828.87;2309.68,862.36;2309.68,837.24;2253.86,800.96" occluded="0">
+    </polygon>
+    <polygon label="corner" points="2301.30,1094.00;2440.85,1038.18;2485.50,996.32;2502.24,1007.48;2460.38,1049.34;2318.05,1113.53" occluded="0">
+    </polygon>
+    <polyline label="hor" points="1201.72,680.96;1254.75,697.70" occluded="0">
+    </polyline>
+    <polyline label="cz" points="776.12,1317.82;884.96,1351.31;1094.28,1368.06;1247.77,1373.64" occluded="0">
+    </polyline>
+    <polyline label="cz" points="339.75,812.96;517.25,776.12;691.39,729.24;741.63,685.70;741.63,632.12;657.90,575.18;483.76,541.69;172.30,514.90;14.90,528.30" occluded="0">
+    </polyline>
+    <polyline label="cz" points="11.55,823.01;122.07,826.36;205.79,819.66" occluded="0">
+    </polyline>
+    <polyline label="hor" points="1452.90,759.10;1865.94,898.64" occluded="0">
+    </polyline>
+    <polyline label="hor" points="531.93,463.27;1140.32,664.21" occluded="0">
+    </polyline>
+    <polyline label="cz" points="792.87,924.32;628.21,968.97;541.69,1005.25;460.76,1058.27;424.48,1105.72;427.27,1150.37;474.71,1211.77;591.93,1281.54;644.95,1303.87" occluded="0">
+    </polyline>
+    <polyline label="cz" points="1155.67,896.41;1367.78,896.41;1716.63,946.64;1878.50,1005.25;1984.55,1088.97;1973.38,1169.91;1953.85,1183.86" occluded="0">
+    </polyline>
+    <polyline label="hor" points="1907.80,907.01;2206.42,1013.06" occluded="0">
+    </polyline>
+  </image>
+</annotations>
