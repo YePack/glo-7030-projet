@@ -1,0 +1,107 @@
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{pslatex}
+\usepackage{apacite}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\numberwithin{equation}{section}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{moreverb}
+\usepackage{url}
+\usepackage{subcaption}
+\setlength\parindent{0pt}
+\usepackage{bbm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{breakcites}
+\usepackage[htt]{hyphenat}
+\usepackage{fancyvrb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\title{Segmentation sémantique pour matchs de hockey}
+ 
+\author{{\large \bf Philippe Blouin-Leclerc} \\
+   {\large \bf Stéphane Caron}}
+  
+\date{20 mai 2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{multicols}{2}
+
+\begin{abstract}
+Le projet sera bla bla bla.
+
+L'ensemble du code et des documents qui ont servi à la réalisation de ce projet et à l'écriture de l'article se trouvent dans le répertoire \href{https://github.com/stecaron/glo-7030-projet}{\includegraphics[height=0.3cm]{GitHub-Mark-32px}} du projet.
+\end{abstract}
+
+
+\section{Introduction et état de l'art}
+
+\input{state-of-the-art}
+
+
+\section{Approche proposée}
+
+\input{approche}
+
+
+\section{Méthodologie expérimentale}
+
+\input{methodologie}
+
+
+\section{Application}
+
+\input{application}
+
+
+\section{Analyse des résultats}
+
+\input{analyse}
+
+
+\section{Conclusion}
+
+\input{conclusion}
+
+
+\nocite{hastie01statisticallearning}
+
+\bibliographystyle{apacite}
+
+\setlength{\bibleftmargin}{.125in}
+\setlength{\bibindent}{-\bibleftmargin}
+
+\bibliography{bibliography}
+
+\end{multicols}
+
+\end{document}
