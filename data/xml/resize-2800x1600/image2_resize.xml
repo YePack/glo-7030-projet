@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <id>4</id>
+      <name>Hockey Label_resize_2</name>
+      <size>1</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker></bugtracker>
+      <flipped>False</flipped>
+      <created>2019-03-23 20:44:49.917819+03:00</created>
+      <updated>2019-03-23 20:56:46.499857+03:00</updated>
+      <source>1 images: image2_resize.png, ...</source>
+      <labels>
+        <label>
+          <name>ice</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>foz</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>cz</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>cm</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>fon</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>vert</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>hor</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>corner</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>4</id>
+          <start>0</start>
+          <stop>0</stop>
+          <url>http://localhost:8080/?id=4</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>philbl</username>
+        <email>phil.19013@gmail.com</email>
+      </owner>
+    </task>
+    <dumped>2019-03-23 20:56:48.785591+03:00</dumped>
+  </meta>
+  <image id="0" name="image2_resize.png" width="2800" height="1600">
+    <polygon label="ice" points="0.00,0.00;0.00,1337.41;2800.00,1600.00;2800.00,0.00" occluded="0">
+    </polygon>
+    <polygon label="hor" points="2340.43,1259.72;2327.04,1554.43;2484.40,1567.80;2487.80,1279.80" occluded="0">
+    </polygon>
+    <polygon label="hor" points="1185.30,0.00;906.87,536.34;425.80,1392.30;577.30,1404.90;1032.70,561.60;1331.50,0.00" occluded="0">
+    </polygon>
+    <polygon label="foz" points="1146.95,846.63;1072.96,858.32;1030.77,899.86;1046.35,950.48;1125.50,967.40;1209.26,953.73;1237.82,907.00;1227.43,871.95;1187.84,852.47" occluded="0">
+    </polygon>
+    <polygon label="cm" points="2184.55,727.98;2382.24,760.54;2556.70,767.50;2698.53,760.54;2800.00,753.56;2800.00,853.57;2703.18,855.89;2563.64,858.22;2377.59,846.59;2170.60,809.38" occluded="0">
+    </polygon>
+    <polygon label="hor" points="2394.00,0.00;2350.30,995.10;2491.10,998.40;2524.60,0.00" occluded="0">
+    </polygon>
+    <polygon label="vert" points="0.00,1317.60;0.00,1396.00;1141.60,1482.50;1745.00,1541.97;2256.70,1591.80;2554.34,1600.00;2800.00,1600.00;2658.99,1586.16;2547.36,1569.88;2252.00,1535.00;1747.30,1481.50;1149.63,1423.36" occluded="0">
+    </polygon>
+    <polygon label="cm" points="2800.00,228.00;2658.99,204.70;2505.50,190.75;2347.35,188.42;2172.93,193.08;2010.13,220.98;1896.17,251.22;1770.40,307.00;1698.49,376.80;1686.70,446.60;1735.70,539.60;1847.33,611.70;1991.52,681.47;2047.34,702.40;1984.55,781.47;1933.38,760.54;1786.86,693.10;1642.67,597.74;1579.88,462.85;1586.90,360.50;1670.58,246.57;1838.03,181.45;1968.27,144.24;2165.95,120.98;2349.68,114.00;2519.45,116.33;2663.65,127.96;2800.00,139.58" occluded="0">
+    </polygon>
+    <polygon label="foz" points="1455.03,0.31;1503.48,35.20;1571.31,35.20;1606.20,0.31" occluded="0">
+    </polygon>
+  </image>
+</annotations>

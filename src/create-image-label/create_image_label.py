@@ -55,6 +55,17 @@ class CreateLabel:
             plt.show()
 
 
-Label2 = CreateLabel(path_xml='./data/xml/Image2.xml', path_image='./data/image/image2.png')
+Label2 = CreateLabel(path_xml='./data/xml/resize-512x256/image3_512x256.xml',
+                     path_image='./data/image/resize-512x256/image3_resize_small.png')
 label2_array = Label2.get_label()
 Label2.show_plot()
+label2_array.shape
+from PIL import Image
+
+from resizeimage import resizeimage
+
+
+with open('./data/image/image6.png', 'r+b') as f:
+    with Image.open(f) as image:
+        cover = resizeimage.resize_thumbnail(image, [512, 256])
+        cover.save('./data/image/image6_resize_small.png', image.format)
