@@ -1,1 +1,10 @@
 *idea/
+
+# Ignorer les files latex
+*.aux
+*.log
+*synctex.gz
+*.out
+*.blg
+*.bbl
+
