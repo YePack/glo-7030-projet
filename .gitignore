@@ -8,3 +8,8 @@
 *.blg
 *.bbl
 
+*.DS_Store
+
+# Ignore processed  data
+data/train/
+data/test/
