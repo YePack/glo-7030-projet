@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
+import matplotlib.pyplot as plt
 
 from torchvision import transforms
 from torch import optim
@@ -47,6 +48,7 @@ net.train()
 preds = net(img_tensor)
 optimizer.zero_grad()
 loss = criterion(preds, labels_tensor)
+loss.backward()
 optimizer.step()
 
 preds_img = preds.max(dim=1)[1]
