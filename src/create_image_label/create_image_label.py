@@ -37,6 +37,7 @@ class CreateLabel:
         labels, points = parse_xml_data(self.path_xml)
 
         label_to_int = {'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
+        #label_to_int = {'ice': 1, 'foz': 2, 'cz': 3, 'cm': 4, 'fon': 5, 'vert': 6, 'hor': 7, 'corner': 8}
         frame_image = np.zeros((im.size[0]+1, im.size[1]+1))
         for i in range(len(labels)):
             poly = points[i]

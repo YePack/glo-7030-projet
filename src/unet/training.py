@@ -11,8 +11,8 @@ from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
 
 
-path_img = 'data/image/resize-512x256/image2_resize_small.png'
-path_xml = 'data/xml/resize-512x256/image2_512x256.xml'
+path_img = 'data/raw/image-2.png'
+path_xml = 'data/raw/image-2.xml'
 
 img = np.array(Image.open(path_img))[..., :3]
 labels = CreateLabel(path_xml, path_img)
@@ -34,9 +34,9 @@ img_tensor.unsqueeze_(0)
 labels = labels[1:, 1:]
 labels_tensor = torch.LongTensor(labels).unsqueeze(0)
 
-net = UNet(3, 7)
+net = UNet(3, 9)
 labels_tensor_array = np.array(labels_tensor.data[0])
-weight_learn = torch.FloatTensor(np.array([np.exp(1-(labels_tensor_array == i).mean()) for i in range(7)]))
+weight_learn = torch.FloatTensor(np.array([np.exp(1-(labels_tensor_array == i).mean()) for i in range(9)]))
 weight_learn[2] = weight_learn[2] + 10
 # Parametres d'entrainement
 optimizer = optim.SGD(net.parameters(),
