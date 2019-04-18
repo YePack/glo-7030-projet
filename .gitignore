@@ -13,3 +13,4 @@
 # Ignore processed  data
 data/train/
 data/test/
+data/original/
