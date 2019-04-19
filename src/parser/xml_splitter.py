@@ -20,4 +20,4 @@ def split_xml(path_xml):
         new_tree.write(os.path.join(path_to, filename))
 
 
-split_xml('data/multiple_images.xml')
+#split_xml('data/raw/multiple_images.xml')
