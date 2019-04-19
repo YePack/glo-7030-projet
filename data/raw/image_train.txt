@@ -1,0 +1,2 @@
+data/raw/image-2.png
+data/raw/image-3.png

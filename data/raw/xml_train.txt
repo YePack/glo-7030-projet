@@ -1,0 +1,2 @@
+data/raw/image-2.xml
+data/raw/image-3.xml

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
@@ -11,8 +12,12 @@ from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
 
 
-path_img = 'data/raw/image-2.png'
-path_xml = 'data/raw/image-2.xml'
+{'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
+colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
+cmap = mpl.colors.ListedColormap(colors)
+
+path_img = 'data/raw/image-3.png'
+path_xml = 'data/raw/image-3.xml'
 
 img = np.array(Image.open(path_img))[..., :3]
 labels = CreateLabel(path_xml, path_img)
@@ -37,7 +42,8 @@ labels_tensor = torch.LongTensor(labels).unsqueeze(0)
 net = UNet(3, 9)
 labels_tensor_array = np.array(labels_tensor.data[0])
 weight_learn = torch.FloatTensor(np.array([np.exp(1-(labels_tensor_array == i).mean()) for i in range(9)]))
-weight_learn[2] = weight_learn[2] + 10
+weight_learn[5] = weight_learn[5] + 10  # more weight to goal line
+weight_learn[8] = weight_learn[8] + 10  # more weight to face-off dot
 # Parametres d'entrainement
 optimizer = optim.SGD(net.parameters(),
                           lr=0.01,
@@ -48,8 +54,12 @@ criterion = nn.CrossEntropyLoss(weight=weight_learn)
 net.train()
 
 
-for i in range(10):
+for i in range(50):
     preds = net(img_tensor)
+    if i % 10 == 0:
+        preds_img = preds.max(dim=1)[1]
+        plt.imshow(preds_img[0])
+        plt.show()
     optimizer.zero_grad()
     loss = criterion(preds, labels_tensor)
     print('iter {} loss : {}'.format(i, loss))
