@@ -1,0 +1,8 @@
+data/raw/image-1.xml
+data/raw/image-2.xml
+data/raw/image-3.xml
+data/raw/image-100.xml
+data/raw/image-102.xml
+data/raw/image-103.xml
+data/raw/image-105.xml
+data/raw/image-106.xml
