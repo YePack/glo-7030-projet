@@ -123,7 +123,7 @@ In order to make pixel-wise predictions, we need to have a representation saying
 \vspace{10mm}
 {\centering \includegraphics[width=1.0\linewidth]{figures/task-representation.png}}
 
-As many classification problems, we need to one-hot encode all classes (one matrix for each class) which mean we can summarize the dimensions workflow as follow for one 6 classes RBG image:
+As many classification problems, we need to one-hot encode all labels (one matrix for each class) which mean we can summarize the dimensions workflow as follow for one 6 classes RBG image:
 
 \vspace{-5mm}
 \begin{gather*}
@@ -159,7 +159,13 @@ Our methodology is splitted in 3 main components:
 	\item Set up
 		\begin{itemize}
 			\item Dataset creation
+				\begin{itemize}
+					\item XX NHL broadcast images
+				\end{itemize}
 			\item Labeling task: \href{https://github.com/opencv/cvat}{cvat tool}
+				\begin{itemize}
+					\item 9 classes: crowd, ice, blue line, red line, goal line, circle zones, middle circle, dots and boards)
+				\end{itemize}
 		\end{itemize}
 	\item Semantic segmentation
 		\begin{itemize}
@@ -229,7 +235,7 @@ Our methodology is splitted in 3 main components:
   \column{.3}
 
 
-  \block{Dataset}{
+  \block{2D mapping method}{
 
   \begin{center}
   \begin{tikzpicture}[
