@@ -1,2 +1,4 @@
 data/raw/image-5.xml
 data/raw/image-6.xml
+data/raw/image-101.xml
+data/raw/image-104.xml

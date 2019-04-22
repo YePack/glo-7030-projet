@@ -37,7 +37,7 @@ transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=10, batch_size=1, criterion=criterion,
+      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
       transform=transform)
 
 
