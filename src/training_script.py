@@ -12,8 +12,9 @@ from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
 from src.unet import create_labels_from_dir
 
-from src.unet.training_function import train
-from src.unet.Dataset import DataGenerator
+from src import train
+from src.dataloader import DataGenerator
+from src.dataloader import NormalizeCropTransform
 
 
 
@@ -27,19 +28,22 @@ path_xml_val = 'data/raw/xml_val.txt'
 
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
-                          lr=0.01,
-                          momentum=0.9,
-                          weight_decay=0.0005)
-weight_learn = torch.FloatTensor(np.array([2.0599, 1.5701, 2.5674, 2.5535, 2.7183, 4.7047, 2.6103, 2.7183, 4.6950]))
-criterion = nn.CrossEntropyLoss()
+                      lr=0.01,
+                      momentum=0.9,
+                      weight_decay=0.0005)
+weight_learn = torch.FloatTensor(np.array([2.0599, 1.5701, 2.5674, 2.5535, 2.7183, 5.7047, 2.6103, 2.7183, 5.6950]))
+criterion = nn.CrossEntropyLoss(weight=weight_learn)
+transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
+
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=30, batch_size=1, criterion=criterion)
+      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=10, batch_size=1, criterion=criterion,
+      transform=transform)
 
 
 net.eval()
 #See the 2 train predictions
-dd = DataGenerator(path_img_train, path_xml_train)
+dd = DataGenerator(path_img_train, path_xml_train, transform=transform)
 img1, label1 = dd[0]
 img2, label2 = dd[1]
 img1.unsqueeze_(0)
@@ -55,7 +59,7 @@ plt.imshow(preds_img[0], cmap=cmap)
 plt.show()
 
 #See the 2 valid predictions
-dd = DataGenerator(path_img_val, path_xml_val)
+dd = DataGenerator(path_img_val, path_xml_val, transform=transform)
 img3, label3 = dd[0]
 img4, label4 = dd[1]
 img3.unsqueeze_(0)

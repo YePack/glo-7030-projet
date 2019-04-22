@@ -9,13 +9,14 @@ from torch.autograd import Variable
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
-from src.unet.Dataset import DataGenerator
+from src.dataloader import DataGenerator
 
 
-def train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val, batch_size, shuffle=True):
+def train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val, batch_size,
+                        transform, shuffle=True):
 
-    dataset_train = DataGenerator(imagepath_train, labelpath_train)
-    dataset_val = DataGenerator(imagepath_val, labelpath_val)
+    dataset_train = DataGenerator(imagepath_train, labelpath_train, transform)
+    dataset_val = DataGenerator(imagepath_val, labelpath_val, transform)
 
     loader_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=shuffle)
     loader_val = DataLoader(dataset_val, batch_size=batch_size, shuffle=False)
@@ -55,13 +56,13 @@ def validate(model, val_loader, use_gpu=False):
 
 
 def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, labelpath_val, n_epoch, batch_size,
-          use_gpu=False, scheduler=None, criterion=None, shuffle=True):
+          transform, use_gpu=False, scheduler=None, criterion=None, shuffle=True):
 
     if criterion is None:
         criterion = nn.CrossEntropyLoss()
 
     train_loader, val_loader = train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val,
-                                                   batch_size=batch_size, shuffle=shuffle)
+                                                   transform=transform, batch_size=batch_size, shuffle=shuffle)
 
     for i in range(n_epoch):
         start = time.time()

@@ -54,11 +54,11 @@ criterion = nn.CrossEntropyLoss(weight=weight_learn)
 net.train()
 
 
-for i in range(50):
+for i in range(11):
     preds = net(img_tensor)
     if i % 10 == 0:
         preds_img = preds.max(dim=1)[1]
-        plt.imshow(preds_img[0])
+        plt.imshow(preds_img[0], cmap=cmap)
         plt.show()
     optimizer.zero_grad()
     loss = criterion(preds, labels_tensor)
@@ -66,8 +66,9 @@ for i in range(50):
     loss.backward()
     optimizer.step()
 
+net.eval()
 preds_img = preds.max(dim=1)[1]
-plt.imshow(preds_img[0])
+plt.imshow(preds_img[0], cmap=cmap)
 plt.show()
 preds_img.unique()
 preds_softmax = F.softmax(preds, dim=1)

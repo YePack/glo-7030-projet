@@ -1,10 +1,9 @@
 import numpy as np
 import os
 
-import torch
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision import transforms
+
 from src.create_image_label.create_image_label import CreateLabel
 
 
@@ -13,7 +12,7 @@ def load_image(file):
 
 
 class DataGenerator(Dataset):
-    def __init__(self, imagepath=None, labelpath=None, transform=None):
+    def __init__(self, imagepath, labelpath, transform):
         #  make sure label match with image
         self.transform = transform
         assert os.path.exists(imagepath), "{} not exists !".format(imagepath)
@@ -39,23 +38,10 @@ class DataGenerator(Dataset):
             #label = load_image(f).convert('P')
 
         labels_array = np.array(labels_class.get_label())
-
-        normalize = transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225]
-        )
-
-        preprocess = transforms.Compose([
-            transforms.ToTensor(),
-            normalize
-        ])
-
-        img_tensor = preprocess(image)
-        #img_tensor.unsqueeze_(0)
         labels_array = labels_array[1:, 1:]
-        labels_tensor = torch.LongTensor(labels_array).unsqueeze(0)
-        #if self.transform is not None:
-            #image, label = self.transform(image, label)
+        img_tensor, labels_tensor = self.transform.fit(image, labels_array)
+
+
         return img_tensor, labels_tensor
 
     def __len__(self):
