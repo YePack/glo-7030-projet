@@ -16,12 +16,16 @@ from src.unet.unet_model import UNet
 colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 cmap = mpl.colors.ListedColormap(colors)
 
-path_img = 'data/raw/image-3.png'
-path_xml = 'data/raw/image-3.xml'
+path_img = 'data/raw/image-6.png'
+path_xml = 'data/raw/image-6.xml'
 
 img = np.array(Image.open(path_img))[..., :3]
+plt.imshow(img, cmap=cmap)
+plt.show()
 labels = CreateLabel(path_xml, path_img)
 labels = np.array(labels.get_label())
+plt.imshow(labels, cmap=cmap)
+plt.show()
 
 normalize = transforms.Normalize(
    mean=[0.485, 0.456, 0.406],
