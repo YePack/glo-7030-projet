@@ -26,6 +26,8 @@ path_xml_train = 'data/raw/xml_train.txt'
 path_img_val = 'data/raw/image_val.txt'
 path_xml_val = 'data/raw/xml_val.txt'
 
+use_gpu=True
+
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
                       lr=0.01,
@@ -35,41 +37,43 @@ weight_learn = torch.FloatTensor(np.array([2.0599, 1.5701, 2.5674, 2.5535, 2.718
 criterion = nn.CrossEntropyLoss(weight=weight_learn)
 transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
+if use_gpu:
+    net = net.cuda()
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
       imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
-      transform=transform)
+      transform=transform, use_gpu=use_gpu)
 
 
-net.eval()
+#net.eval()
 #See the 2 train predictions
-dd = DataGenerator(path_img_train, path_xml_train, transform=transform)
-img1, label1 = dd[0]
-img2, label2 = dd[1]
-img1.unsqueeze_(0)
-img2.unsqueeze_(0)
-preds = net(img1)
-preds_img = preds.max(dim=1)[1]
-plt.imshow(preds_img[0], cmap=cmap)
-plt.show()
+#dd = DataGenerator(path_img_train, path_xml_train, transform=transform)
+#img1, label1 = dd[0]
+#img2, label2 = dd[1]
+#img1.unsqueeze_(0)
+#img2.unsqueeze_(0)
+#preds = net(img1)
+#preds_img = preds.max(dim=1)[1]
+#plt.imshow(preds_img[0], cmap=cmap)
+#plt.show()
 
-preds = net(img2)
-preds_img = preds.max(dim=1)[1]
-plt.imshow(preds_img[0], cmap=cmap)
-plt.show()
+#preds = net(img2)
+#preds_img = preds.max(dim=1)[1]
+#plt.imshow(preds_img[0], cmap=cmap)
+#plt.show()
 
 #See the 2 valid predictions
-dd = DataGenerator(path_img_val, path_xml_val, transform=transform)
-img3, label3 = dd[0]
-img4, label4 = dd[1]
-img3.unsqueeze_(0)
-img4.unsqueeze_(0)
+#dd = DataGenerator(path_img_val, path_xml_val, transform=transform)
+#img3, label3 = dd[0]
+#img4, label4 = dd[1]
+#img3.unsqueeze_(0)
+#img4.unsqueeze_(0)
 
-preds = net(img3)
-preds_img = preds.max(dim=1)[1]
-plt.imshow(preds_img[0], cmap=cmap)
-plt.show()
-preds = net(img4)
-preds_img = preds.max(dim=1)[1]
-plt.imshow(preds_img[0], cmap=cmap)
-plt.show()
+#preds = net(img3)
+#preds_img = preds.max(dim=1)[1]
+#plt.imshow(preds_img[0], cmap=cmap)
+#plt.show()
+#preds = net(img4)
+#preds_img = preds.max(dim=1)[1]
+#plt.imshow(preds_img[0], cmap=cmap)
+#plt.show()

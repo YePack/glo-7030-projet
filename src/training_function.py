@@ -62,7 +62,8 @@ def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, lab
         criterion = nn.CrossEntropyLoss()
 
     train_loader, val_loader = train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val,
-                                                   transform=transform, batch_size=batch_size, shuffle=shuffle)
+                                                   transform=transform, batch_size=batch_size, shuffle=shuffle,
+                                                   use_gpu=use_gpu)
 
     for i in range(n_epoch):
         start = time.time()
