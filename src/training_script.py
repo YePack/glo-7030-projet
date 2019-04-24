@@ -34,11 +34,14 @@ optimizer = optim.SGD(net.parameters(),
                       momentum=0.9,
                       weight_decay=0.0005)
 weight_learn = torch.FloatTensor(np.array([2.0599, 1.5701, 2.5674, 2.5535, 2.7183, 5.7047, 2.6103, 2.7183, 5.6950]))
-criterion = nn.CrossEntropyLoss(weight=weight_learn)
+
 transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
 if use_gpu:
     net = net.cuda()
+    weight_learn.cuda()
+
+criterion = nn.CrossEntropyLoss(weight=weight_learn)
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
       imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
