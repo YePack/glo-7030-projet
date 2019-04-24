@@ -10,18 +10,18 @@ from torch import optim
 from PIL import Image
 from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
+from src.unet.utils import readfile
 
 
 {'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
 colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 cmap = mpl.colors.ListedColormap(colors)
 
-path_img = 'data/raw/image-110.png'
-path_xml = 'data/raw/image-110.xml'
+path_img = 'data/train/rimage-120.png'
+path_pkl = 'data/train/rimage-120.pkl'
 data_augmentation = True
 
-labels = CreateLabel(path_xml, path_img)
-labels = np.array(labels.get_label())
+labels = readfile(path_pkl.replace('.pkl', ''))
 
 normalize = transforms.Normalize(
    mean=[0.485, 0.456, 0.406],
@@ -29,48 +29,18 @@ normalize = transforms.Normalize(
 )
 
 
-if data_augmentation:
-    img_aug = np.array(Image.open(path_img))[..., :3]
-    img_aug = Image.fromarray(img_aug)
+img = np.array(Image.open(path_img))[..., :3]
+plt.imshow(img, cmap=cmap)
+plt.show()
+plt.imshow(labels, cmap=cmap)
+plt.show()
 
-    labels_aug = Image.fromarray(labels)
+preprocess = transforms.Compose([
+    transforms.ToTensor(),
+    normalize
+])
 
-    preprocess_data_augmentation = transforms.Compose([
-        transforms.RandomHorizontalFlip(1),
-        transforms.ToTensor(),
-        normalize
-    ])
-
-    preprocess_label = transforms.Compose([
-        transforms.RandomHorizontalFlip(1)
-    ])
-
-    img_tensor = preprocess_data_augmentation(img_aug)
-    labels_aug = preprocess_label(labels_aug)
-    labels = np.array(labels_aug)
-
-    # Reshow the flipped image
-    img_show = np.array(img_tensor)
-    img_show = np.swapaxes(img_show, 0, 1)
-    img_show = np.swapaxes(img_show, 1, 2)
-    plt.imshow(img_show, cmap=cmap)
-    plt.show()
-    plt.imshow(labels, cmap=cmap)
-    plt.show()
-
-else:
-    img = np.array(Image.open(path_img))[..., :3]
-    plt.imshow(img, cmap=cmap)
-    plt.show()
-    plt.imshow(labels, cmap=cmap)
-    plt.show()
-
-    preprocess = transforms.Compose([
-        transforms.ToTensor(),
-        normalize
-    ])
-
-    img_tensor = preprocess(img)
+img_tensor = preprocess(img)
 
 
 

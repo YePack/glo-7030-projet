@@ -7,27 +7,28 @@ import torch.nn.functional as F
 
 from torchvision import transforms
 from torch import optim
-from PIL import Image
-from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
-from src.unet import create_labels_from_dir
 
 from src import train
 from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
+from src.unet.generate_masks import create_labels_from_dir
 
 
 #{'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
 colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 cmap = mpl.colors.ListedColormap(colors)
 
-path_img_train = 'data/raw/image_train.txt'
-path_xml_train = 'data/raw/xml_train.txt'
-path_img_val = 'data/raw/image_val.txt'
-path_xml_val = 'data/raw/xml_val.txt'
+# Configs (use optparse instead someday)
+path_data = 'data/raw/'
+use_gpu=False
+train_val_split=0.8
 
-use_gpu=True
+# Split train and test in 2 different folders (and save arrays instead of XMLs)
+create_labels_from_dir(path_data=path_data, path_to='data/', train_perc=0.8)
 
+
+# Create the network and the training stuffs
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
                       lr=0.005,
@@ -41,9 +42,8 @@ if use_gpu:
 
 criterion = nn.CrossEntropyLoss()
 
-train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
-      transform=transform, use_gpu=use_gpu, weight_adaptation=None)
+train(model=net, optimizer=optimizer, train_path='data/train/', n_epoch=5, train_val_split=train_val_split,
+      batch_size=2, criterion=criterion, transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
 def see_image_output(net, path_img, path_xml, transform):
     net.eval()
@@ -66,7 +66,7 @@ def see_image_output(net, path_img, path_xml, transform):
 
 
 # See the train prediction
-#see_image_output(net, path_img_train, path_xml_train, transform)
+see_image_output(net, train_images, path_xml_train, transform)
 
 # See the valid prediction
 #see_image_output(net, path_img_val, path_xml_val, transform)
