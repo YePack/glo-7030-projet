@@ -10,6 +10,7 @@ from torch import optim
 from PIL import Image
 from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
+from src.loss.dice_loss import DiceCoeff
 
 
 {'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
@@ -18,7 +19,7 @@ cmap = mpl.colors.ListedColormap(colors)
 
 path_img = 'data/raw/image-110.png'
 path_xml = 'data/raw/image-110.xml'
-data_augmentation = True
+data_augmentation = False
 
 labels = CreateLabel(path_xml, path_img)
 labels = np.array(labels.get_label())
@@ -87,16 +88,18 @@ weight_learn[5] = weight_learn[5] + 10  # more weight to goal line
 weight_learn[8] = weight_learn[8] + 10  # more weight to face-off dot
 # Parametres d'entrainement
 optimizer = optim.SGD(net.parameters(),
-                          lr=0.01,
+                          lr=0.05,
                           momentum=0.9,
                           weight_decay=0.0005)
 
-criterion = nn.CrossEntropyLoss(weight=weight_learn)
+criterion = nn.CrossEntropyLoss()#weight=weight_learn)
+criterion = DiceCoeff()
 net.train()
 
 
-for i in range(11):
+for i in range(21):
     preds = net(img_tensor)
+
     if i % 10 == 0:
         preds_img = preds.max(dim=1)[1]
         plt.imshow(preds_img[0], cmap=cmap)

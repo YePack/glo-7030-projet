@@ -15,6 +15,7 @@ from src.unet import create_labels_from_dir
 from src import train
 from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
+from src.loss import DiceCoeff
 
 
 #{'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
@@ -26,11 +27,11 @@ path_xml_train = 'data/raw/xml_train.txt'
 path_img_val = 'data/raw/image_val.txt'
 path_xml_val = 'data/raw/xml_val.txt'
 
-use_gpu=True
+use_gpu=False
 
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
-                      lr=0.005,
+                      lr=0.010,
                       momentum=0.9,
                       weight_decay=0.0005)
 
@@ -40,9 +41,10 @@ if use_gpu:
     net = net.cuda()
 
 criterion = nn.CrossEntropyLoss()
+criterion = DiceCoeff()
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
+      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=2, batch_size=2, criterion=criterion,
       transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
 def see_image_output(net, path_img, path_xml, transform):
