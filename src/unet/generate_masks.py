@@ -10,7 +10,7 @@ from src.create_image_label.create_image_label import CreateLabel
 from src.unet.utils import savefile
 
 
-def create_labels_from_dir(path_data, path_to, test_perc, shuffle=True):
+def create_labels_from_dir(path_data, path_to, train_perc, shuffle=True):
     """
     Function that split the data as test/train and creates labels
 
@@ -39,7 +39,7 @@ def create_labels_from_dir(path_data, path_to, test_perc, shuffle=True):
     if shuffle:
         np.random.shuffle(indices)
 
-    split = math.floor(test_perc * nb_images)
+    split = math.floor(train_perc * nb_images)
     train_idx, test_idx = indices[:split], indices[split:]
 
     # Create new folders for train and test datasets
