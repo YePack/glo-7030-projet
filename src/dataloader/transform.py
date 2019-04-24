@@ -21,11 +21,10 @@ class NormalizeCropTransform:
             mean=[0.485, 0.456, 0.406],
             std=[0.229, 0.224, 0.225]
         )
-
-        preprocess = transforms.Compose([
-            transforms.ToTensor(),
-            normalize
-        ])
+        if self.normalize:
+            preprocess = transforms.Compose([transforms.ToTensor(), normalize])
+        else:
+            preprocess = transforms.Compose([transforms.ToTensor()])
 
         img_tensor = preprocess(image_array)
         labels_tensor = torch.LongTensor(labels_array).unsqueeze(0)
