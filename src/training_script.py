@@ -17,7 +17,7 @@ from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
 
 
-
+#{'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
 colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 cmap = mpl.colors.ListedColormap(colors)
 
@@ -30,53 +30,43 @@ use_gpu=True
 
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
-                      lr=0.01,
+                      lr=0.005,
                       momentum=0.9,
                       weight_decay=0.0005)
-weight_learn = torch.FloatTensor(np.array([2.0599, 1.5701, 2.5674, 2.5535, 2.7183, 5.7047, 2.6103, 2.7183, 5.6950]))
 
 transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
 if use_gpu:
     net = net.cuda()
-    weight_learn = weight_learn.cuda()
 
-criterion = nn.CrossEntropyLoss(weight=weight_learn)
+criterion = nn.CrossEntropyLoss()
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
       imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
-      transform=transform, use_gpu=use_gpu)
+      transform=transform, use_gpu=use_gpu, weight_adaptation=None)
+
+def see_image_output(net, path_img, path_xml, transform):
+    net.eval()
+    data = DataGenerator(path_img, path_xml, transform=transform)
+    i = 0
+    while i < len(data):
+        fig, subfigs = plt.subplots(2, 2)
+        for j, subfig in enumerate(subfigs.reshape(-1)):
+            if j % 2 == 0:
+                img, label = data[i]
+                img.unsqueeze_(0)
+                preds = net(img)
+                preds_img = preds.max(dim=1)[1]
+                subfig.imshow(preds_img[0], cmap=cmap)
+            else:
+                subfig.imshow(label[0], cmap=cmap)
+                i += 1
+
+        plt.show()
 
 
-#net.eval()
-#See the 2 train predictions
-#dd = DataGenerator(path_img_train, path_xml_train, transform=transform)
-#img1, label1 = dd[0]
-#img2, label2 = dd[1]
-#img1.unsqueeze_(0)
-#img2.unsqueeze_(0)
-#preds = net(img1)
-#preds_img = preds.max(dim=1)[1]
-#plt.imshow(preds_img[0], cmap=cmap)
-#plt.show()
+# See the train prediction
+#see_image_output(net, path_img_train, path_xml_train, transform)
 
-#preds = net(img2)
-#preds_img = preds.max(dim=1)[1]
-#plt.imshow(preds_img[0], cmap=cmap)
-#plt.show()
-
-#See the 2 valid predictions
-#dd = DataGenerator(path_img_val, path_xml_val, transform=transform)
-#img3, label3 = dd[0]
-#img4, label4 = dd[1]
-#img3.unsqueeze_(0)
-#img4.unsqueeze_(0)
-
-#preds = net(img3)
-#preds_img = preds.max(dim=1)[1]
-#plt.imshow(preds_img[0], cmap=cmap)
-#plt.show()
-#preds = net(img4)
-#preds_img = preds.max(dim=1)[1]
-#plt.imshow(preds_img[0], cmap=cmap)
-#plt.show()
+# See the valid prediction
+#see_image_output(net, path_img_val, path_xml_val, transform)

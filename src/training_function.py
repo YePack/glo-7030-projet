@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import time
@@ -56,7 +57,7 @@ def validate(model, val_loader, use_gpu=False):
 
 
 def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, labelpath_val, n_epoch, batch_size,
-          transform, use_gpu=False, scheduler=None, criterion=None, shuffle=True):
+          transform, use_gpu=False, scheduler=None, criterion=None, shuffle=True, weight_adaptation=None):
 
     if criterion is None:
         criterion = nn.CrossEntropyLoss()
@@ -66,7 +67,7 @@ def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, lab
 
     for i in range(n_epoch):
         start = time.time()
-        do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu)
+        do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation)
         end = time.time()
 
         #train_acc, train_loss = validate(model, train_loader, use_gpu)
@@ -85,7 +86,7 @@ def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, lab
                                                                                                end - start))
 
 
-def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
+def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation):
     model.train()
     if scheduler:
         scheduler.step()
@@ -100,6 +101,17 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
         targets = Variable(targets)
         optimizer.zero_grad()
         output = model(inputs)
+        if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
+            weight_learn = torch.FloatTensor(np.array([np.exp(1-(np.array(targets == i)).mean()) for i in range(9)]))
+            if weight_adaptation is not None:
+                pred_unique = output.max(dim=1)[1].unique()
+                targets_unique = targets.unique()
+                for target in targets_unique:
+                    if target not in pred_unique:
+                        weight_learn[target] = weight_learn[target] + weight_adaptation
+            if use_gpu:
+                weight_learn = weight_learn.cuda()
+            criterion = nn.CrossEntropyLoss(weight=weight_learn)
 
         loss = criterion(output, targets[:, 0])
         loss.backward()

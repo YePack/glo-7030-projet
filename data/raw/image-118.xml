@@ -1,0 +1,96 @@
+<annotations><meta>
+    <task>
+      <id>9</id>
+      <name>unet_20190423</name>
+      <size>10</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2019-04-24 03:49:27.155448+03:00</created>
+      <updated>2019-04-24 06:05:58.435129+03:00</updated>
+      <source>10 images: image-114.png, image-115.png, ...</source>
+      <labels>
+        <label>
+          <name>ice</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>board</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circlezone</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circlemid</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>goal</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>blue</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>red</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>fo</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>9</id>
+          <start>0</start>
+          <stop>9</stop>
+          <url>http://localhost:8080/?id=9</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stcar123</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2019-04-24 06:06:01.223194+03:00</dumped>
+  </meta>
+  <image height="256" id="4" name="image-118.png" width="456">
+    <polygon label="board" occluded="0" points="0.00,79.16;123.60,81.80;238.45,84.88;304.07,84.88;304.07,79.16;244.55,79.16;135.82,76.87;0.00,74.58">
+    </polygon>
+    <polygon label="blue" occluded="0" points="365.70,84.10;386.86,119.22;411.66,158.52;438.00,198.40;454.78,222.62;455.54,197.05;437.61,167.29;411.28,130.29;381.52,84.12">
+    </polygon>
+    <polygon label="ice" occluded="0" points="0.00,79.16;269.99,85.11;456.00,86.94;456.00,253.60;454.95,251.76;93.10,239.90;0.00,237.11">
+    </polygon>
+    <polygon label="fo" occluded="0" points="144.21,101.67;139.25,102.82;137.34,108.54;141.16,112.74;150.70,112.35;156.42,106.63;152.60,101.90">
+    </polygon>
+    <polygon label="fo" occluded="0" points="401.74,195.15;391.06,197.43;391.44,203.54;396.02,210.41;411.66,210.79;420.06,209.64;419.68,202.78;413.19,196.29">
+    </polygon>
+    <polygon label="circlemid" occluded="0" points="290.30,183.70;272.02,184.46;242.65,183.70;213.65,180.27;186.18,173.40;163.29,164.24;155.28,153.94;154.51,141.35;163.29,129.90;182.36,122.27;206.40,117.70;232.34,114.64;257.53,115.02;283.85,118.08;314.37,123.42;333.07,129.52;344.13,136.39;348.71,143.64;349.86,153.56;344.90,163.86;330.02,171.87;308.70,179.90;306.36,171.11;323.53,164.62;333.07,159.28;338.41,152.80;337.27,146.69;333.45,140.97;311.70,132.19;283.47,125.33;256.76,122.27;235.02,122.27;211.74,124.94;190.00,130.29;173.97,136.39;168.25,144.02;169.01,149.74;177.02,156.61;190.00,162.72;218.61,171.49;243.03,174.54;267.06,176.45;286.90,176.10">
+    </polygon>
+    <polygon label="red" occluded="0" points="245.30,82.60;241.88,195.53;239.98,223.76;246.46,217.66;251.80,217.27;253.33,222.23;251.80,230.63;251.80,240.17;254.47,243.22;256.76,236.35;256.76,197.82;258.30,82.60">
+    </polygon>
+    <polygon label="fo" occluded="0" points="356.70,102.40;349.50,104.30;346.42,111.59;352.53,117.70;363.21,118.08;368.55,114.26;367.79,107.78;364.35,103.96">
+    </polygon>
+    <polygon label="blue" occluded="0" points="128.60,82.20;107.58,110.83;89.27,139.06;72.10,165.00;45.78,200.49;33.19,217.27;36.24,223.38;35.48,231.01;30.90,233.68;30.90,237.11;32.81,240.55;37.76,239.78;56.46,212.70;101.10,145.93;141.54,81.83">
+    </polygon>
+    <polygon label="fo" occluded="0" points="101.10,188.66;91.94,189.04;89.27,194.38;93.47,203.54;103.77,203.16;112.93,200.49;113.31,193.62;109.11,189.42">
+    </polygon>
+    <polygon label="board" occluded="0" points="312.08,79.16;313.20,84.50;365.88,84.88;455.16,86.79;455.16,81.07">
+    </polygon>
+    <polygon label="board" occluded="0" points="0.76,243.22;101.10,245.13;225.10,248.18;352.15,251.61;455.16,256.00;455.54,252.76;257.91,243.98;130.86,240.93;0.00,237.30">
+    </polygon>
+  </image>
+  </annotations>
