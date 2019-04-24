@@ -111,7 +111,7 @@ if __name__ == '__main__':
         train_unet(net=net,
                    path_train=path_to+'train/',
                    path_valid=path_to+'valid/',
-                   n_epochs=args.epochs,
+                   n_epoch=args.epochs,
                    batch_size=args.batchsize,
                    lr=args.lr,
                    use_gpu=args.gpu,
