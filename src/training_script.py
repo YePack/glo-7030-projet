@@ -26,20 +26,24 @@ path_xml_train = 'data/raw/xml_train.txt'
 path_img_val = 'data/raw/image_val.txt'
 path_xml_val = 'data/raw/xml_val.txt'
 
+use_gpu=True
+
 net = UNet(3, 9)
 optimizer = optim.SGD(net.parameters(),
                       lr=0.005,
                       momentum=0.9,
                       weight_decay=0.0005)
-weight_learn = torch.FloatTensor(np.array([2.0599, 5.5701, 5.5674, 2.5535, 2.7183, 2.7047, 2.6103, 2.7183, 2.6950]))
-criterion = nn.CrossEntropyLoss()
-transform = NormalizeCropTransform(normalize=False, crop=(450, 256))
 
+transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
+
+if use_gpu:
+    net = net.cuda()
+
+criterion = nn.CrossEntropyLoss()
 
 train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=1, criterion=criterion,
-      transform=transform, weight_adaptation=None)
-
+      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=5, batch_size=2, criterion=criterion,
+      transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
 def see_image_output(net, path_img, path_xml, transform):
     net.eval()
@@ -62,7 +66,7 @@ def see_image_output(net, path_img, path_xml, transform):
 
 
 # See the train prediction
-see_image_output(net, path_img_train, path_xml_train, transform)
+#see_image_output(net, path_img_train, path_xml_train, transform)
 
 # See the valid prediction
-see_image_output(net, path_img_val, path_xml_val, transform)
+#see_image_output(net, path_img_val, path_xml_val, transform)

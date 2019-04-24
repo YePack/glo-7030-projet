@@ -16,27 +16,64 @@ from src.unet.unet_model import UNet
 colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 cmap = mpl.colors.ListedColormap(colors)
 
-path_img = 'data/raw/image-6.png'
-path_xml = 'data/raw/image-6.xml'
+path_img = 'data/raw/image-110.png'
+path_xml = 'data/raw/image-110.xml'
+data_augmentation = True
 
-img = np.array(Image.open(path_img))[..., :3]
-plt.imshow(img, cmap=cmap)
-plt.show()
 labels = CreateLabel(path_xml, path_img)
 labels = np.array(labels.get_label())
-plt.imshow(labels, cmap=cmap)
-plt.show()
 
 normalize = transforms.Normalize(
    mean=[0.485, 0.456, 0.406],
    std=[0.229, 0.224, 0.225]
 )
-preprocess = transforms.Compose([
-   transforms.ToTensor(),
-   normalize
-])
 
-img_tensor = preprocess(img)
+
+if data_augmentation:
+    img_aug = np.array(Image.open(path_img))[..., :3]
+    img_aug = Image.fromarray(img_aug)
+
+    labels_aug = Image.fromarray(labels)
+
+    preprocess_data_augmentation = transforms.Compose([
+        transforms.RandomHorizontalFlip(1),
+        transforms.ToTensor(),
+        normalize
+    ])
+
+    preprocess_label = transforms.Compose([
+        transforms.RandomHorizontalFlip(1)
+    ])
+
+    img_tensor = preprocess_data_augmentation(img_aug)
+    labels_aug = preprocess_label(labels_aug)
+    labels = np.array(labels_aug)
+
+    # Reshow the flipped image
+    img_show = np.array(img_tensor)
+    img_show = np.swapaxes(img_show, 0, 1)
+    img_show = np.swapaxes(img_show, 1, 2)
+    plt.imshow(img_show, cmap=cmap)
+    plt.show()
+    plt.imshow(labels, cmap=cmap)
+    plt.show()
+
+else:
+    img = np.array(Image.open(path_img))[..., :3]
+    plt.imshow(img, cmap=cmap)
+    plt.show()
+    plt.imshow(labels, cmap=cmap)
+    plt.show()
+
+    preprocess = transforms.Compose([
+        transforms.ToTensor(),
+        normalize
+    ])
+
+    img_tensor = preprocess(img)
+
+
+
 # Vu qu'on test avec une batch_size de 1 pour le moment
 img_tensor.unsqueeze_(0)
 # On enleve la premiere ligne et la premiere colone car on commencait a 1

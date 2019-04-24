@@ -109,6 +109,8 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
                 for target in targets_unique:
                     if target not in pred_unique:
                         weight_learn[target] = weight_learn[target] + weight_adaptation
+            if use_gpu:
+                weight_learn = weight_learn.cuda()
             criterion = nn.CrossEntropyLoss(weight=weight_learn)
 
         loss = criterion(output, targets[:, 0])
