@@ -2,22 +2,25 @@ import numpy as np
 import torch
 import torch.nn as nn
 import time
-
-from sklearn.metrics import accuracy_score
-from torch.utils.data.sampler import SequentialSampler
+import glob
+import math
 
 from torch.autograd import Variable
-from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
 
 from src.dataloader import DataGenerator
 
 
-def train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val, batch_size,
-                        transform, shuffle=True):
+def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):
 
-    dataset_train = DataGenerator(imagepath_train, labelpath_train, transform)
-    dataset_val = DataGenerator(imagepath_val, labelpath_val, transform)
+    # List the files in train and valid
+    train_images = glob.glob(train_path + '*.png')
+    train_labels = glob.glob(train_path + '*.pkl')
+    valid_images = glob.glob(valid_path + '*.png')
+    valid_labels = glob.glob(valid_path + '*.pkl')
+
+    dataset_train = DataGenerator(train_images, train_labels, transform)
+    dataset_val = DataGenerator(valid_images, valid_labels, transform)
 
     loader_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=shuffle)
     loader_val = DataLoader(dataset_val, batch_size=batch_size, shuffle=False)
@@ -25,13 +28,11 @@ def train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpa
     return loader_train, loader_val
 
 
-def validate(model, val_loader, use_gpu=False):
+def validate(model, val_loader, criterion, use_gpu=False):
+
     model.train(False)
-    #true = []
-    #pred = []
     val_loss = []
 
-    criterion = nn.CrossEntropyLoss()
     model.eval()
 
     for j, batch in enumerate(val_loader):
@@ -45,7 +46,7 @@ def validate(model, val_loader, use_gpu=False):
         targets = Variable(targets, volatile=True)
         output = model(inputs)
 
-        predictions = output.max(dim=1)[1]
+        #predictions = output.max(dim=1)[1]
 
         val_loss.append(criterion(output, targets[:, 0]).item())
         #true.extend(targets.data.cpu().numpy().tolist())
@@ -56,29 +57,21 @@ def validate(model, val_loader, use_gpu=False):
     return sum(val_loss) / len(val_loss)
 
 
-def train(model, optimizer, imagepath_train, labelpath_train, imagepath_val, labelpath_val, n_epoch, batch_size,
-          transform, use_gpu=False, scheduler=None, criterion=None, shuffle=True, weight_adaptation=None):
+def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, criterion, use_gpu=False,
+          scheduler=None, shuffle=True, weight_adaptation=None):
 
-    if criterion is None:
-        criterion = nn.CrossEntropyLoss()
-
-    train_loader, val_loader = train_valid_loaders(imagepath_train, labelpath_train, imagepath_val, labelpath_val,
-                                                   transform=transform, batch_size=batch_size, shuffle=shuffle)
+    train_loader, val_loader = train_valid_loaders(train_path, valid_path, transform=transform,
+                                                   batch_size=batch_size, shuffle=shuffle)
 
     for i in range(n_epoch):
         start = time.time()
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation)
         end = time.time()
 
-        #train_acc, train_loss = validate(model, train_loader, use_gpu)
-        train_loss = validate(model, train_loader, use_gpu)
-        #val_acc, val_loss = validate(model, val_loader, use_gpu)
-        val_loss = validate(model, val_loader, use_gpu)
-        #print('Epoch {} - Train acc: {:.2f} - Val acc: {:.2f} - Train loss: {:.4f} - Val loss: {:.4f} - Training time: {:.2f}s'.format(i,
-        #                                                                                                      train_acc,
-        #                                                                                                      val_acc,
-        #                                                                                                      train_loss,
-        #                                                                                                      val_loss, end - start))
+        train_loss = validate(model, train_loader, criterion, use_gpu)
+
+        val_loss = validate(model, val_loader,criterion, use_gpu)
+
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
@@ -101,6 +94,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         targets = Variable(targets)
         optimizer.zero_grad()
         output = model(inputs)
+
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
             weight_learn = torch.FloatTensor(np.array([np.exp(1-(np.array(targets == i)).mean()) for i in range(9)]))
             if weight_adaptation is not None:

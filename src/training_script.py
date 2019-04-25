@@ -1,53 +1,40 @@
 import torch
 import torch.nn as nn
-import numpy as np
+import os
+import sys
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import torch.nn.functional as F
 
-from torchvision import transforms
+from optparse import OptionParser
 from torch import optim
-from PIL import Image
-from src.create_image_label.create_image_label import CreateLabel
 from src.unet.unet_model import UNet
-from src.unet import create_labels_from_dir
 
 from src import train
 from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
 from src.loss import DiceCoeff
+from src.unet.generate_masks import create_labels_from_dir
+from src.dataloader.flip_images import flip_images
 
 
-#{'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
-colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
-cmap = mpl.colors.ListedColormap(colors)
+def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
 
-path_img_train = 'data/raw/image_train.txt'
-path_xml_train = 'data/raw/xml_train.txt'
-path_img_val = 'data/raw/image_val.txt'
-path_xml_val = 'data/raw/xml_val.txt'
+    optimizer = optim.SGD(net.parameters(),
+                          lr=lr,
+                          momentum=0.9,
+                          weight_decay=0.0005)
 
-use_gpu=False
 
-net = UNet(3, 9)
-optimizer = optim.SGD(net.parameters(),
-                      lr=0.010,
-                      momentum=0.9,
-                      weight_decay=0.0005)
+    transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
-transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
+    train(model=net, optimizer=optimizer, train_path=path_train, valid_path=path_valid, n_epoch=n_epoch,
+          batch_size=batch_size, criterion=criterion, transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
-if use_gpu:
-    net = net.cuda()
-
-criterion = nn.CrossEntropyLoss()
-criterion = DiceCoeff()
-
-train(model=net, optimizer=optimizer, imagepath_train=path_img_train, labelpath_train=path_xml_train,
-      imagepath_val=path_img_val, labelpath_val=path_xml_val, n_epoch=2, batch_size=2, criterion=criterion,
-      transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
 def see_image_output(net, path_img, path_xml, transform):
+    # {'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
+    colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
+    cmap = mpl.colors.ListedColormap(colors)
     net.eval()
     data = DataGenerator(path_img, path_xml, transform=transform)
     i = 0
@@ -66,9 +53,78 @@ def see_image_output(net, path_img, path_xml, transform):
 
         plt.show()
 
-
 # See the train prediction
-#see_image_output(net, path_img_train, path_xml_train, transform)
+#see_image_output(net, train_images, path_xml_train, transform)
 
 # See the valid prediction
 #see_image_output(net, path_img_val, path_xml_val, transform)
+
+
+def get_args():
+    parser = OptionParser()
+    parser.add_option('-p', '--path', type=str, dest='path', default='data/raw/',
+                      help='Path raw data (.png and .xml)')
+    parser.add_option('-e', '--epochs', dest='epochs', default=5, type='int',
+                      help='number of epochs')
+    parser.add_option('-b', '--batch-size', dest='batchsize', default=2,
+                      type='int', help='batch size')
+    parser.add_option('-l', '--learning-rate', dest='lr', default=0.1,
+                      type='float', help='learning rate')
+    parser.add_option('-c', '--criterion', type=str, dest='criterion', default='CrossEntropy',
+                      help='Choices: CrossEntropy or Dice')
+    parser.add_option('-g', '--gpu', action='store_true', dest='gpu',
+                      default=False, help='use gpu')
+    parser.add_option('-m', '--load', dest='load',
+                      default=False, help='load file model')
+    parser.add_option('-s', '--setup', dest='setup', action='store_true',
+                      default=False, help='Setup the datasets otpion.')
+    parser.add_option('-a', '--augmentation', dest='augmentation', action='store_true',
+                      default=False, help='data augmentation option. Need to have set up to true.')
+
+    (options, args) = parser.parse_args()
+    return options
+
+
+if __name__ == '__main__':
+    args = get_args()
+
+    net = UNet(3, 9)
+
+    if args.criterion == 'CrossEntropy':
+        criterion = nn.CrossEntropyLoss()
+    elif args.criterion == 'Dice':
+        criterion = DiceCoeff()
+    else:
+        sys.exit(0)
+
+    if args.load:
+        net.load_state_dict(torch.load(args.load))
+        print('Model loaded from {}'.format(args.load))
+
+    if args.gpu:
+        net.cuda()
+
+    if args.setup:
+        # Split train and test in 2 different folders (and save arrays instead of XMLs)
+        path_to = os.path.normpath(args.path + os.sep + os.pardir)+'/'
+        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8)
+        if args.augmentation:
+            flip_images(path_to+'train/')
+
+    try:
+        train_unet(net=net,
+                   path_train=path_to+'train/',
+                   path_valid=path_to+'valid/',
+                   n_epoch=args.epochs,
+                   batch_size=args.batchsize,
+                   lr=args.lr,
+                   use_gpu=args.gpu,
+                   criterion=criterion)
+    except KeyboardInterrupt:
+        torch.save(net.state_dict(), 'INTERRUPTED.pth')
+        print('Saved interrupt')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)
+
