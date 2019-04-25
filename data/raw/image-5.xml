@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<annotations>
+  <version>1.1</version>
+  <meta>
+    <task>
+      <id>10</id>
+      <name>Hockey Label_resize_5_small</name>
+      <size>1</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker></bugtracker>
+      <flipped>False</flipped>
+      <created>2019-04-18 02:01:08.310819+03:00</created>
+      <updated>2019-04-18 02:18:19.514268+03:00</updated>
+      <source>1 images: image5_resize_small.png, ...</source>
+      <labels>
+        <label>
+          <name>ice</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>board</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>criclezone</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circlemid</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>goal</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>blue</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>red</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>fo</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>10</id>
+          <start>0</start>
+          <stop>0</stop>
+          <url>http://localhost:8080/?id=10</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>phil192</username>
+        <email>phil.19013@gmail.com</email>
+      </owner>
+    </task>
+    <dumped>2019-04-18 02:18:23.652925+03:00</dumped>
+  </meta>
+  <image id="0" name="image5_resize_small.png" width="456" height="256">
+    <polygon label="circlemid" points="322.42,154.28;340.34,157.87;366.02,164.44;386.03,171.60;404.84,182.35;410.21,194.59;405.73,212.51;391.70,222.96;373.19,229.83;348.40,235.80;333.17,238.79;315.26,240.88;288.38,242.37;265.39,242.07;237.92,242.07;210.75,240.58;192.24,239.38;168.65,235.80;146.25,230.13;123.86,221.77;110.42,213.41;100.86,199.67;101.16,186.53;107.73,178.17;123.86,170.11;136.99,165.03;159.39,159.36;179.10,155.78;201.79,153.69;227.17,151.89;251.36,151.30;274.65,151.60;297.04,152.79;295.25,160.85;274.65,159.06;252.55,159.06;227.17,159.06;202.69,160.55;181.49,163.84;162.67,168.02;142.97,173.69;130.13,178.17;121.77,183.84;117.88,188.62;116.09,196.68;121.47,203.85;131.02,211.02;149.83,218.18;172.23,223.86;193.43,227.44;211.94,229.53;239.71,232.52;266.59,232.22;288.50,231.90;313.60,230.40;330.00,228.30;341.53,224.45;361.54,219.08;374.98,214.90;388.41,207.43;393.79,196.39;390.50,190.71;380.35,183.84;362.73,175.48;337.95,167.72;318.54,163.84" occluded="0">
+    </polygon>
+    <polygon label="ice" points="0.00,97.26;269.80,106.00;291.00,105.10;392.60,104.90;456.00,101.39;456.00,256.00;0.00,256.00" occluded="0">
+    </polygon>
+    <polygon label="blue" points="0.05,204.98;20.79,178.71;47.40,140.35;63.99,113.91;70.00,104.70;52.80,104.00;45.67,112.01;30.10,135.30;8.00,168.70;0.00,179.70" occluded="0">
+    </polygon>
+    <polygon label="fo" points="88.72,133.49;80.42,133.14;75.07,135.56;74.20,141.09;78.00,144.03;83.88,145.07;86.12,144.20;88.20,138.33" occluded="0">
+    </polygon>
+    <polygon label="fo" points="429.47,133.18;419.02,133.68;413.29,136.67;412.05,142.64;418.77,147.61;426.73,147.86;435.94,147.37;440.42,142.64;439.92,138.16;434.44,134.43" occluded="0">
+    </polygon>
+    <polygon label="board" points="0.00,93.07;42.04,93.67;89.22,94.56;147.45,94.86;212.54,94.56;270.17,95.46;270.50,107.10;212.20,105.60;148.04,105.31;89.20,105.30;42.30,103.80;0.00,103.82" occluded="0">
+    </polygon>
+    <polygon label="board" points="287.49,95.46;357.06,95.76;357.36,106.51;288.68,105.61" occluded="0">
+    </polygon>
+    <polygon label="board" points="377.96,94.56;456.00,95.46;455.90,106.20;378.56,105.91" occluded="0">
+    </polygon>
+    <polygon label="blue" points="441.56,106.81;455.30,122.03;456.00,121.74;456.00,106.51" occluded="0">
+    </polygon>
+    <polygon label="red" points="246.58,106.81;245.39,142.94;243.00,196.09;242.40,256.00;266.00,256.00;264.50,196.68;263.30,141.70;262.70,107.40" occluded="0">
+    </polygon>
+  </image>
+</annotations>
