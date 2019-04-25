@@ -15,3 +15,6 @@ data/train/
 data/test/
 data/original/
 data/valid/
+
+# Pycharm shits
+__pycache__/
