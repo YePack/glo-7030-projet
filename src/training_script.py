@@ -12,6 +12,7 @@ from src.unet.unet_model import UNet
 from src import train
 from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
+from src.loss import DiceCoeff
 from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
 
@@ -22,6 +23,7 @@ def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, 
                           lr=lr,
                           momentum=0.9,
                           weight_decay=0.0005)
+
 
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
@@ -90,6 +92,8 @@ if __name__ == '__main__':
 
     if args.criterion == 'CrossEntropy':
         criterion = nn.CrossEntropyLoss()
+    elif args.criterion == 'Dice':
+        criterion = DiceCoeff()
     else:
         sys.exit(0)
 

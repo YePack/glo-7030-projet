@@ -19,22 +19,6 @@ def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=T
     valid_images = glob.glob(valid_path + '*.png')
     valid_labels = glob.glob(valid_path + '*.pkl')
 
-    #images.sort()
-    #labels.sort()
-    #nb_images = len(images)
-    #indices = np.arange(nb_images)
-
-    #if shuffle:
-        #np.random.shuffle(indices)
-
-    #split = math.floor(train_val_split * nb_images)
-    #train_idx, valid_idx = indices[:split], indices[split:]
-
-    #train_images = [images[i] for i in train_idx]
-    #train_labels = [labels[i] for i in train_idx]
-    #valid_images = [images[i] for i in valid_idx]
-    #valid_labels = [labels[i] for i in valid_idx]
-
     dataset_train = DataGenerator(train_images, train_labels, transform)
     dataset_val = DataGenerator(valid_images, valid_labels, transform)
 
@@ -44,12 +28,11 @@ def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=T
     return loader_train, loader_val
 
 
-def validate(model, val_loader, use_gpu=False):
+def validate(model, val_loader, criterion, use_gpu=False):
 
     model.train(False)
     val_loss = []
 
-    criterion = nn.CrossEntropyLoss()
     model.eval()
 
     for j, batch in enumerate(val_loader):
@@ -63,7 +46,7 @@ def validate(model, val_loader, use_gpu=False):
         targets = Variable(targets, volatile=True)
         output = model(inputs)
 
-        predictions = output.max(dim=1)[1]
+        #predictions = output.max(dim=1)[1]
 
         val_loss.append(criterion(output, targets[:, 0]).item())
         #true.extend(targets.data.cpu().numpy().tolist())
@@ -74,11 +57,8 @@ def validate(model, val_loader, use_gpu=False):
     return sum(val_loss) / len(val_loss)
 
 
-def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, use_gpu=False,
-          scheduler=None, criterion=None, shuffle=True, weight_adaptation=None):
-
-    if criterion is None:
-        criterion = nn.CrossEntropyLoss()
+def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, criterion, use_gpu=False,
+          scheduler=None, shuffle=True, weight_adaptation=None):
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, transform=transform,
                                                    batch_size=batch_size, shuffle=shuffle)
@@ -87,15 +67,11 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
         start = time.time()
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation)
         end = time.time()
-        #train_acc, train_loss = validate(model, train_loader, use_gpu)
-        train_loss = validate(model, train_loader, use_gpu)
-        #val_acc, val_loss = validate(model, val_loader, use_gpu)
-        val_loss = validate(model, val_loader, use_gpu)
-        #print('Epoch {} - Train acc: {:.2f} - Val acc: {:.2f} - Train loss: {:.4f} - Val loss: {:.4f} - Training time: {:.2f}s'.format(i,
-        #                                                                                                      train_acc,
-        #                                                                                                      val_acc,
-        #                                                                                                      train_loss,
-        #                                                                                                      val_loss, end - start))
+
+        train_loss = validate(model, train_loader, criterion, use_gpu)
+
+        val_loss = validate(model, val_loader,criterion, use_gpu)
+
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
