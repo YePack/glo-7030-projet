@@ -73,6 +73,6 @@ def see_image_output(net, path_train, path_test, path_save):
                 subfig.set_title('Ground truth #' + str(i + 1))
                 i += 1
 
-        fig.suptitle("Sample predicted from test dataset", fontsize=16)
+        fig.suptitle("Sample predicted from test dataset", fontsize=16, y=1.002, x=0.4)
         plt.savefig(path_save+'test-sample.png')
         plt.show()
