@@ -1,20 +1,18 @@
-import torch
 import torch.nn as nn
 import os
 import sys
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 from optparse import OptionParser
 from torch import optim
 from src.unet.unet_model import UNet
 
 from src import train
-from src.dataloader import DataGenerator
 from src.dataloader import NormalizeCropTransform
 from src.loss import DiceCoeff
 from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
+from src.create_image_label.show_images_sample import see_image_output
+from src.unet.utils import readfile, savefile
 
 
 def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -30,35 +28,7 @@ def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, 
     train(model=net, optimizer=optimizer, train_path=path_train, valid_path=path_valid, n_epoch=n_epoch,
           batch_size=batch_size, criterion=criterion, transform=transform, use_gpu=use_gpu, weight_adaptation=None)
 
-
-def see_image_output(net, path_img, path_xml, transform):
-    # {'crowd': 0, 'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
-    colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
-    cmap = mpl.colors.ListedColormap(colors)
-    net.eval()
-    data = DataGenerator(path_img, path_xml, transform=transform)
-    i = 0
-    while i < len(data):
-        fig, subfigs = plt.subplots(2, 2)
-        for j, subfig in enumerate(subfigs.reshape(-1)):
-            if j % 2 == 0:
-                img, label = data[i]
-                img.unsqueeze_(0)
-                preds = net(img)
-                preds_img = preds.max(dim=1)[1]
-                subfig.imshow(preds_img[0], cmap=cmap)
-            else:
-                subfig.imshow(label[0], cmap=cmap)
-                i += 1
-
-        plt.show()
-
-# See the train prediction
-#see_image_output(net, train_images, path_xml_train, transform)
-
-# See the valid prediction
-#see_image_output(net, path_img_val, path_xml_val, transform)
-
+    savefile(net, 'net')
 
 def get_args():
     parser = OptionParser()
@@ -74,8 +44,8 @@ def get_args():
                       help='Choices: CrossEntropy or Dice')
     parser.add_option('-g', '--gpu', action='store_true', dest='gpu',
                       default=False, help='use gpu')
-    parser.add_option('-m', '--load', dest='load',
-                      default=False, help='load file model')
+    parser.add_option('-m', '--model', type=str, dest='model', default='',
+                      help='Model to load (path to the pickle)')
     parser.add_option('-s', '--setup', dest='setup', action='store_true',
                       default=False, help='Setup the datasets otpion.')
     parser.add_option('-a', '--augmentation', dest='augmentation', action='store_true',
@@ -97,16 +67,17 @@ if __name__ == '__main__':
     else:
         sys.exit(0)
 
-    if args.load:
-        net.load_state_dict(torch.load(args.load))
-        print('Model loaded from {}'.format(args.load))
+    if args.model != '':
+        net = readfile(args.model)
+        print('Model loaded from this pickle : {}'.format(args.model))
 
     if args.gpu:
         net.cuda()
 
+    # We assume the path to save is the path parent to the raw/ data
+    path_to = os.path.normpath(args.path + os.sep + os.pardir) + '/'
     if args.setup:
         # Split train and test in 2 different folders (and save arrays instead of XMLs)
-        path_to = os.path.normpath(args.path + os.sep + os.pardir)+'/'
         create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8)
         if args.augmentation:
             flip_images(path_to+'train/')
@@ -120,8 +91,10 @@ if __name__ == '__main__':
                    lr=args.lr,
                    use_gpu=args.gpu,
                    criterion=criterion)
+
+        see_image_output(net, path_train=path_to+'train/', path_test=path_to+'test/', path_save=path_to)
     except KeyboardInterrupt:
-        torch.save(net.state_dict(), 'INTERRUPTED.pth')
+        savefile(net, 'net')
         print('Saved interrupt')
         try:
             sys.exit(0)
