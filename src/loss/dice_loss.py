@@ -10,6 +10,7 @@ class DiceCoeff(nn.Module):
         y_true_one_hot = self._one_hot(y_true)
         y_true_one_hot.cuda()
         y_pred_softmax = F.softmax(y_pred, dim=1)
+        y_pred_softmax.cuda()
         epsilon = 0.000001
         axes = tuple(range(2, len(y_pred_softmax.shape)))
         numerator = 2. * (y_pred_softmax * y_true_one_hot).sum(dim=axes)
