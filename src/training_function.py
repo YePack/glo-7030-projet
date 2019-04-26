@@ -96,7 +96,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         output = model(inputs)
 
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
-            weight_learn = torch.FloatTensor(np.array([np.exp(1-(np.array(targets == i)).mean()) for i in range(9)]))
+            weight_learn = torch.FloatTensor(np.array([np.exp(1-(np.array(targets.cpu() == i)).mean()) for i in range(9)]))
             if weight_adaptation is not None:
                 pred_unique = output.max(dim=1)[1].unique()
                 targets_unique = targets.unique()
