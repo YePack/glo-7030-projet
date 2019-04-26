@@ -13,9 +13,9 @@ class DiceCoeff(nn.Module):
         y_pred_softmax.cuda()
         epsilon = 0.000001
         axes = tuple(range(2, len(y_pred_softmax.shape)))
-        numerator = 2. * (y_pred_softmax * y_true_one_hot).sum(dim=axes)
+        numerator = torch.FloatTensor(2).cuda() * (y_pred_softmax * y_true_one_hot).sum(dim=axes)
         denominator = y_pred_softmax.sum(dim=axes) + y_true_one_hot.sum(dim=axes)
-        return 1 - (numerator / (denominator + epsilon)).mean()
+        return torch.FloatTensor(1).cuda() - (numerator / (denominator + epsilon)).mean()
 
     @staticmethod
     def _one_hot(input, nb_class=9):
