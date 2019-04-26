@@ -10,7 +10,7 @@ from src.dataloader.dataset import DataGenerator
 def see_image_output(net, path_train, path_test, path_save):
     colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
     cmap = mpl.colors.ListedColormap(colors)
-
+    net.cpu()
     net.eval()
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
