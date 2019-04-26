@@ -8,7 +8,7 @@ from src.create_image_label.create_image_label import CreateLabel
 from src.unet.utils import savefile
 
 
-def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_perc=0.8, shuffle=True):
+def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_perc=0.8, shuffle=True, max=None):
     """
     Function that split the data as test/valid/train and creates labels
 
@@ -49,6 +49,8 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
     split_train = math.floor(train_valid_perc * nb_images_train)
     train_idx, valid_idx = indices_train[:split_train], indices_train[split_train:]
 
+    if max is not None:
+        train_idx = train_idx[:max]
 
     # Create new folders for train and test datasets
     os.mkdir(path_to + 'train/')
