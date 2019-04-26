@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from src.net_parameters import p_bilinear
 
 
 class double_conv(nn.Module):
@@ -46,7 +47,7 @@ class down(nn.Module):
 
 
 class up(nn.Module):
-    def __init__(self, in_ch, out_ch, bilinear=True):
+    def __init__(self, in_ch, out_ch, bilinear=p_bilinear):
         super(up, self).__init__()
 
         #  would be a nice idea if the upsampling could be learned too,
