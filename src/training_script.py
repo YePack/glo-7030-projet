@@ -13,7 +13,7 @@ from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
 from src.create_image_label.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
-from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save
+from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, max_images
 
 
 def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -80,7 +80,8 @@ if __name__ == '__main__':
     path_to = os.path.normpath(args.path + os.sep + os.pardir) + '/'
     if args.setup:
         # Split train and test in 2 different folders (and save arrays instead of XMLs)
-        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8)
+        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8,
+                               max=max_images)
         if args.augmentation:
             flip_images(path_to+'train/')
 

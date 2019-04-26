@@ -34,6 +34,9 @@ def see_image_output(net, path_train, path_test, path_save):
     labels_test = [s for s in glob.glob(path_test + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_test])]
     labels_test.sort()
 
+    print('Train: '+str(imgs_train)+str(labels_train))
+    print('Test: ' + str(imgs_test) + str(labels_test))
+
     data_train = DataGenerator(imgs_train, labels_train, transform=transform)
     data_test = DataGenerator(imgs_test, labels_test, transform=transform)
 
