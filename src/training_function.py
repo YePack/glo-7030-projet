@@ -66,12 +66,11 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
     for i in range(n_epoch):
         start = time.time()
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation)
-        end = time.time()
 
         train_loss = validate(model, train_loader, criterion, use_gpu)
 
         val_loss = validate(model, val_loader,criterion, use_gpu)
-
+        end = time.time()
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
