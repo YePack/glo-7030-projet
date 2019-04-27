@@ -10,7 +10,7 @@ from src.dataloader.dataset import DataGenerator
 def see_image_output(net, path_train, path_test, path_save):
     colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
     cmap = mpl.colors.ListedColormap(colors)
-
+    net.cpu()
     net.eval()
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
@@ -33,6 +33,9 @@ def see_image_output(net, path_train, path_test, path_save):
     imgs_test.sort()
     labels_test = [s for s in glob.glob(path_test + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_test])]
     labels_test.sort()
+
+    print('Train: '+str(imgs_train)+str(labels_train))
+    print('Test: ' + str(imgs_test) + str(labels_test))
 
     data_train = DataGenerator(imgs_train, labels_train, transform=transform)
     data_test = DataGenerator(imgs_test, labels_test, transform=transform)

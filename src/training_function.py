@@ -66,12 +66,11 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
     for i in range(n_epoch):
         start = time.time()
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation)
-        end = time.time()
 
         train_loss = validate(model, train_loader, criterion, use_gpu)
 
         val_loss = validate(model, val_loader,criterion, use_gpu)
-
+        end = time.time()
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
@@ -96,7 +95,8 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         output = model(inputs)
 
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
-            weight_learn = torch.FloatTensor(np.array([np.exp(1-(np.array(targets == i)).mean()) for i in range(9)]))
+            weight_learn = torch.FloatTensor(
+                np.array([1/(np.log(1.1 + (np.array(targets.cpu() == i)).mean())) for i in range(9)]))
             if weight_adaptation is not None:
                 pred_unique = output.max(dim=1)[1].unique()
                 targets_unique = targets.unique()

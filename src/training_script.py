@@ -13,6 +13,7 @@ from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
 from src.create_image_label.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
+from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, max_images
 
 
 def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -23,12 +24,13 @@ def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, 
                           weight_decay=0.0005)
 
 
-    transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
+    transform = NormalizeCropTransform(normalize=p_normalize, crop=(450, 256))
 
     train(model=net, optimizer=optimizer, train_path=path_train, valid_path=path_valid, n_epoch=n_epoch,
-          batch_size=batch_size, criterion=criterion, transform=transform, use_gpu=use_gpu, weight_adaptation=None)
-
-    savefile(net, 'net')
+          batch_size=batch_size, criterion=criterion, transform=transform, use_gpu=use_gpu,
+          weight_adaptation=p_weight_augmentation)
+    net.cpu()
+    savefile(net, p_model_name_save)
 
 def get_args():
     parser = OptionParser()
@@ -78,7 +80,8 @@ if __name__ == '__main__':
     path_to = os.path.normpath(args.path + os.sep + os.pardir) + '/'
     if args.setup:
         # Split train and test in 2 different folders (and save arrays instead of XMLs)
-        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8)
+        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8,
+                               max=max_images)
         if args.augmentation:
             flip_images(path_to+'train/')
 
@@ -94,7 +97,7 @@ if __name__ == '__main__':
 
         see_image_output(net, path_train=path_to+'train/', path_test=path_to+'test/', path_save=path_to)
     except KeyboardInterrupt:
-        savefile(net, 'net')
+        savefile(net, p_model_name_save)
         print('Saved interrupt')
         try:
             sys.exit(0)
