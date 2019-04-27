@@ -62,6 +62,9 @@ def vgg16_bn(pretrained=False, **kwargs):
     model = VGG(make_layers(cfg['D'], batch_norm=True), **kwargs)
     if pretrained:
         model.load_state_dict(adapt_state_dict)
+    for i, param in enumerate(model.parameters()):
+        if i <= 39:
+            param.requires_grad = False
     return model
 
 
