@@ -123,13 +123,10 @@ In order to make pixel-wise predictions, we need to have a representation saying
 \vspace{10mm}
 {\centering \includegraphics[width=1.0\linewidth]{figures/task-representation.png}}
 
-As many classification problems, we need to one-hot encode all labels (one matrix for each class) which mean we can summarize the dimensions workflow as follow for one 6 classes RBG image:
+We can summarize the workflow as follow where b is batch size and C is the number of classes:
 
-\vspace{-5mm}
-\begin{gather*}
-	(NbChannels, Height, Width) \Rightarrow (NbLabels, Height, Width) \Rightarrow (1, Height, Width) \\
-	(3, 256, 451) \Rightarrow (6, 256, 451) \Rightarrow (1, 256, 451)
-\end{gather*}
+\vspace{10mm}
+{\centering \includegraphics[width=45cm,height=10cm]{figures/dimensions.png}}
 
 
 }	
@@ -205,7 +202,7 @@ Our methodology is splitted in 3 main components:
   			\item Dice loss
   		\end{itemize}
   	
-		The 9-classes problem is suffering from \textbf{class unbalance} (there is much more pixels of ice/crowd than lines or dots. We address that problem in the dataset labeling and in the loss definition. For Cross-Entropy loss, we adapted the weights for loss depending on the label frequency. We also implemeted the Dice loss:
+		The 9-classes problem is suffering from \textbf{class imbalance} (there is much more pixels of ice/crowd than lines or dots. We address that problem in the dataset labeling and in the loss definition. For Cross-Entropy loss, we adapted the weights for loss depending on the label frequency. We also implemeted the Dice loss:
 		
 		  \vspace{-15mm}
 		\begin{gather*}
@@ -213,6 +210,13 @@ Our methodology is splitted in 3 main components:
 		\end{gather*}
   		
   		\textbf{Training details:}
+  		
+  		\vspace{-10mm}
+  		\begin{itemize}
+  			\item Different learning rates (trainning schedule) and batch size
+  			\item SGD optimizer with momentum and weight decay
+  			\item Different upsampling methods (bilinear and transpose convolutions)
+  		\end{itemize}
   		
   	\end{multicols}
   
@@ -280,36 +284,30 @@ Our methodology is splitted in 3 main components:
   \column{.4}
   \block{Results}
   {
+  Here are the results we gathered from our best experiements:
   \begin{center}
   \setlength{\tabcolsep}{5mm}
   \begin{tabular}{c c c c c c}
   \toprule
-  \multirow{2}{*}{\textbf{Task}} & \multirow{2}{*}{\textbf{Tag}} & \multirow{2}{*}{\textbf{Ex.}} & \multicolumn{3}{c}{\textbf{Ponderation}}\\
-  \cline{4-6}
-  \addlinespace[3mm]
-  & & & Word & Left & Right\\
+  Labels & Model & Epochs & Loss & Validation Loss & Test Loss \\
   \midrule
-  \multirow{9}{*}{NER} & O           & 1039  & \colorbold{0.81}    & 0.08    & 0.11 \\
-  & B-PERS      & 63    & 0.21    & 0.31    & \colorbold{0.49} \\
-  & I-PER     & 119   & 0.16  & \colorbold{0.52} & 0.32 \\
-  & B-ORG     & 40  & 0.26  & 0.30  & \colorbold{0.44} \\ 
-  & I-ORG     & 3     & 0.27  & 0.31      & \colorbold{0.42} \\
-  & B-LOC     & 13  & 0.23      & 0.30  & \colorbold{0.47} \\
-  & I-LOC     & 2     & 0.16  & \colorbold{0.48} & 0.36 \\
-  & B-MISC      & 47  & \colorbold{0.40} & 0.21  & 0.39 \\
-  & I-MISC      & 5     & \colorbold{0.41} & 0.26  & 0.33 \\
+  \multirow{2}{*}{9-classes} & U-Net & 40 & Dice & 0.08 & 0.11 \\
+  & VGG16 & 40 & Dice & 0.31 & \colorbold{0.49} \\
   \midrule
-  \multirow{5}{*}{POS} & NNP  & 308 & 0.29  & 0.31  & \colorbold{0.40} \\
-  & NN  & 46  & \colorbold{0.45} & 0.20  & 0.35 \\
-  & CD  & 827 & \colorbold{0.86} & 0.05  & 0.09 \\
-  & NNS & 23  & \colorbold{0.37} & 0.24  & \colorbold{0.39} \\
-  & JJ  & 100 & \colorbold{0.49} & 0.15  & 0.36 \\
+  \multirow{2}{*}{2-classes} & U-Net  & 30 & CE  & 0.31  & \colorbold{0.40} \\
+  & VGG16  & 20  & CE & 0.20  & 0.35 \\
   \bottomrule
   \end{tabular}
   \end{center}
   
-  \vspace{1.5mm}
-   Average weights assigned to word's characters, left context and right context by the attention mechanism. We can clearly see the shift of attention according to the target entity. We also observe that the attention depends on the task at hand.
+  \vspace{2mm}
+  
+  Here is 2 samples that shows our best results for both 9-classes and 2-classes models:
+  
+  \vspace{2mm}
+  
+  Mettre des exemples d'images de outputs avec les ground truth
+  
   \vspace{-3mm}
   }
 
@@ -324,46 +322,14 @@ Our methodology is splitted in 3 main components:
   
   \column{.2}
   
-%
-%  \block{Performance gain}{%
-%  \begin{center}
-%  \setlength{\tabcolsep}{5mm}
-%  \begin{tabular}{c c c c c}
-%  \toprule
-%  \textbf{Task} & \textbf{Metric} & \textbf{Random Emb.} & \textbf{Our module} & \textbf{Gain}\\
-%  \midrule
-%  NER      & F1   & 77.56 & \colorbold{80.62} & 3.9\% \\
-%  POS      & acc. & 91.41 & \colorbold{92.58} & 1.2\% \\
-%  % Chunking & acc. & 92.63 & 93.16  & \textbf{93.19} \\
-%  % Keyphrase& F1   & 37.40 & 39.56 & \textbf{39.77} \\
-%  \bottomrule
-%  \end{tabular}
-%  \end{center}
-%  
-%  \vspace{2.5mm}
-%  The impact of our model on two NLP downstream tasks. We compare our OOV embeddings prediction scheme against random embeddings.
-%  \vspace{-12mm}
-%  }
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   \block{Conclusion}{
   
   \textbf{Discussion:}
     \begin{itemize}
-        \item For 9-classes predictions, 
-        \item \colorbold{The attention mechanism works}: depending on the task, the network will use either more the context or the morphology to generate an embedding.
+        \item For 9-classes predictions, we need more images.
+        \item For 2-classes predictions, bla bla bla
+        \item Bla bla bla 
     \end{itemize}
     
     \textbf{Future works:}
