@@ -3,7 +3,7 @@ import torch.utils.model_zoo as model_zoo
 from src.vgg.weight_adapt import adapt_state_dict
 
 cfg = {
-    'D': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M'],
+    'D': [64, 64, 'M', 128, 128, 'M', 256, 256, 256], #'M', 512, 512, 512, 'M', 512, 512, 512, 'M'],
 }
 model_urls = {
     'vgg16_bn': 'https://download.pytorch.org/models/vgg16_bn-6c64b313.pth',
@@ -17,7 +17,7 @@ class VGG(nn.Module):
         self.features = features
         if init_weights:
             self._initialize_weights()
-        self.conv_out = nn.Conv2d(512, num_classes, 1)
+        self.conv_out = nn.Conv2d(256, num_classes, 1)
 
     def forward(self, x):
         x = self.features(x)
@@ -62,9 +62,9 @@ def vgg16_bn(pretrained=False, **kwargs):
     model = VGG(make_layers(cfg['D'], batch_norm=True), **kwargs)
     if pretrained:
         model.load_state_dict(adapt_state_dict)
-    for i, param in enumerate(model.parameters()):
-        if i <= 39:
-            param.requires_grad = False
+    #for i, param in enumerate(model.parameters()):
+        #if i <= 39:
+           # param.requires_grad = False
     return model
 
 
