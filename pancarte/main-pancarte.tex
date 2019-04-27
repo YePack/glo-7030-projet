@@ -156,25 +156,26 @@ As many classification problems, we need to one-hot encode all labels (one matri
 Our methodology is splitted in 3 main components:
 
 \begin{enumerate}
-	\item Set up
+	\item \textbf{Set up}
 		\begin{itemize}
 			\item Dataset creation
 				\begin{itemize}
-					\item XX NHL broadcast images
+					\item 43 NHL broadcast images
 				\end{itemize}
 			\item Labeling task: \href{https://github.com/opencv/cvat}{cvat tool}
 				\begin{itemize}
 					\item 9 classes: crowd, ice, blue line, red line, goal line, circle zones, middle circle, dots and boards)
+					\item 2 classes: crowd and ice
 				\end{itemize}
 		\end{itemize}
-	\item Semantic segmentation
+	\item \textbf{Semantic segmentation}
 		\begin{itemize}
 			\item Architecture set up
 			\item Loss definition
 			\item Data augmentation
 			\item Training details
 		\end{itemize}
-	\item Mapping to 2D plan
+	\item \textbf{Mapping to 2D plan}
 		\begin{itemize}
 			\item Key points recognition
 			\item 2D translation
@@ -189,14 +190,27 @@ Our methodology is splitted in 3 main components:
   \block[bodyoffsety=0mm, titleoffsety=0mm]{Architecture and training experiments}{
   	
   	\begin{multicols}{2}
-  		\textbf{U-Net:} To perform our segmentation, we chose an architecture called U-Net. This network is \textbf{fast} and can be trained with \textbf{few images}.
+  		\textbf{U-Net:} To perform our segmentation, we chose an architecture called U-Net. This network is \textbf{fast} and can be trained with \textbf{few images}. No pre-trained network found for that model.
   		
   		\vspace{10mm}
   		{\centering \includegraphics[width=1.0\linewidth]{figures/unet-architecture.png}}
   		
+  		\textbf{VGG16:} We also decided to use a \textbf{pre-trained} VGG16 architecture without the max-pooling steps. The resuting output we'll then the \textbf{same size} as the input.
+  		  		
   		\columnbreak
   		
-  		\textbf{Loss definition:}
+  		\textbf{Loss definition:} We defined 2 kinds of loss:
+  		\begin{itemize}
+  			\item Cross-Entropy loss
+  			\item Dice loss
+  		\end{itemize}
+  	
+		The 9-classes problem is suffering from \textbf{class unbalance} (there is much more pixels of ice/crowd than lines or dots. We address that problem in the dataset labeling and in the loss definition. For Cross-Entropy loss, we adapted the weights for loss depending on the label frequency. We also implemeted the Dice loss:
+		
+		  \vspace{-15mm}
+		\begin{gather*}
+			\text{Dice Loss} = \frac{1}{nb\_class}*\sum\limits_{i=1}^{nb\_class}\Big(1-\frac{2\sum\limits_{pixels}y_{true}y_{pred}}{\sum\limits_{pixels}y_{true}^{2}+\sum\limits_{pixels}y_{pred}^{2}}\Big)
+		\end{gather*}
   		
   		\textbf{Training details:}
   		
@@ -232,103 +246,26 @@ Our methodology is splitted in 3 main components:
 
 \begin{columns}
 
-  \column{.3}
+  \column{.4}
 
 
-  \block{2D mapping method}{
+  \block{Dataset}{
 
-  \begin{center}
-  \begin{tikzpicture}[
-          scale=1.5,
-          lstm_right/.style={draw, minimum width=1cm, minimum height=.5cm, inner sep=0pt, anchor=north, PaleGreen},
-          lstm_left/.style={draw, minimum width=1cm, minimum height=.5cm, inner sep=0pt, PaleBlue},
-          every path/.style={line width=\pathwidth},
-          every node/.append style={line width=\nodewidth}]
-    \def\h{2cm}
-    \def\scalespace{2.2}
-    \def\w{145mm}
-    \def\arrowLen{.6}
-    \def\descSpace{-.2}
-
-    % Char embedding
-
-    \foreach \word/\color/\w [count=\i] in {Salem/gray/o, Bitar/gray/o, appeared/Purple/w, to/Purple/w, have/Purple/w}{
-      \pgfmathsetmacro\pos{\i-1}
-      \node[anchor=mid, inner sep=0](\word) at (\scalespace*\pos,0) {\word};
-      \node[embed=\color,draw=\color](\word _embed) at (\scalespace*\pos,-\arrowLen){\w};
-    };
-
-    \node[embed=black, minimum width=\w, minimum height=\h, anchor=north](comick) at ([yshift=-\arrowLen cm]appeared_embed.south) {OOV handling net};
-    % \node[anchor=east, align=left] at ([xshift=\descSpace cm]comick.west) {OOV \\ handling};
-
-    \foreach \word/\color/\w [count=\i] in {Salem/predEmbedColor/p, Bitar/predEmbedColor/p, appeared/Purple/w, to/Purple/w, have/Purple/w}{
-      \pgfmathsetmacro\pos{\i-1}
-
-      \path (\word _embed) edge[draw, -mytip] (comick.north -| \word _embed.south);
-      \draw[-mytip] (comick.south -| \word _embed) -- ++(0,-\arrowLen) node[anchor=north, embed=\color, draw=\color](\word _pred_embed) {\w};
-
-      \node[lstm_left, draw=PaleBlue, anchor=north](\word _lstm_left) at ([yshift=-\arrowLen cm]\word _pred_embed.south) {};
-      \node[lstm_right, draw=PaleGreen](\word _lstm_right) at (\word _lstm_left.south) {};
-      \draw[-mytip] (\word _pred_embed) -- (\word _lstm_left);
+  We created our own dataset by making screenshots of NHL broadcast games and labeled them. Here is an example of the after the labeling task (for both 9 classes (left) and 2 classes (right)):
   
-    };
-
-    % LSTM arrows
-    \foreach \a/\b in {Salem/Bitar, Bitar/appeared, appeared/to, to/have}{
-      \draw[mytip-, PaleBlue] (\a _lstm_left) -- (\b _lstm_left);
-      \draw[-mytip, PaleGreen] (\a _lstm_right) -- (\b _lstm_right);
-    };
-    % \node[anchor=east, align=left] at ([xshift=\descSpace cm]Salem_lstm_left.south west) {Bi-LSTM \\ task net};
-
-
-    \foreach \word/\tag [count=\i] in {Salem/B-PER, Bitar/I-PER, appeared/O, to/O, have/O}{
-      \pgfmathsetmacro\pos{\i-1}
-
-      \draw[-mytip] (\word  _lstm_right.south) -- ++(0,-\arrowLen) node[embed=Orange](\word _softmax) {s};
-
-      \node[anchor=mid, inner sep=0] (\word _tag) at ([yshift=-.5cm]\word _softmax.south) {\tag};
-    };
-    % \node[anchor=east, align=right] at ([xshift=\descSpace cm]Salem_tag.west) {Tags};
-
-
-    % Legend
-    % \begin{scope}[xshift=10.7cm, yshift=-2cm,
-    \begin{scope}[xshift=-15mm, yshift=-105mm,
-            every path/.style={line width=\pathwidth},
-            every node/.append style={line width=\nodewidth}]
-    \def\legspace{-1.3}
-    \def\colsep{7}
-    \def\h{1.3cm}
-    % First col
-    \node[embed=gray, anchor=center, minimum height=\h, minimum width=.8cm](leg char embed) at (0,0*\legspace) {o};
-    \node[anchor=west] at (.5,0*\legspace) {OOV word embedding};
-
-    \node[embed=Purple, anchor=center, minimum height=\h, minimum width=.8cm](leg word embed) at (0,1*\legspace) {w};
-    \node[anchor=west] at (.5,1*\legspace) {Word embedding};
-
-    \node[embed=predEmbedColor, anchor=center, minimum height=\h, minimum width=.8cm](leg word embed) at (0,2*\legspace) {p};
-    \node[anchor=west, align=left] at (.5,2*\legspace) {Predicted embedding};
-
-
-    \node[draw, PaleBlue, minimum width=1cm, inner sep=0pt, minimum height=.5cm, anchor=south] (leg lstm left) at (\colsep,0*\legspace) {};
-    \node[draw, PaleGreen, minimum width=1cm, inner sep=0pt, minimum height=.5cm, anchor=north] (leg lstm right) at (leg lstm left.south) {};
-    \node[anchor=west] at (\colsep+.5,0*\legspace) {Bidirectional LSTM};
-
-    \node[embed=Orange, anchor=center, minimum height=\h, minimum width=.8cm](leg word embed) at (\colsep,1*\legspace) {s};
-    \node[anchor=west, align=left] at (\colsep+.5,1*\legspace) {Tag prediction\\ with a softmax};
-
-    \end{scope}
-
-
-  \end{tikzpicture}
-  \end{center}
-  % \vspace{3mm}
-
-  Two nets working together: the first predicts OOV embeddings (see OOV handling net section) and the second one predicts tags.
-
-  The simple architecture of the labeling net is used to emphasize the usefulness of our module, and to minimize the influence of other factors.
-
-  \vspace{-.5mm}
+  \vspace{5mm}
+  {\centering \includegraphics[width=30cm,height=8cm]{figures/example-labels.png}}
+  
+  To adress class imbalance, we draw larger areas around rare labels pixels such as dots, circles and lines.
+  
+  \vspace{1mm}
+  
+ Because we only had a total 43 images, we augmented our train dataset by making \textbf{horizontal rotation}. That kind of transformation makes sense in the context of a hockey ring (symmetry).
+ 
+  \vspace{5mm}
+ {\centering \includegraphics[width=30cm,height=8cm]{figures/rotation-example.png}}
+ 
+   
 
   }
 
@@ -340,7 +277,7 @@ Our methodology is splitted in 3 main components:
 
 
 
-  \column{.5}
+  \column{.4}
   \block{Results}
   {
   \begin{center}
@@ -425,14 +362,15 @@ Our methodology is splitted in 3 main components:
   
   \textbf{Discussion:}
     \begin{itemize}
-        \item \colorbold{Morphology} and \colorbold{context} help predict useful embeddings.
+        \item For 9-classes predictions, 
         \item \colorbold{The attention mechanism works}: depending on the task, the network will use either more the context or the morphology to generate an embedding.
     \end{itemize}
     
     \textbf{Future works:}
     \begin{itemize}
-        \item  Apply the \colorbold{attention mechanism on each character of the OOV word and each word of the context} instead of using the hidden state of the respective elements only.
-        \item Test our attention model in \colorbold{different languages} and on other NLP tasks, such as \colorbold{machine translation}.
+        \item Extract and label \textbf{more images} (was time consuming)
+        \item Starts from a pre-trained model as our encoder and build a \textbf{proper decoder} for this specific task.
+        \item Use the semantic segmentation learned by the model to map key areas on the ice into a \text{2D plan}.
     \end{itemize}
     \vspace{-3.5mm}
   }
