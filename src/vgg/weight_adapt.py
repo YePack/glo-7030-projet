@@ -51,5 +51,5 @@ adapt_state_dict["features.19.weight"] = ori_state_dict["features.21.weight"]
 adapt_state_dict["features.19.bias"] = ori_state_dict["features.21.bias"]
 adapt_state_dict["features.19.running_mean"] = ori_state_dict["features.21.running_mean"]
 adapt_state_dict["features.19.running_var"] = ori_state_dict["features.21.running_var"]
-adapt_state_dict["conv_out.weight"] = torch.zeros((9, 512, 1, 1))
+adapt_state_dict["conv_out.weight"] = torch.zeros((9, 256, 1, 1))
 adapt_state_dict["conv_out.bias"] = torch.zeros(9)
