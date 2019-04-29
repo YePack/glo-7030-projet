@@ -46,7 +46,7 @@
 
 
 
-\title{\parbox{\linewidth}{\centering Semantic segmentation for mapping hockey \\ broadcast images in 2D plan}}
+\title{\parbox{\linewidth}{\centering Semantic segmentation for learning hockey \\ broadcast image representation}}
 \institute{Department of Computer Science and Software Engineering, Université Laval}
 \author{Philippe Blouin-Leclerc\up{\dag}, Stéphane Caron\hspace{5pt}\up{\dag}}
 
@@ -56,12 +56,12 @@
 \begin{columns}
 \column{.4}
 \block{Introduction}{%
-We propose a novel way to recognize key locations within hockey broadcast images using semantic segmentation and convolutional neural networks (CNN). We implement a network that learn this semantic and could then be used for many applications such as mapping a broadcast image into a 2D plan.
+We propose a novel way to recognize key locations within hockey broadcast images using semantic segmentation and convolutional neural networks (CNN). The semantic representation of an image could then be used for many applications such as mapping a broadcast image into a 2D plan.
 
 \vspace{5mm}
 \textbf{Motivations:}
 \begin{itemize}
-  \item Computer vision allows the detection of many events at the same time, which is well suited for sports analytics data collection.
+  \item Computer vision allows the detection of many events simultaneously, which is well suited for sports analytics data collection.
   \item Semantic segmentation is often a key step as it brings a \textbf{general understanding} of the image.
 \end{itemize}
 
@@ -76,7 +76,7 @@ We propose a novel way to recognize key locations within hockey broadcast images
 \textbf{Goals:}
 \begin{itemize}
   \item Evaluate the capability of CNN to learn the semantic representation of a hockey ring surface broadcast image.
-  \item Provide meaningfull insights on how to build architectures that can learn well every components of an image.
+  \item Provide meaningful insights on how to build architectures that can learn well every components of an image.
   \item Propose a method that uses semantic segmentation representation to map objects and events into a 2D plan.
 \end{itemize}
 
@@ -118,12 +118,12 @@ Semantic segmentation is a computer vision task where the model learns the gener
 
 \vspace{5mm}
 \textbf{Define the task:}
-In order to make pixel-wise predictions, we need to have a representation saying which class is attached to each label. This representation is what we call a \textbf{mask} (see right-side image below).
+In order to make pixel-wise predictions, we need a representation indicating which class is attached to each label. This representation is called a \textbf{mask} (see right-side image below).
 
 \vspace{10mm}
 {\centering \includegraphics[width=1.0\linewidth]{figures/task-representation.png}}
 
-We can summarize the workflow as follow where b is batch size and C is the number of classes:
+We can summarize the workflow as follows where b is batch size and C is the number of classes:
 
 \vspace{10mm}
 {\centering \includegraphics[width=45cm,height=10cm]{figures/dimensions.png}}
@@ -184,7 +184,7 @@ Our methodology is splitted in 3 main components:
 
 
   \column{.7}
-  \block[bodyoffsety=0mm, titleoffsety=0mm]{Architecture and training experiments}{
+  \block[bodyoffsety=0mm, titleoffsety=0mm]{Architectures and training details}{
   	
   	\begin{multicols}{2}
   		\textbf{U-Net:} To perform our segmentation, we chose an architecture called U-Net. This network is \textbf{fast} and can be trained with \textbf{few images}. No pre-trained network found for that model.
@@ -192,7 +192,7 @@ Our methodology is splitted in 3 main components:
   		\vspace{10mm}
   		{\centering \includegraphics[width=1.0\linewidth]{figures/unet-architecture.png}}
   		
-  		\textbf{VGG16:} We also decided to use a \textbf{pre-trained} VGG16 architecture without the max-pooling steps. The resuting output we'll then the \textbf{same size} as the input.
+  		\textbf{VGG16:} We also decided to use a the 7 first layers of a \textbf{pre-trained} VGG16 architecture without the max-pooling steps. The resuting output we'll then the \textbf{same size} as the input.
   		  		
   		\columnbreak
   		
@@ -281,7 +281,7 @@ Our methodology is splitted in 3 main components:
 
 
 
-  \column{.4}
+  \column{.38}
   \block{Results}
   {
   Here are the results we gathered from our best experiements:
@@ -289,24 +289,25 @@ Our methodology is splitted in 3 main components:
   \setlength{\tabcolsep}{5mm}
   \begin{tabular}{c c c c c c}
   \toprule
-  Labels & Model & Epochs & Loss & Validation Loss & Test Loss \\
+  Labels & Model & Epochs & Loss & Train Loss & Valid Loss \\
   \midrule
-  \multirow{2}{*}{9-classes} & U-Net & 40 & Dice & 0.08 & 0.11 \\
-  & VGG16 & 40 & Dice & 0.31 & \colorbold{0.49} \\
+  \multirow{2}{*}{9-classes} & U-Net & 50 & Dice & 0.8263 & 0.8393 \\
+  & VGG16 & 20 & Dice & 0.8387 & \colorbold{0.8023} \\
   \midrule
-  \multirow{2}{*}{2-classes} & U-Net  & 30 & CE  & 0.31  & \colorbold{0.40} \\
-  & VGG16  & 20  & CE & 0.20  & 0.35 \\
+  \multirow{1}{*}{2-classes} & U-Net  & 30 & CE  & 0.3471  & \colorbold{0.3788} \\
   \bottomrule
   \end{tabular}
   \end{center}
   
+  \vspace{1mm}
+  
+  Here is sample that shows our best results for 9-classes VGG16 model on test set images:
+  
   \vspace{2mm}
   
-  Here is 2 samples that shows our best results for both 9-classes and 2-classes models:
-  
-  \vspace{2mm}
-  
-  Mettre des exemples d'images de outputs avec les ground truth
+  \begin{center}
+  	\includegraphics[width=25cm,height=16.2cm]{figures/test-9-class.png}
+  \end{center}
   
   \vspace{-3mm}
   }
@@ -320,25 +321,26 @@ Our methodology is splitted in 3 main components:
   
   
   
-  \column{.2}
+  \column{.22}
   
   
   \block{Conclusion}{
   
   \textbf{Discussion:}
+
     \begin{itemize}
-        \item For 9-classes predictions, we need more images.
-        \item For 2-classes predictions, bla bla bla
-        \item Bla bla bla 
+        \item For 9-classes model, we need more images.
+        \item A pre-trained model is a must with that few images. The model also seems to need a long a slow learning.
+        \item For 2-classes predictions, the performances are not enough good for the complexity of the problem.
     \end{itemize}
     
     \textbf{Future works:}
+    \vspace{-1.5mm}
     \begin{itemize}
-        \item Extract and label \textbf{more images} (was time consuming)
-        \item Starts from a pre-trained model as our encoder and build a \textbf{proper decoder} for this specific task.
+        \item Extract and label \textbf{more images} (was time consuming).
+        \item Build a proper decoder more specific to the task.
         \item Use the semantic segmentation learned by the model to map key areas on the ice into a \text{2D plan}.
     \end{itemize}
-    \vspace{-3.5mm}
   }
 \end{columns}
 
