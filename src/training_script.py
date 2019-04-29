@@ -14,6 +14,7 @@ from src.dataloader.flip_images import flip_images
 from src.create_image_label.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
 from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, max_images
+from src.vgg.vggnet import vgg16_bn
 
 
 def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -60,7 +61,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
 
-    net = UNet(3, 9)
+    net = vgg16_bn(pretrained=True)
 
     if args.criterion == 'CrossEntropy':
         criterion = nn.CrossEntropyLoss()
