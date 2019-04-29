@@ -12,12 +12,12 @@ model_urls = {
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_classes=9, init_weights=True):
+    def __init__(self, features, nb_classes=9, init_weights=True):
         super(VGG, self).__init__()
         self.features = features
         if init_weights:
             self._initialize_weights()
-        self.conv_out = nn.Conv2d(256, num_classes, 1)
+        self.conv_out = nn.Conv2d(256, nb_classes, 1)
 
     def forward(self, x):
         x = self.features(x)
