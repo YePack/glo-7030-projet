@@ -13,7 +13,7 @@ from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
 from src.create_image_label.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
-from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, max_images
+from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, p_max_images, p_number_of_classes
 from src.vgg.vggnet import vgg16_bn
 
 
@@ -37,6 +37,8 @@ def get_args():
     parser = OptionParser()
     parser.add_option('-p', '--path', type=str, dest='path', default='data/raw/',
                       help='Path raw data (.png and .xml)')
+    parser.add_option('-m', '--model', dest='model', default=5, type='string',
+                      help='Type of Neural Nets')
     parser.add_option('-e', '--epochs', dest='epochs', default=5, type='int',
                       help='number of epochs')
     parser.add_option('-b', '--batch-size', dest='batchsize', default=2,
@@ -47,7 +49,7 @@ def get_args():
                       help='Choices: CrossEntropy or Dice')
     parser.add_option('-g', '--gpu', action='store_true', dest='gpu',
                       default=False, help='use gpu')
-    parser.add_option('-m', '--model', type=str, dest='model', default='',
+    parser.add_option('-n', '--model_load_name', type=str, dest='model_name', default='',
                       help='Model to load (path to the pickle)')
     parser.add_option('-s', '--setup', dest='setup', action='store_true',
                       default=False, help='Setup the datasets otpion.')
@@ -61,8 +63,6 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
 
-    net = vgg16_bn(pretrained=True)
-
     if args.criterion == 'CrossEntropy':
         criterion = nn.CrossEntropyLoss()
     elif args.criterion == 'Dice':
@@ -70,10 +70,16 @@ if __name__ == '__main__':
     else:
         sys.exit(0)
 
-    if args.model != '':
+    if args.model_name != '':
         net = readfile(args.model)
         print('Model loaded from this pickle : {}'.format(args.model))
-
+    else:
+        if args.model == 'vgg16':
+            net = vgg16_bn(pretrained=True, nb_classes=p_number_of_classes)
+        elif args.model == 'unet':
+            net = UNet(3, p_number_of_classes)
+        else:
+            raise ValueError('Need to specify a Neural Network model')
     if args.gpu:
         net.cuda()
 
@@ -82,7 +88,7 @@ if __name__ == '__main__':
     if args.setup:
         # Split train and test in 2 different folders (and save arrays instead of XMLs)
         create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8,
-                               max=max_images)
+                               max=p_max_images)
         if args.augmentation:
             flip_images(path_to+'train/')
 
