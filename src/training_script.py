@@ -71,7 +71,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     if args.model_name != '':
-        net = readfile(args.model)
+        net = readfile(args.model_name)
         print('Model loaded from this pickle : {}'.format(args.model))
     else:
         if args.model == 'vgg16':
