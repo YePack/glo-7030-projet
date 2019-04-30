@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     if args.model_name != '':
         net = readfile(args.model_name)
-        print('Model loaded from this pickle : {}'.format(args.model))
+        print('Model loaded from this pickle : {}'.format(args.model_name))
     else:
         if args.model == 'vgg16':
             net = vgg16_bn(pretrained=True, nb_classes=p_number_of_classes)
