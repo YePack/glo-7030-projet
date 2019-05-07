@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mahotas
 from src.parser.xml_parser import parse_xml_data
+from src.net_parameters import p_label_to_int
 from PIL import Image
 
 
@@ -36,15 +37,13 @@ class CreateLabel:
         im = Image.open(self.path_image)
         labels, points = parse_xml_data(self.path_xml)
 
-        label_to_int = {'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
-        #label_to_int = {'ice': 1, 'foz': 2, 'cz': 3, 'cm': 4, 'fon': 5, 'vert': 6, 'hor': 7, 'corner': 8}
         frame_image = np.zeros((im.size[0]+1, im.size[1]+1))
         for i in range(len(labels)):
             poly = points[i]
             x, y = zip(*CreateLabel.render(poly))
             for k in range(len(y)):
-                if label_to_int[labels[i]] > frame_image[x[k]][y[k]]:
-                    frame_image[x[k]][y[k]] = label_to_int[labels[i]]
+                if p_label_to_int[labels[i]] > frame_image[x[k]][y[k]]:
+                    frame_image[x[k]][y[k]] = p_label_to_int[labels[i]]
         self.frame_image = frame_image.transpose()
         return frame_image.transpose()
 

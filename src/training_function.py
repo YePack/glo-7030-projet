@@ -9,6 +9,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 from src.dataloader import DataGenerator
+from src.net_parameters import p_number_of_classes
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):
@@ -96,7 +97,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
 
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
             weight_learn = torch.FloatTensor(
-                np.array([1/(np.log(1.1 + (np.array(targets.cpu() == i)).mean())) for i in range(9)]))
+                np.array([1/(np.log(1.1 + (np.array(targets.cpu() == i)).mean())) for i in range(p_number_of_classes)]))
             if weight_adaptation is not None:
                 pred_unique = output.max(dim=1)[1].unique()
                 targets_unique = targets.unique()

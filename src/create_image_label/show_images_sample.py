@@ -5,11 +5,11 @@ import numpy as np
 
 from src.dataloader.transform import NormalizeCropTransform
 from src.dataloader.dataset import DataGenerator
+from src.net_parameters import p_classes_color
 
 
 def see_image_output(net, path_train, path_test, path_save):
-    colors = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
-    cmap = mpl.colors.ListedColormap(colors)
+    cmap = mpl.colors.ListedColormap(p_classes_color)
     net.cpu()
     net.eval()
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
