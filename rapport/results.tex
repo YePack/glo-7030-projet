@@ -15,11 +15,13 @@ To find the hyperparameters that gave the best images predictions on the test se
 
 \vspace{1mm}
 
- Here is sample that shows our best results for VGG16 model on test set images:
-
-\vspace{1mm}
-\begin{center}
-	\includegraphics[width=7.5cm,height=4.86cm]{figures/test-9-class.png}
-\end{center}
+ The figure \ref{fig:test} is sample that shows our best results for VGG16 model on test set images.
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=7.5cm,height=4.86cm]{figures/test-9-class.png}
+ 	\caption{Sample of predictions of the VGG model on the test set.}
+ 	\label{fig:test}
+ \end{figure}
 
 We see that the upper board seems to be well predicted. The player on the ice are labelled as crowd, but it's not supprising since the player on the beach and the crowd are labbeled as crowd. The line appears a little bit.
