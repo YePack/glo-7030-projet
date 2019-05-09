@@ -41,8 +41,10 @@
 \usepackage{color}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
+\usepackage{natbib}
 
-\title{{\huge \bf Semantic segmentation for mapping hockey broadcast images in 2D plan}}
+
+\title{{\huge \bf Semantic segmentation for learning hockey broadcast image representation}}
  
 \author{{\bf Philippe Blouin-Leclerc and Stéphane Caron} \\ {Laval University} \\
 {\{philippe.blouin-leclerc.1, stephane.caron.9\}}@ulaval.ca}
@@ -55,41 +57,45 @@
 \begin{multicols}{2}
 
 \begin{abstract}
-Explain the objective of the project. All the codes that aimed to realized that project and that article are hosted on that GitHub \href{https://github.com/stecaron/glo-7030-projet}{repository}.
+In this project, we propose a novel way to recognize key locations within hockey broadcast images using semantic segmentation and convolutional neural networks (CNN). The semantic representation of an image could then be used for many applications such as mapping a broadcast image into a 2D plan.  All the codes that aimed to realized that project and that article are hosted on that GitHub \href{https://github.com/stecaron/glo-7030-projet}{repository}.
 \end{abstract}
 
 
 \section{Introduction}
 
 \input{introduction}
+\textbf{\label{sec:introduction}}
 
 
 \section{Background}
 
 \input{background}
+\textbf{\label{sec:background}}
 
 
 \section{Methodology}
 
 \input{methodology}
+\textbf{\label{sec:methodology}}
 
 
 \section{Dataset}
 
 \input{datasets}
+\textbf{\label{sec:dataset}}
 
 
 \section{Results}
 
 \input{results}
+\textbf{\label{sec:results}}
 
 
 \section{Conclusion}
 
 \input{conclusion}
+\textbf{\label{sec:conclusion}}
 
-
-\nocite{hastie01statisticallearning}
 
 \bibliographystyle{apacite}
 
