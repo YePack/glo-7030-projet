@@ -42,7 +42,10 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \usepackage{natbib}
-
+\usepackage[compact]{titlesec}
+\titlespacing{\section}{2pt}{*2}{*1}
+\titlespacing{\subsection}{2pt}{*1}{*2}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
 
 \title{{\huge \bf Semantic segmentation for learning hockey broadcast image representation}}
  
@@ -65,7 +68,6 @@ In this project, we propose a novel way to recognize key locations within hockey
 
 \input{introduction}
 \textbf{\label{sec:introduction}}
-
 
 \section{Background}
 
