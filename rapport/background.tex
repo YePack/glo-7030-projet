@@ -19,3 +19,4 @@ Once we have a class to every pixel, we now have the output we would like our mo
 \end{figure}
 
 The figure \ref{fig:workflow} summarizes this workflow where we start from multiple images and ends up with multiple predictions. As such, we start with one RGB image, then we have b images inside one minibatch. At the end of the model, each of those images are \textit{one-hot} encoded to C dimensions, corresponding to the number of classes to predict. Finally, we apply a \texttt{softmax} or any other function that select a predicted class, so that we no longer have C dimensions, but only 1.
+
