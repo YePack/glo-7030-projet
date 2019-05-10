@@ -8,7 +8,10 @@ Like it was discuss in the dataset section, the amount of data was problematic f
 Finally, we discuss about the training details that we uses for our FCN.
 
 \subsubsection{Architecture}
-The first architecture that was tried is a network called U-Net. The name of this network is due to his shape. This net apply max pooling to reduce the dimensions of the feature map while increasing the number of channel to obtain more expressivity. Four max pooling are applied. After, there is four upsampling that are applied. The dimension of the feature map is then increased while the number of channel is decreased. The upsampling can either be learn or it can be an interpolation. The particularity of U-Net is the uses of skip connection. The skip connection are between the the same dimension feature map before each max pooling and after each upsampling. Those skip connection help to learn how to upsample well the image. A little difference with the figure \ref{fig:unet} of the architecture, we used padding on our convolution filter, so the dimensions on the encoder part and the decoder part are the same and no croping is needed.
+The first architecture that was tried is a network called U-Net. The name of this network is due to his shape. This net apply max pooling to reduce the dimensions of the feature map while increasing the number of channel to obtain more expressivity. Four max pooling are applied. After, there is four upsampling that are applied. The dimension of the feature map is then increased while the number of channel is decreased. The upsampling can either be learn or it can be an interpolation. The particularity of U-Net is the uses of skip connection. The skip connection are between the the same dimension feature map before each max pooling and after each upsampling. Those skip connection help to learn how to upsample well the image. A little difference with the figure \ref{fig:unet} of the architecture, we used padding on our convolution filter, so the dimensions on the encoder part and the decoder part are the same and no croping is needed. \\
+
+The second architecture that was used is the VGG 16 pretrained with batch norm. We wanted to use a pretrained net because of the low amount of image that we had. This net was built do to image classification, so some modification was needed to adapt it for our task. The max pooling were removed from the net, so the input stay the same size as the output.
+ 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=7.5cm,height=6cm]{figures/unet-architecture.png}
@@ -16,7 +19,7 @@ The first architecture that was tried is a network called U-Net. The name of thi
 	\label{fig:unet}
 \end{figure}
 
-The second architecture that was used is the VGG 16 pretrained with batch norm. We wanted to use a pretrained net because of the low amount of image that we had. This net was built do to image classification, so some modification was needed to adapt it for our task. The max pooling were removed from the net, so the input stay the same size as the output. Furthermore, we kept only the first seven layer of the net. This is mainly due to time computation constraint. A last layer of convolution with kernel size of one was added to the net the have nine channel in output of the net, like our task. 
+Furthermore, we kept only the first seven layer of the net. This is mainly due to time computation constraint. A last layer of convolution with kernel size of one was added to the net the have nine channel in output of the net, like our task. 
 
 \subsubsection{Loss function}
 As describe earlier, for our model to learn the task, we needed to have a loss function that isn't too much influenced by the class that are more present in the image. Details such as line and face-off dot are as important as the ice. We started by using the cross entropy loss. In this loss, each pixel is given an equal proportion in the loss, so the class that are more present in a batch, will have a bigger impact on the loss. We adjust the weight in the loss function with a formula base on the proportion of the class in the batch as discussed in this paper \cite{Paszke}. \\
