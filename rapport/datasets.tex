@@ -11,15 +11,3 @@ To choose our labels, we used an iterative approach where we first used our judg
 \end{figure}
 
 In the methodology section, we mentionned we had a class imbalance problem. In that section, we tackled this problem by adapting the loss. In the labeling task, we also tackled that class imbalance problem by subjectively drawing larger polygons for rare categories such as dots or circles.
-
-\subsection{Data augmentation}
-The labeling task was quite time consuming so that's mainly why we were not able to extract a large amount of data (only 43 images). However, we used data augmentation technics to increase that dataset. There are a lot of different augmentation technics for images, such as rotation, flip, scale or crop. Because we did not had a large amount of data, we tried to keep our augmented images as more realistics as we can. For this reason, we used horizontal rotations only. That kind of transformation makes sense in our context because a hockey ring is symmetric, so that way, we conserve the nature of the image. The figure \ref{fig:rotation} shows an example of horizontal flip transformation.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=5cm, height=6cm]{figures/rotation-example.png}
-	\caption{Example of augmented image (bottom) by doing a horizontal flip of the original image (top).}
-	\label{fig:rotation}
-\end{figure}
-
-Allo

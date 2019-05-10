@@ -2,7 +2,7 @@ With the two neural network architectures, the two loss function, our dataset an
 
 \subsection{Hyperparameters}
 
-To find the hyperparameters that gave the best images predictions on the test set, we did a grid search with a lot of check on the prediction by looking at the image. Our best result was achieve with the adapatation of the pretrained VGG 16. For the optimizer, we choose the stochastique gradient descent with a momentum of 0.9 and a small weight decay. The learning rate started at 0.001 and we decreased when the loss was not decreasing anymore. The batch size was 4, the dice loss was used, the image was normalize using the normalization of imagenet and we did 20 epochs. Here is the result that we gathered from our best experiments.
+To find the hyperparameters that gave the best images predictions on the test set, we did a grid search with a lot of check on the prediction by looking at the image. Our best result was achieve with the adapatation of the pretrained VGG 16. For the optimizer, we choose the stochastique gradient descent with a momentum of 0.9 and a small weight decay. The learning rate started at 0.001 and we decreased it when the loss was not decreasing anymore. The batch size was 4, the dice loss was used, the image was normalize using the normalization of imagenet and we did 20 epochs. Here is the result that we gathered from our best experiments.
 \vspace{2mm}
 \setlength{\tabcolsep}{1mm}
 \begin{tabular}{c c c c c}
