@@ -7,7 +7,7 @@ class UNet2(nn.Module):
     def __init__(self, n_channels, n_classes):
         super(UNet2, self).__init__()
         self.inc = inconv(n_channels, 64)  # Les deux 64 ok
-        self.down1 = downdouble(64, 128)  # les deux 128 ok
+        self.down1 = downdouble_max(64, 128)  # les deux 128 ok
         self.down2 = downtriple(128, 256)  # les 3 256 ok
         self.down3 = downdouble(256, 256)
         #self.down3 = down(256, 512)
