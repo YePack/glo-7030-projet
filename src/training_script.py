@@ -15,6 +15,7 @@ from src.create_image_label.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
 from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, p_max_images, p_number_of_classes
 from src.vgg.vggnet import vgg16_bn
+from src.unet_pretrained.unet_pretrained_model import unet_pretrained
 
 
 def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -78,6 +79,8 @@ if __name__ == '__main__':
             net = vgg16_bn(pretrained=True, nb_classes=p_number_of_classes)
         elif args.model == 'unet':
             net = UNet(3, p_number_of_classes)
+        elif args.model == 'unet_pretrained':
+            net = unet_pretrained(3, p_number_of_classes)
         else:
             raise ValueError('Need to specify a Neural Network model')
     if args.gpu:
