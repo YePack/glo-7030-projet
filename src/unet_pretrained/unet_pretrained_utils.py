@@ -57,7 +57,7 @@ class inconv(nn.Module):
 
 class downdouble_max(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(downdouble, self).__init__()
+        super(downdouble_max, self).__init__()
         self.mpconv = nn.Sequential(
             nn.MaxPool2d(2),
             double_conv(in_ch, out_ch)
