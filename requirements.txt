@@ -1,0 +1,9 @@
+numpy
+torch
+elementpath
+optparse-pretty
+python-resize-image
+Pillow
+torchvision
+mahotas
+matplotlib
