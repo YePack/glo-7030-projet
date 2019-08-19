@@ -11,7 +11,7 @@ from src.dataloader import NormalizeCropTransform
 from src.loss import DiceCoeff
 from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
-from src.create_image_label.show_images_sample import see_image_output
+from src.utils.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
 from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, p_max_images, p_number_of_classes
 from src.vgg.vggnet import vgg16_bn

@@ -4,7 +4,7 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 
-from src.create_image_label.create_image_label import CreateLabel
+from src.utils.create_image_label import CreateLabel
 from src.unet.utils import readfile
 
 

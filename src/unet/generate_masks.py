@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 from shutil import copyfile
-from src.create_image_label.create_image_label import CreateLabel
+from src.utils.create_image_label import CreateLabel
 from src.unet.utils import savefile
 
 
