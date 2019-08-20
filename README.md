@@ -1,20 +1,69 @@
-# glo-7030-projet
+# SemSeg Hockey Broadcasts
 
-Dépot pour le projet de la session H2019 du cours GLO-7030.
+At first, this repo was created for our winter 2019 deep learning course at Laval University (GLO-7030) in Quebec City. Afterward, the project was continued and named **SemSeg Hockey Broadcasts**. The objective of this project is to train a model capable of learning the semantic of hockey broadcast images.
 
-# Création des étiquettes
+# Dataset
 
-Voici la procédure à suivre pour utiliser l'outil de *labeling* et créer les étiquettes pour les images.
+The images were taken from [NHL Game Recap](https://www.nhl.com/video/t-277753022) screenshots. The raw images (`.png`) and the corresponding labels (`.xml`) are stored in the `data/raw/` folder. The images are all resized and then labeled by a labeling tool called [cvat](https://github.com/opencv/cvat). See this [section](#resize-images) for the images resizing procedure and this [section](#generate-labels) for launching the labeling tool.
 
-## Prérequis
+Les données sont extraites à partir de *sc*vidéos [NHL Game Recap](https://www.nhl.com/video/t-277753022). Les images sont sauvegardées dans le dossier `data/raw/` avec l'extension `.png`. Avant de les sauvegarder, il faut d'abord les redimensionner en utilisant le script `src/`
 
-Docker doit être installé. Voir ce [lien](https://runnable.com/docker/install-docker-on-macos) pour installation sur macOS. 
+# Increase the dataset
 
-##  Accéder à l'outil
+Here is the procedure to follow in order to launch increase the dataset of images.
 
-1. Mettre en marche Docker
-2. Aller dans le répertoire `lableling-tool/`
-3. *Builder* l'image docker : `docker-compose build`
-4. Mettre en marche le *container* : `docker-compose up -d`
-5. Créer un superuser pour avoir accès à tous les droits : `docker exec -it cvat bash -ic '/usr/bin/python3 ~/manage.py createsuperuser'`
-6. Vous devriez maintenant pouvoir accéder à l'outil via [ce lien](http://localhost:8080/auth/register).
+## Prerequists
+
+Docker must be installed. Here is the [installation link](https://runnable.com/docker/install-docker-on-macos) for macOS. It will be necessary for launching the labeling tool further.
+
+After you installed Docker, you can install the Python libraries:
+
+```
+pip install -r requirements.txt
+```
+
+## Resize images
+ 
+Once you have NHL recap screenshosts saved on your computer, you must first resize them before creating the labels. To do so, use the following command by specifying the path of the folder where your images are saved:
+
+```
+python -m src.utils.resize_images --path your_path
+```
+
+##  Launch the labeling tool
+
+Once you have resized images, you can launch the labeling tool and import those images to start a new labeling job.
+
+To launch the tool for the first time:
+
+1. Start Docker
+2. Go in the directory : `lableling-tool/`
+3. *Build* the docker image : `docker-compose build`
+4. Run the container : `docker-compose up -d`
+5. Create a superuser to have all the rights : `docker exec -it cvat bash -ic '/usr/bin/python3 ~/manage.py createsuperuser'`
+6. Should now have access to the tool with [this link](http://localhost:8080/auth/register).
+
+Otherwise, just start Docker and access the link.
+
+## Generate labels
+
+Once you launched the labeling tool, you are up and running to import you resized images inside a new *cvat job*. Here are the labels you should create in your job settings:
+
+- Ice 
+- Board
+- Circlezone
+- Circlemid
+- Goal
+- Blue
+- Red
+- Fo
+
+## Split the XML labels
+
+The last part before splitting the dataset and running the model is to extract the XML from the labeling tool and split it into separate XMLs (one for each file). To split the XML downloaded from the labeling tool:
+
+```
+python -m src.parser.xml_splitter --file path_xml_file --dir dir_save_xmls
+```
+
+The very last step is to add the resized images and the accompagning XML to the `data/raw/` directory and push it to the repo.

@@ -11,10 +11,11 @@
 *.DS_Store
 
 # Ignore processed  data
-data/train/
-data/test/
-data/original/
-data/valid/
+/data/*
+!data/raw/
 
 # Pycharm shits
 __pycache__/
+
+# VSCode stuffs
+.vscode/
