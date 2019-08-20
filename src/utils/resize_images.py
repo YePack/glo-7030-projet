@@ -15,6 +15,7 @@ def resize_images(path):
                     cover = resizeimage.resize_thumbnail(image, [512, 256])
                     new_name = os.path.join('resized_'+file)
                     cover.save(os.path.join(path, new_name), image.format)
+                    print(file+' has been resized and saved.')
 
 
 def get_args():
