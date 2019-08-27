@@ -8,7 +8,7 @@ The images were taken from [NHL Game Recap](https://www.nhl.com/video/t-27775302
 
 # Increase the dataset
 
-Here is the procedure to follow in order to launch increase the dataset of images.
+Here is the procedure to follow in order to increase the dataset and label images.
 
 ## Prerequists
 
@@ -22,15 +22,17 @@ pip install -r requirements.txt
 
 ## Resize images
  
-Once you have NHL recap screenshosts saved on your computer, you must first resize them before creating the labels. To do so, use the following command by specifying the path of the folder where your images are saved:
+Once you have NHL recap screenshosts saved on your computer, you must first resize them before creating the labels. To do so, use the following script by specifying the path of the folder where your images are saved:
 
 ```
 python -m src.utils.resize_images --path your_path
 ```
 
+It should save all the `*.png` files inside that folder in the correct dimensions.
+
 ##  Launch labeling tool
 
-Once you have resized images, you can launch the labeling tool and import those images to start a new labeling job.
+Once you have resized images, you can launch the labeling tool and import those resized images to start a new labeling job.
 
 To launch the tool for the first time:
 
