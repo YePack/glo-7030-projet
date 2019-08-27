@@ -4,9 +4,7 @@ At first, this repo was created for our winter 2019 deep learning course at Lava
 
 # Dataset
 
-The images were taken from [NHL Game Recap](https://www.nhl.com/video/t-277753022) screenshots. The raw images (`.png`) and the corresponding labels (`.xml`) are stored in the `data/raw/` folder. The images are all resized and then labeled by a labeling tool called [cvat](https://github.com/opencv/cvat). See this [section](#resize-images) for the images resizing procedure and this [section](#generate-labels) for launching the labeling tool.
-
-Les données sont extraites à partir de *sc*vidéos [NHL Game Recap](https://www.nhl.com/video/t-277753022). Les images sont sauvegardées dans le dossier `data/raw/` avec l'extension `.png`. Avant de les sauvegarder, il faut d'abord les redimensionner en utilisant le script `src/`
+The images were taken from [NHL Game Recap](https://www.nhl.com/video/t-277753022) screenshots. The raw images (`.png`) and the corresponding labels (`.xml`) are stored in the `data/raw/` folder. The images are all resized and then labeled by a labeling tool called [cvat](https://github.com/opencv/cvat). See this [section](#resize-images) for the images resizing procedure and this [section](#launch-labeling-tool) for launching the labeling tool.
 
 # Increase the dataset
 
@@ -30,7 +28,7 @@ Once you have NHL recap screenshosts saved on your computer, you must first resi
 python -m src.utils.resize_images --path your_path
 ```
 
-##  Launch the labeling tool
+##  Launch labeling tool
 
 Once you have resized images, you can launch the labeling tool and import those images to start a new labeling job.
 
