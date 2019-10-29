@@ -1,0 +1,98 @@
+<annotations><meta>
+    <task>
+      <id>10</id>
+      <name>Ste CDG</name>
+      <size>11</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2019-10-27 12:26:02.590774+03:00</created>
+      <updated>2019-10-27 15:07:08.632721+03:00</updated>
+      <source>11 images: resized_image-131.png, resized_image-132.png, ...</source>
+      <labels>
+        <label>
+          <name>ice</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>board</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circlezone</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>circlemid</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>goal</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>blue</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>red</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>fo</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>10</id>
+          <start>0</start>
+          <stop>10</stop>
+          <url>http://localhost:8080/?id=10</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2019-10-27 15:07:16.953902+03:00</dumped>
+  </meta>
+  <image height="256" id="1" name="resized_image-132.png" width="487">
+    <polygon label="circlezone" occluded="0" points="298.65,147.56;331.25,148.38;383.81,144.71;412.74,139.00;424.96,130.85;420.89,121.08;398.07,113.33;361.81,105.59;321.88,103.15;295.80,102.33;290.91,102.74;283.40,95.80;305.17,95.81;320.65,95.41;363.03,99.07;400.11,103.55;426.19,114.15;438.00,123.52;437.60,134.52;422.50,146.30;394.40,152.45;344.29,157.75;322.28,156.93;299.50,154.50">
+    </polygon>
+    <polygon label="circlezone" occluded="0" points="272.60,96.20;244.86,100.70;226.94,106.00;212.27,113.74;208.19,123.11;213.90,136.15;234.27,145.12;261.16,152.04;284.80,156.53;290.91,154.49;290.09,145.12;268.50,141.45;244.05,136.97;226.53,130.04;220.82,123.11;224.90,117.41;238.34,111.70;251.79,109.26;265.64,106.81;270.53,101.52">
+    </polygon>
+    <polygon label="fo" occluded="0" points="132.10,206.57;126.23,210.48;132.59,220.26;148.24,216.84;154.59,209.02;142.37,205.59">
+    </polygon>
+    <polygon label="fo" occluded="0" points="316.93,117.58;310.57,120.51;309.59,126.87;315.95,128.34;328.66,127.36;333.06,123.45;327.20,118.56">
+    </polygon>
+    <polygon label="circlezone" occluded="0" points="189.86,255.13;224.90,246.17;257.30,231.50;273.40,214.00;255.05,193.20;200.00,178.50;151.55,175.68;141.60,165.50;171.50,165.50;204.12,167.93;260.80,182.60;281.50,200.50;286.02,214.79;279.50,230.68;259.10,244.90;227.30,256.00">
+    </polygon>
+    <polygon label="board" occluded="0" points="0.00,241.29;70.49,256.00;88.58,255.47;41.16,246.18;0.00,235.91">
+    </polygon>
+    <polygon label="circlezone" occluded="0" points="131.20,165.90;97.77,167.53;45.61,175.68;15.05,187.09;0.00,197.68;0.38,211.94;21.16,196.46;50.50,186.27;98.18,178.94;132.00,176.90;134.40,170.00">
+    </polygon>
+    <polygon label="goal" occluded="0" points="0.38,174.05;37.06,160.19;80.65,143.49;97.77,146.34;43.17,167.53;0.38,185.05">
+    </polygon>
+    <polygon label="board" occluded="0" points="0.00,133.71;52.89,117.09;92.98,105.84;131.12,95.09;182.46,87.75;225.49,83.84;282.70,82.90;348.70,86.60;431.35,96.07;487.00,103.40;487.00,110.25;428.90,101.93;346.27,92.15;279.77,87.75;247.50,87.75;224.03,88.24;181.98,93.13;132.10,99.98;117.43,103.40;99.83,106.82;89.07,110.25;85.16,114.16;55.82,122.96;0.57,142.03">
+    </polygon>
+    <polygon label="goal" occluded="0" points="91.66,140.23;113.25,132.08;122.60,130.00;125.48,131.67;128.30,133.70;97.77,145.93;92.47,144.71">
+    </polygon>
+    <polygon label="goal" occluded="0" points="159.70,115.00;233.45,88.07;256.27,87.26;204.93,108.04;174.37,120.67;166.63,122.30;162.80,121.50">
+    </polygon>
+    <polygon label="goal" occluded="0" points="122.22,129.63;135.66,123.93;141.77,127.19;128.74,133.30">
+    </polygon>
+    <polygon label="ice" occluded="0" points="0.08,142.03;79.78,116.11;87.61,110.73;105.70,104.87;119.88,104.38;175.10,92.20;245.05,87.75;277.32,87.75;369.74,96.07;487.00,111.22;487.00,256.00;88.10,255.96;83.69,254.00;0.00,236.89">
+    </polygon>
+  </image>
+  </annotations>
