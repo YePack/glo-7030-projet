@@ -20,6 +20,11 @@ def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=T
     valid_images = glob.glob(valid_path + '*.png')
     valid_labels = glob.glob(valid_path + '*.pkl')
 
+    train_images.sort()
+    train_labels.sort()
+    valid_images.sort()
+    valid_labels.sort()
+
     dataset_train = DataGenerator(train_images, train_labels, transform)
     dataset_val = DataGenerator(valid_images, valid_labels, transform)
 
