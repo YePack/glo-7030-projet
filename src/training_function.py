@@ -4,9 +4,11 @@ import torch.nn as nn
 import time
 import glob
 import math
+import os
 
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
+import torchvision.datasets as dset
 
 from src.dataloader import DataGenerator
 from src.net_parameters import p_number_of_classes
@@ -111,3 +113,36 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         loss = criterion(output, targets[:, 0])
         loss.backward()
         optimizer.step()
+
+
+def train_mscoco(model, optimizer, path_data, n_epoch, batch_size, transform, criterion,
+                 use_gpu=False, scheduler=None, shuffle=True, weight_adaptation=None):
+
+    # Define paths for images and annotations
+    path_train_img = os.path.join(path_data, 'images', 'train2014')
+    path_train_ano = os.path.join(path_data, 'annotations', 'instances_train2014.json')
+    path_valid_img = os.path.join(path_data, 'images', 'val2014')
+    path_valid_ano = os.path.join(path_data, 'annotations', 'instances_valid2014.json')
+
+    # Load train loader
+    coco_train_loader = dset.CocoDetection(root = path_train_img,
+                                           annFile = path_train_ano)
+
+    # Load valid loader
+    coco_valid_loader = dset.CocoDetection(root = path_valid_img,
+                                           annFile = path_valid_ano)
+
+
+    for i in range(n_epoch):
+        start = time.time()
+        do_epoch(criterion, model, optimizer, scheduler, coco_train_loader, use_gpu, weight_adaptation)
+
+        train_loss = validate(model, coco_train_loader, criterion, use_gpu)
+
+        val_loss = validate(model, coco_valid_loader, criterion, use_gpu)
+        end = time.time()
+
+        print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
+                                                                                               train_loss,
+                                                                                               val_loss,
+                                                                                               end - start))

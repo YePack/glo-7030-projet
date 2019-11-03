@@ -55,6 +55,6 @@ class CreateLabel:
             plt.show()
 
 
-#Label2 = CreateLabel(path_xml='./data/xml/test2_polygon.xml', path_image='./data/image/test2_polygon.png')
+#Label2 = CreateLabel(path_xml='data/raw/image-134.xml', path_image='data/raw/image-134.png')
 #label2_array = Label2.get_label()
 #Label2.show_plot()
