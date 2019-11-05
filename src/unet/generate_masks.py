@@ -6,6 +6,7 @@ import numpy as np
 from shutil import copyfile
 from src.utils.create_image_label import CreateLabel
 from src.unet.utils import savefile
+from src.net_parameters import p_number_of_classes
 
 
 def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_perc=0.8, shuffle=True, max=None):
@@ -65,7 +66,9 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         copyfile(images[id], os.path.join(path_to + 'train/', filename_png))
         labels = CreateLabel(xml[id], images[id])
         labels = np.array(labels.get_label())
+        proportion_label = calculate_proportion(labels)
         savefile(labels, os.path.join(path_to + 'train/', filename_xml.split('.')[0]))
+        #savefile(proportion_label, os.path.join(path_to + 'train/', filename_xml.split('.')[0] + '_proportion'))
 
     for id in valid_idx:
         filename_png = images[id].split('/')[-1]
@@ -76,6 +79,7 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = CreateLabel(xml[id], images[id])
         labels = np.array(labels.get_label())
         savefile(labels, os.path.join(path_to + 'valid/', filename_xml.split('.')[0]))
+        #savefile(proportion_label, os.path.join(path_to + 'valid/', filename_xml.split('.')[0] + '_proportion'))
 
     for id in test_idx:
         filename_png = images[id].split('/')[-1]
@@ -86,5 +90,11 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = CreateLabel(xml[id], images[id])
         labels = np.array(labels.get_label())
         savefile(labels, os.path.join(path_to + 'test/', filename_xml.split('.')[0]))
+       # savefile(proportion_label, os.path.join(path_to + 'test/', filename_xml.split('.')[0] + '_proportion'))
 
 
+def calculate_proportion(labels):
+    proportion = []
+    for i in range(p_number_of_classes):
+        proportion.append((labels == i).mean())
+    return np.array(proportion)
