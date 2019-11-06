@@ -72,7 +72,7 @@ def get_args():
                       help='Path raw data (.png and .xml)')
     parser.add_option('-m', '--model', dest='model', default='unet', type='string',
                       help='Type of Neural Nets')
-    parser.add_option('-e', '--epochs', dest='epochs', default=2, type='int',
+    parser.add_option('-e', '--epochs', dest='epochs', default=3, type='int',
                       help='number of epochs')
     parser.add_option('-b', '--batch-size', dest='batchsize', default=2,
                       type='int', help='batch size')
@@ -85,7 +85,7 @@ def get_args():
     parser.add_option('-n', '--model_load_name', type=str, dest='model_name', default='',
                       help='Model to load (path to the pickle)')
     parser.add_option('-s', '--setup', dest='setup', action='store_true',
-                      default=True, help='Setup the datasets otpion.')
+                      default=False, help='Setup the datasets otpion.')
     parser.add_option('-a', '--augmentation', dest='augmentation', action='store_true',
                       default=False, help='data augmentation option. Need to have set up to true.')
 
@@ -136,6 +136,11 @@ if __name__ == '__main__':
                              criterion=criterion)
 
         see_image_output(net, path_train=path_to+'train/', path_test=path_to+'test/', path_save=path_to)
+        save_parameter_and_history(history=history,
+                                   net_dict=net_dict,
+                                   args_parser=args,
+                                   save_name=p_save_name,
+                                   previous_parameter_file=p_history_save_name)
     except KeyboardInterrupt:
         savefile(net, p_model_name_save)
         save_parameter_and_history(history=history,

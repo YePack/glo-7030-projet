@@ -17,9 +17,9 @@ class History:
         self.history['lr'].append(lr)
 
     def add_history(self, history_add):
-        self.history['train_loss'] += history_add['train_loss']
-        self.history['val_loss'] += history_add['val_loss']
-        self.history['lr'] += history_add['lr']
+        self.history['train_loss'] += history_add.history['train_loss']
+        self.history['val_loss'] += history_add.history['val_loss']
+        self.history['lr'] += history_add.history['lr']
 
     def display_loss(self):
         epoch = len(self.history['train_loss'])
@@ -42,7 +42,7 @@ class History:
         plt.show()
 
     def display(self):
-        epoch = len(self.history['train_acc'])
+        epoch = len(self.history['train_loss'])
         epochs = [x for x in range(1, epoch + 1)]
 
         fig, axes = plt.subplots(2, 1)
