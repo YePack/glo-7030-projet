@@ -1,7 +1,6 @@
 import torch.nn.functional as F
 from src.unet.unet_utils import *
 
-
 class UNet(nn.Module):
     def __init__(self, n_channels, n_classes):
         super(UNet, self).__init__()
@@ -14,6 +13,7 @@ class UNet(nn.Module):
         self.up2 = up(512, 128)
         self.up3 = up(256, 64)
         self.up4 = up(128, 64)
+        self.outc = outconv(64, n_classes)
 
     def forward(self, x):
         x1 = self.inc(x)
