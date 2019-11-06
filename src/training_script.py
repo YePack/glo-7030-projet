@@ -70,9 +70,9 @@ def get_args():
     parser = OptionParser()
     parser.add_option('-p', '--path', type=str, dest='path', default='data/raw/',
                       help='Path raw data (.png and .xml)')
-    parser.add_option('-m', '--model', dest='model', default=5, type='string',
+    parser.add_option('-m', '--model', dest='model', default='unet', type='string',
                       help='Type of Neural Nets')
-    parser.add_option('-e', '--epochs', dest='epochs', default=5, type='int',
+    parser.add_option('-e', '--epochs', dest='epochs', default=2, type='int',
                       help='number of epochs')
     parser.add_option('-b', '--batch-size', dest='batchsize', default=2,
                       type='int', help='batch size')
@@ -85,7 +85,7 @@ def get_args():
     parser.add_option('-n', '--model_load_name', type=str, dest='model_name', default='',
                       help='Model to load (path to the pickle)')
     parser.add_option('-s', '--setup', dest='setup', action='store_true',
-                      default=False, help='Setup the datasets otpion.')
+                      default=True, help='Setup the datasets otpion.')
     parser.add_option('-a', '--augmentation', dest='augmentation', action='store_true',
                       default=False, help='data augmentation option. Need to have set up to true.')
 

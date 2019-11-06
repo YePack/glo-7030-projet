@@ -4,7 +4,6 @@ import torch.nn as nn
 import time
 import glob
 import math
-import re
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
@@ -17,26 +16,9 @@ def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=T
 
     # List the files in train and valid
     train_images = glob.glob(train_path + '*.png')
-    train_images.sort()
     train_labels = glob.glob(train_path + '*.pkl')
-    train_labels.sort()
-    #train_labels_proportion = []
-    #train_labels = []
-    #for elem in train_labels_all:
-        #if re.search("_proportion", elem):
-            #train_labels_proportion.append(elem)
-        #else:
-            #train_labels.append(elem)
-
     valid_images = glob.glob(valid_path + '*.png')
     valid_labels = glob.glob(valid_path + '*.pkl')
-    #valid_labels_proportion = []
-    #valid_labels = []
-    #for elem in valid_labels_all:
-        #if re.search("_proportion", elem):
-            #valid_labels_proportion.append(elem)
-        #else:
-            #valid_labels.append(elem)
 
     dataset_train = DataGenerator(train_images, train_labels, transform)
     dataset_val = DataGenerator(valid_images, valid_labels, transform)

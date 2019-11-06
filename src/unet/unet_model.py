@@ -1,6 +1,5 @@
 import torch.nn.functional as F
 from src.unet.unet_utils import *
-from torch.nn import Linear
 
 
 class UNet(nn.Module):
@@ -15,10 +14,6 @@ class UNet(nn.Module):
         self.up2 = up(512, 128)
         self.up3 = up(256, 64)
         self.up4 = up(128, 64)
-        self.outc = outconv(64, n_classes)
-        self.lin1 = Linear(512*16*28, 512)
-        self.lin2 = Linear(512, 128)
-        self.lin3 = Linear(128, 9)
 
     def forward(self, x):
         x1 = self.inc(x)
@@ -31,10 +26,4 @@ class UNet(nn.Module):
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         x = self.outc(x)
-
-        x5_flatten = x5.view(x5.size()[0], -1)
-        x_fully_proportion = self.lin1(x5_flatten)
-        x_fully_proportion = self.lin2(x_fully_proportion)
-        x_fully_proportion = self.lin3(x_fully_proportion)
-
-        return x, x_fully_proportion
+        return x
