@@ -13,7 +13,8 @@ from src.unet.generate_masks import create_labels_from_dir
 from src.dataloader.flip_images import flip_images
 from src.utils.show_images_sample import see_image_output
 from src.unet.utils import readfile, savefile
-from src.net_parameters import p_weight_augmentation, p_normalize, p_model_name_save, p_max_images, p_number_of_classes
+from src.net_parameters import (p_weight_augmentation, p_normalize, p_model_name_save, p_max_images,
+                                p_number_of_classes, net_dict, p_history_save_name, p_save_name)
 from src.vgg.vggnet import vgg16_bn
 
 
@@ -27,11 +28,43 @@ def train_unet(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, 
 
     transform = NormalizeCropTransform(normalize=p_normalize, crop=(450, 256))
 
-    train(model=net, optimizer=optimizer, train_path=path_train, valid_path=path_valid, n_epoch=n_epoch,
+    history = train(model=net, optimizer=optimizer, train_path=path_train, valid_path=path_valid, n_epoch=n_epoch,
           batch_size=batch_size, criterion=criterion, transform=transform, use_gpu=use_gpu,
           weight_adaptation=p_weight_augmentation)
     net.cpu()
     savefile(net, p_model_name_save)
+    return history
+
+
+def save_parameter_and_history(history, net_dict, args_parser, save_name, previous_parameter_file=None):
+    net_list = []
+    args_list = []
+
+    if previous_parameter_file is not None:
+        old_pickle = readfile(previous_parameter_file)
+        old_pickle['history'].add_history(history)
+        end_history = old_pickle['history']
+        args_list = old_pickle['args_list']
+        net_list = old_pickle['net_list']
+    else:
+        end_history = history
+
+    args_parser_dict = {
+        'model': args_parser.model,
+        'epochs': args_parser.epochs,
+        'batch_size': args_parser.batchsize,
+        'criterion': args_parser.criterion,
+        'augmentation': args_parser.augmentation
+    }
+    args_list.append(args_parser_dict)
+    net_list.append(net_dict)
+    all_dict = {
+        'history': end_history,
+        'args_list': args_list,
+        'net_list': net_list
+    }
+    savefile(all_dict, save_name)
+
 
 def get_args():
     parser = OptionParser()
@@ -93,18 +126,23 @@ if __name__ == '__main__':
             flip_images(path_to+'train/')
 
     try:
-        train_unet(net=net,
-                   path_train=path_to+'train/',
-                   path_valid=path_to+'valid/',
-                   n_epoch=args.epochs,
-                   batch_size=args.batchsize,
-                   lr=args.lr,
-                   use_gpu=args.gpu,
-                   criterion=criterion)
+        history = train_unet(net=net,
+                             path_train=path_to+'train/',
+                             path_valid=path_to+'valid/',
+                             n_epoch=args.epochs,
+                             batch_size=args.batchsize,
+                             lr=args.lr,
+                             use_gpu=args.gpu,
+                             criterion=criterion)
 
         see_image_output(net, path_train=path_to+'train/', path_test=path_to+'test/', path_save=path_to)
     except KeyboardInterrupt:
         savefile(net, p_model_name_save)
+        save_parameter_and_history(history=history,
+                                   net_dict=net_dict,
+                                   args_parser=args,
+                                   save_name=p_save_name,
+                                   previous_parameter_file=p_history_save_name)
         print('Saved interrupt')
         try:
             sys.exit(0)
