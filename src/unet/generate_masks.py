@@ -87,4 +87,3 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = np.array(labels.get_label())
         savefile(labels, os.path.join(path_to + 'test/', filename_xml.split('.')[0]))
 
-
