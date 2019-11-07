@@ -2,6 +2,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import glob
 import numpy as np
+from pathlib import PurePath
 
 from src.dataloader.transform import NormalizeCropTransform
 from src.dataloader.dataset import DataGenerator
@@ -21,7 +22,7 @@ def see_image_output(net, path_train, path_test, path_save):
     np.random.shuffle(indices)
     imgs_train = [train_images[i] for i in indices[:2]]
     imgs_train.sort()
-    labels_train = [s for s in glob.glob(path_train + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_train])]
+    labels_train = [str(PurePath(image_train).with_suffix('.pkl')) for image_train in imgs_train]
     labels_train.sort()
 
     # Sample 2 images from test
@@ -31,7 +32,7 @@ def see_image_output(net, path_train, path_test, path_save):
     np.random.shuffle(indices)
     imgs_test = [test_images[i] for i in indices[:2]]
     imgs_test.sort()
-    labels_test = [s for s in glob.glob(path_test + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_test])]
+    labels_test = [str(PurePath(image_test).with_suffix('.pkl')) for image_test in imgs_test]
     labels_test.sort()
 
     print('Train: '+str(imgs_train)+str(labels_train))
