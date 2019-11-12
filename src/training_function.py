@@ -5,7 +5,6 @@ import time
 import glob
 import os
 import math
-
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
@@ -14,6 +13,7 @@ from src.dataloader import DataGenerator
 from src.net_parameters import p_number_of_classes
 from src.dataloader.dataset import load_image
 from src.dataloader import NormalizeCropTransform
+from src.history import History
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):
@@ -69,6 +69,7 @@ def validate(model, val_loader, criterion, use_gpu=False):
 
 def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, criterion, use_gpu=False,
           scheduler=None, shuffle=True, weight_adaptation=None):
+    history = History()
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, transform=transform,
                                                    batch_size=batch_size, shuffle=shuffle)
@@ -79,13 +80,15 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
 
         train_loss = validate(model, train_loader, criterion, use_gpu)
 
-        val_loss = validate(model, val_loader,criterion, use_gpu)
+        val_loss = validate(model, val_loader, criterion, use_gpu)
         end = time.time()
+        history.save(train_loss, val_loss, optimizer.param_groups[0]['lr'])
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
                                                                                                val_loss,
                                                                                                end - start))
+    return history
 
 
 def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation):
