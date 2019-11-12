@@ -3,13 +3,17 @@ import torch
 import torch.nn as nn
 import time
 import glob
+import os
 import math
 
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
+from torchvision import transforms
 
 from src.dataloader import DataGenerator
 from src.net_parameters import p_number_of_classes
+from src.dataloader.dataset import load_image
+from src.dataloader import NormalizeCropTransform
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):
@@ -116,3 +120,34 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         loss = criterion(output, targets[:, 0])
         loss.backward()
         optimizer.step()
+
+
+def predict(model, image_path, folder):
+
+    # A sortir de la fonction eventuellement pour le normalize ...
+    def crop_center(img, cropx, cropy):
+        y, x = img.shape[0:2]
+        startx = x // 2 - (cropx // 2)
+        starty = y // 2 - (cropy // 2)
+        return img[starty:starty+cropy, startx:startx+cropx]
+    
+    normalize = transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        )
+    
+    transform = transforms.Compose([transforms.ToTensor(), normalize])
+
+    # load the image to predict
+    with open(os.path.join(folder, image_path), 'rb') as f:
+        image_raw = load_image(f)
+        image_predict = np.array(image_raw)[..., :3]
+    
+    image_predict = crop_center(image_predict, 450, 256)
+    img_tensor = transform(image_predict)
+    
+    img_tensor.unsqueeze_(0)
+    img_predicted = model(img_tensor)
+    img_predicted = img_predicted.max(dim=1)[1]
+    
+    return img_predicted, image_raw
