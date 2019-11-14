@@ -291,8 +291,8 @@ Our methodology is splitted in 3 main components:
   \toprule
   Labels & Model & Epochs & Loss & Train Loss & Valid Loss \\
   \midrule
-  \multirow{2}{*}{9-classes} & U-Net & 50 & Dice & 0.8263 & 0.8393 \\
-  & VGG16 & 20 & Dice & 0.8387 & \colorbold{0.8023} \\
+  \multirow{2}{*}{9-classes} & U-Net & 210 & CE & 0.0962 &  \colorbold{0.2114} \\
+  & VGG16 & 100 & Dice & 0.6810 & 0.7534 \\
   \midrule
   \multirow{1}{*}{2-classes} & U-Net  & 30 & CE  & 0.3471  & \colorbold{0.3788} \\
   \bottomrule
@@ -301,12 +301,12 @@ Our methodology is splitted in 3 main components:
   
   \vspace{1mm}
   
-  Here is sample that shows our best results for 9-classes VGG16 model on test set images:
+  Here is sample that shows our best results for 9-classes U-Net model on test set images:
   
   \vspace{2mm}
   
   \begin{center}
-  	\includegraphics[width=25cm,height=16.2cm]{figures/test-9-class.png}
+  	\includegraphics[width=25cm,height=16.2cm]{figures/test-new-model.png}
   \end{center}
   
   \vspace{-3mm}
@@ -329,19 +329,22 @@ Our methodology is splitted in 3 main components:
   \textbf{Discussion:}
 
     \begin{itemize}
-        \item For 9-classes model, we need more images.
-        \item A pre-trained model is a must with that few images. The model also seems to need a long a slow learning.
+        \item We don't need that much images (maybe specific to semantic segmentation)
+        \item U-Net architecture generalizes well
         \item For 2-classes predictions, the performances are not enough good for the complexity of the problem.
     \end{itemize}
     
     \textbf{Future works:}
-    \vspace{-1.5mm}
+
     \begin{itemize}
         \item Extract and label \textbf{more images} (was time consuming).
-        \item Build a proper decoder more specific to the task.
+        \item Train a model to recognizes players on broadcast images
         \item Use the semantic segmentation learned by the model to map key areas on the ice into a \text{2D plan}.
+        \vspace{5mm}
     \end{itemize}
   }
+
+  
 \end{columns}
 
 \end{document}
