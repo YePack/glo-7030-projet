@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
-from src.vgg.weight_adapt import adapt_state_dict
+from src.semantic.vgg.weight_adapt import adapt_state_dict
 
 cfg = {
     'D': [64, 64, 'M', 128, 128, 'M', 256, 256, 256], #'M', 512, 512, 512, 'M', 512, 512, 512, 'M'],

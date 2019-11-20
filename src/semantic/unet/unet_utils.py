@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from src.net_parameters import p_bilinear
+from src.semantic.net_parameters import p_bilinear
 
 
 class double_conv(nn.Module):

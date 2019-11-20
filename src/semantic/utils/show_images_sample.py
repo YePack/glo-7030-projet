@@ -4,9 +4,9 @@ import glob
 import numpy as np
 from pathlib import PurePath
 
-from src.dataloader.transform import NormalizeCropTransform
-from src.dataloader.dataset import DataGenerator
-from src.net_parameters import p_classes_color
+from src.semantic.dataloader.transform import NormalizeCropTransform
+from src.semantic.dataloader.dataset import DataGenerator
+from src.semantic.net_parameters import p_classes_color
 
 
 def see_image_output(net, path_train, path_test, path_save):

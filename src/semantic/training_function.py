@@ -9,11 +9,11 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from src.dataloader import DataGenerator
-from src.net_parameters import p_number_of_classes
-from src.dataloader.dataset import load_image
-from src.dataloader import NormalizeCropTransform
-from src.history import History
+from src.semantic.dataloader import DataGenerator
+from src.semantic.net_parameters import p_number_of_classes
+from src.semantic.dataloader.dataset import load_image
+from src.semantic.dataloader import NormalizeCropTransform
+from src.semantic.history import History
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):

@@ -3,7 +3,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 
-from src.net_parameters import p_number_of_classes
+from src.semantic.net_parameters import p_number_of_classes
 
 
 model_urls = {

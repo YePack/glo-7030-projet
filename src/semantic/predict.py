@@ -3,10 +3,10 @@ import matplotlib as mpl
 from optparse import OptionParser
 import matplotlib.pyplot as plt
 
-from src.training_function import predict
-from src.unet.utils import readfile, savefile
+from src.semantic.training_function import predict
+from src.semantic.utils.utils import readfile, savefile
 
-from src.net_parameters import p_classes_color
+from src.semantic.net_parameters import p_classes_color
 
 cmap = mpl.colors.ListedColormap(p_classes_color)
 
