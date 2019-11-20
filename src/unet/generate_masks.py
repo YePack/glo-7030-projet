@@ -68,7 +68,7 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = np.array(labels.get_label())
         proportion_label = calculate_proportion(labels)
         savefile(labels, os.path.join(path_to + 'train/', filename_xml.split('.')[0]))
-        #savefile(proportion_label, os.path.join(path_to + 'train/', filename_xml.split('.')[0] + '_proportion'))
+        savefile(proportion_label, os.path.join(path_to + 'train/', filename_xml.split('.')[0] + '_proportion'))
 
     for id in valid_idx:
         filename_png = images[id].split('/')[-1]
@@ -79,7 +79,7 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = CreateLabel(xml[id], images[id])
         labels = np.array(labels.get_label())
         savefile(labels, os.path.join(path_to + 'valid/', filename_xml.split('.')[0]))
-        #savefile(proportion_label, os.path.join(path_to + 'valid/', filename_xml.split('.')[0] + '_proportion'))
+        savefile(proportion_label, os.path.join(path_to + 'valid/', filename_xml.split('.')[0] + '_proportion'))
 
     for id in test_idx:
         filename_png = images[id].split('/')[-1]
@@ -90,7 +90,7 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
         labels = CreateLabel(xml[id], images[id])
         labels = np.array(labels.get_label())
         savefile(labels, os.path.join(path_to + 'test/', filename_xml.split('.')[0]))
-       # savefile(proportion_label, os.path.join(path_to + 'test/', filename_xml.split('.')[0] + '_proportion'))
+        savefile(proportion_label, os.path.join(path_to + 'test/', filename_xml.split('.')[0] + '_proportion'))
 
 
 def calculate_proportion(labels):

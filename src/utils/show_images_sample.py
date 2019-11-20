@@ -2,6 +2,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import glob
 import numpy as np
+import re
 
 from src.dataloader.transform import NormalizeCropTransform
 from src.dataloader.dataset import DataGenerator
@@ -24,6 +25,11 @@ def see_image_output(net, path_train, path_test, path_save):
     labels_train = [s for s in glob.glob(path_train + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_train])]
     labels_train.sort()
 
+    for i, label in enumerate(labels_train):
+        if re.search('proportion', label):
+            labels_train.pop(i)
+
+
     # Sample 2 images from test
     test_images = glob.glob(path_test + '*.png')
     nb_images = len(test_images)
@@ -33,6 +39,12 @@ def see_image_output(net, path_train, path_test, path_save):
     imgs_test.sort()
     labels_test = [s for s in glob.glob(path_test + '*.pkl') if any(xs in s for xs in ['/'+i.split('/')[-1].replace('.png', '') for i in imgs_test])]
     labels_test.sort()
+
+    for i, label in enumerate(labels_test):
+        if re.search('proportion', label):
+            labels_test.pop(i)
+
+
 
     print('Train: '+str(imgs_train)+str(labels_train))
     print('Test: ' + str(imgs_test) + str(labels_test))
@@ -45,9 +57,9 @@ def see_image_output(net, path_train, path_test, path_save):
         fig, subfigs = plt.subplots(2, 2)
         for j, subfig in enumerate(subfigs.reshape(-1)):
             if j % 2 == 0:
-                img, label = data_train[i]
+                img, label, _ = data_train[i]
                 img.unsqueeze_(0)
-                preds = net(img)
+                preds, _ = net(img)
                 preds_img = preds.max(dim=1)[1]
                 subfig.imshow(preds_img[0], cmap=cmap)
                 subfig.set_title('Predictions #'+str(i+1))
@@ -65,9 +77,9 @@ def see_image_output(net, path_train, path_test, path_save):
         fig, subfigs = plt.subplots(2, 2)
         for j, subfig in enumerate(subfigs.reshape(-1)):
             if j % 2 == 0:
-                img, label = data_test[i]
+                img, label, _ = data_test[i]
                 img.unsqueeze_(0)
-                preds = net(img)
+                preds, _ = net(img)
                 preds_img = preds.max(dim=1)[1]
                 subfig.imshow(preds_img[0], cmap=cmap)
                 subfig.set_title('Predictions #' + str(i + 1))

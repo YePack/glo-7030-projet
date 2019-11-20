@@ -37,9 +37,9 @@ def get_args():
     parser = OptionParser()
     parser.add_option('-p', '--path', type=str, dest='path', default='data/raw/',
                       help='Path raw data (.png and .xml)')
-    parser.add_option('-m', '--model', dest='model', default=5, type='string',
+    parser.add_option('-m', '--model', dest='model', default='unet', type='string',
                       help='Type of Neural Nets')
-    parser.add_option('-e', '--epochs', dest='epochs', default=5, type='int',
+    parser.add_option('-e', '--epochs', dest='epochs', default=1, type='int',
                       help='number of epochs')
     parser.add_option('-b', '--batch-size', dest='batchsize', default=2,
                       type='int', help='batch size')

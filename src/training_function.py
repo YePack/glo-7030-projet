@@ -17,28 +17,30 @@ def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=T
     # List the files in train and valid
     train_images = glob.glob(train_path + '*.png')
     train_images.sort()
-    train_labels = glob.glob(train_path + '*.pkl')
-    train_labels.sort()
-    #train_labels_proportion = []
-    #train_labels = []
-    #for elem in train_labels_all:
-        #if re.search("_proportion", elem):
-            #train_labels_proportion.append(elem)
-        #else:
-            #train_labels.append(elem)
+    train_labels_all = glob.glob(train_path + '*.pkl')
+    train_labels_all.sort()
+    train_labels_proportion = []
+    train_labels = []
+    for elem in train_labels_all:
+        if re.search("_proportion", elem):
+            train_labels_proportion.append(elem)
+        else:
+            train_labels.append(elem)
 
     valid_images = glob.glob(valid_path + '*.png')
-    valid_labels = glob.glob(valid_path + '*.pkl')
-    #valid_labels_proportion = []
-    #valid_labels = []
-    #for elem in valid_labels_all:
-        #if re.search("_proportion", elem):
-            #valid_labels_proportion.append(elem)
-        #else:
-            #valid_labels.append(elem)
+    valid_images.sort()
+    valid_labels_all = glob.glob(valid_path + '*.pkl')
+    valid_labels_all.sort()
+    valid_labels_proportion = []
+    valid_labels = []
+    for elem in valid_labels_all:
+        if re.search("_proportion", elem):
+            valid_labels_proportion.append(elem)
+        else:
+            valid_labels.append(elem)
 
-    dataset_train = DataGenerator(train_images, train_labels, transform)
-    dataset_val = DataGenerator(valid_images, valid_labels, transform)
+    dataset_train = DataGenerator(train_images, train_labels, transform, train_labels_proportion)
+    dataset_val = DataGenerator(valid_images, valid_labels, transform, valid_labels_proportion)
 
     loader_train = DataLoader(dataset_train, batch_size=batch_size, shuffle=shuffle)
     loader_val = DataLoader(dataset_val, batch_size=batch_size, shuffle=False)
@@ -50,29 +52,32 @@ def validate(model, val_loader, criterion, use_gpu=False):
 
     model.train(False)
     val_loss = []
+    val_loss_prop = []
+    criterion_prop = nn.MSELoss()
 
     model.eval()
 
     for j, batch in enumerate(val_loader):
 
-        inputs, targets = batch
+        inputs, targets, targets_prop = batch
         if use_gpu:
             inputs = inputs.cuda()
             targets = targets.cuda()
 
         inputs = Variable(inputs, volatile=True)
         targets = Variable(targets, volatile=True)
-        output = model(inputs)
+        output, output_prob = model(inputs)
 
         #predictions = output.max(dim=1)[1]
 
         val_loss.append(criterion(output, targets[:, 0]).item())
+        val_loss_prop.append(criterion_prop(output_prob, targets_prop[:, 0]).item())
         #true.extend(targets.data.cpu().numpy().tolist())
         #pred.extend(predictions.data.cpu().numpy().tolist())
 
     model.train(True)
     #return accuracy_score(true, pred) * 100, sum(val_loss) / len(val_loss)
-    return sum(val_loss) / len(val_loss)
+    return sum(val_loss) / len(val_loss), sum(val_loss_prop) / len(val_loss_prop)
 
 
 def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, criterion, use_gpu=False,
@@ -87,12 +92,17 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
 
         train_loss = validate(model, train_loader, criterion, use_gpu)
 
-        val_loss = validate(model, val_loader,criterion, use_gpu)
+        val_loss = validate(model, val_loader, criterion, use_gpu)
         end = time.time()
 
-        print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
-                                                                                               train_loss,
-                                                                                               val_loss,
+        print('Epoch {}  - Train loss: {:.4f} - Val loss: {:.4f} - Training time: {:.2f}s'.format(i,
+                                                                                               train_loss[0],
+                                                                                               val_loss[0],
+                                                                                               end - start))
+
+        print('Prop Loss - Train loss: {:.4f} - Val loss: {:.4f} - Training time: {:.2f}s'.format(i,
+                                                                                               train_loss[1],
+                                                                                               val_loss[1],
                                                                                                end - start))
 
 
@@ -102,15 +112,17 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         scheduler.step()
     for batch in train_loader:
 
-        inputs, targets = batch
+        inputs, targets, targets_prop = batch
         if use_gpu:
             inputs = inputs.cuda()
             targets = targets.cuda()
+            targets_prop = targets_prop.cuda()
 
         inputs = Variable(inputs)
         targets = Variable(targets)
+        targets_prop = Variable(targets_prop)
         optimizer.zero_grad()
-        output = model(inputs)
+        output, output_prop = model(inputs)
 
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
             weight_learn = torch.FloatTensor(
@@ -124,7 +136,9 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
             if use_gpu:
                 weight_learn = weight_learn.cuda()
             criterion = nn.CrossEntropyLoss(weight=weight_learn)
-
+        criterion_prop = nn.MSELoss()
         loss = criterion(output, targets[:, 0])
-        loss.backward()
+        loss_prop = criterion_prop(output_prop, targets_prop[:, 0])
+        loss_total = loss_prop + loss
+        loss_total.backward()
         optimizer.step()

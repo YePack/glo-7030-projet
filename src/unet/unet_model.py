@@ -1,6 +1,6 @@
 import torch.nn.functional as F
 from src.unet.unet_utils import *
-from torch.nn import Linear
+from torch.nn import Linear, Softmax
 
 
 class UNet(nn.Module):
@@ -19,6 +19,7 @@ class UNet(nn.Module):
         self.lin1 = Linear(512*16*28, 512)
         self.lin2 = Linear(512, 128)
         self.lin3 = Linear(128, 9)
+        self.softmax = Softmax(dim=1)
 
     def forward(self, x):
         x1 = self.inc(x)
@@ -36,5 +37,6 @@ class UNet(nn.Module):
         x_fully_proportion = self.lin1(x5_flatten)
         x_fully_proportion = self.lin2(x_fully_proportion)
         x_fully_proportion = self.lin3(x_fully_proportion)
+        x_fully_proportion_out = self.softmax(x_fully_proportion)
 
-        return x, x_fully_proportion
+        return x, x_fully_proportion_out
