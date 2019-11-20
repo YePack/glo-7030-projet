@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import mahotas
-from src.parser.xml_parser import parse_xml_data
-from src.net_parameters import p_label_to_int
+from src.semantic.parser.xml_parser import parse_xml_data
+from src.semantic.net_parameters import p_label_to_int
 from PIL import Image
 
 

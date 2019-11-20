@@ -3,7 +3,7 @@ import numpy as np
 
 from PIL import Image
 from torchvision import transforms
-from src.unet.utils import readfile, savefile
+from src.semantic.utils.utils import readfile, savefile
 
 
 def flip_images(path_data):

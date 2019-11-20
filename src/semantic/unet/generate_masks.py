@@ -4,8 +4,8 @@ import os
 import numpy as np
 
 from shutil import copyfile
-from src.utils.create_image_label import CreateLabel
-from src.unet.utils import savefile
+from src.semantic.utils.create_image_label import CreateLabel
+from src.semantic.utils.utils import savefile
 
 
 def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_perc=0.8, shuffle=True, max=None):

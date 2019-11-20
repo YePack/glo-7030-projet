@@ -4,8 +4,8 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 
-from src.utils.create_image_label import CreateLabel
-from src.unet.utils import readfile
+from src.semantic.utils.create_image_label import CreateLabel
+from src.semantic.utils.utils import readfile
 
 
 def load_image(file):
