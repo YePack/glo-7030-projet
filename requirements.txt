@@ -7,3 +7,4 @@ Pillow
 torchvision
 mahotas
 matplotlib
+pandas
