@@ -21,10 +21,12 @@ def crop_center(img, cropx, cropy):
 
 for filename in filenames:
     with open(filename, 'rb') as f:
-        image = np.array(load_image(f))
+        image = np.array(load_image(f))[..., :3]
         new_image = crop_center(image, 450, 256)
 
         pure_path = PurePath(filename)
         crop_name = pure_path.name[:-4] + '_crop.png'
         path_crop_name = str(pure_path.with_name(crop_name))
-        matplotlib.image.imsave(path_crop_name, new_image)
+
+        image_save = Image.fromarray(new_image, 'RGB')
+        image_save.save(path_crop_name)
