@@ -6,8 +6,8 @@ import numpy as np
 class DiceCoeff(nn.Module):
     """Dice coeff for batch examples"""
 
-    def forward(self, input_label, plan_2d):
-
+    def forward(self, input_label, h, plan_2d):
+        input_prime = self.warpPespective(input_label, h, (510, 256))
 
 
     @staticmethod
@@ -23,3 +23,18 @@ class DiceCoeff(nn.Module):
                     if j2 >= 0 and j2 < C:
                         dst[j2, i2] = mtr[i, j]
         return dst
+    @staticmethod
+    def losses(input_prime, plan_2d):
+        # first mean image second mean in plan
+        field_in_in = 0
+        field_in_out = 0
+        field_out_in = 0
+        field_out_out = 0
+        line = 0
+        circle = 0
+
+        #Je sais pas ce que je voulais faire ici.
+        #for i in range(input_prime[0]):
+            #for j in range(input_prime[1]):
+                #if input_prime:
+
