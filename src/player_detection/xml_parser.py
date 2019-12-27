@@ -20,7 +20,7 @@ def xml_to_csv(folder_from, save_to='src/player_detection/data/annotations.csv',
 
     # Initialize a pandas df
     dt_csv = pd.DataFrame(
-        columns=['image_filename', 'classname', 'xtl', 'ytl', 'xbr', 'ybr'])
+        columns=['image_filename', 'classname', 'x0', 'y0', 'x1', 'y1'])
 
     # Loop through each XML file
     for xml_file in xml_files:
@@ -34,10 +34,10 @@ def xml_to_csv(folder_from, save_to='src/player_detection/data/annotations.csv',
                     {
                         'image_filename': image.attrib['name'],
                         'classname': box.attrib['label'].replace('-', '_'),
-                        'xtl': int(float(box.attrib['xtl'])),
-                        'ytl': int(float(box.attrib['ytl'])),
-                        'xbr': int(float(box.attrib['xbr'])),
-                        'ybr': int(float(box.attrib['ybr'])),
+                        'x0': int(float(box.attrib['xtl'])),
+                        'y0': int(float(box.attrib['ytl'])),
+                        'x1': int(float(box.attrib['xbr'])),
+                        'y1': int(float(box.attrib['ybr'])),
                     },
                     ignore_index=True)
 
