@@ -13,6 +13,8 @@
 # Ignore processed  data
 /data/*
 !data/raw/
+!data/player_detection_raw/
+
 
 # Pycharm shits
 __pycache__/
