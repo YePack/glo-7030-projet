@@ -8,3 +8,5 @@ torchvision
 mahotas
 matplotlib
 pandas
+tensorflow==1.15
+luminoth
