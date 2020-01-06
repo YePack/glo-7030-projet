@@ -125,8 +125,8 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
         optimizer.step()
 
 
-def predict(model, image_path, folder):
-
+def predict(model, image_path, folder, after_argmax=True):
+    model.eval()
     # A sortir de la fonction eventuellement pour le normalize ...
     def crop_center(img, cropx, cropy):
         y, x = img.shape[0:2]
@@ -151,6 +151,7 @@ def predict(model, image_path, folder):
     
     img_tensor.unsqueeze_(0)
     img_predicted = model(img_tensor)
-    img_predicted = img_predicted.max(dim=1)[1]
+    if after_argmax:
+        img_predicted = img_predicted.max(dim=1)[1]
     
     return img_predicted, image_raw

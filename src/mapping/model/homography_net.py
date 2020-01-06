@@ -4,9 +4,9 @@ from torch.nn import Linear
 
 
 class HomographyNet(nn.Module):
-    def __init__(self, n_classes):
+    def __init__(self):
         super(HomographyNet, self).__init__()
-        self.inc = inconv(1, 64)
+        self.inc = inconv(9, 64)
         self.down1 = down(64, 164)
         self.down2 = down(128, 128)
         self.down3 = down(128, 128)
