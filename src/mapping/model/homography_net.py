@@ -7,7 +7,7 @@ class HomographyNet(nn.Module):
     def __init__(self):
         super(HomographyNet, self).__init__()
         self.inc = inconv(9, 64)
-        self.down1 = down(64, 164)
+        self.down1 = down(64, 128)
         self.down2 = down(128, 128)
         self.down3 = down(128, 128)
         self.lin1 = Linear(128 * 32 * 56, 1024)

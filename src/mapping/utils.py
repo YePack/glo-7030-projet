@@ -57,11 +57,13 @@ def crop_center(img, cropx, cropy):
     starty = y // 2 - (cropy // 2)
     return img[starty:starty+cropy, startx:startx+cropx]
 
-pts_src = np.array([[153, 77], [347, 163], [228, 43], [391, 100]])
-pts_dst = np.array([[395, 70], [396, 189], [446, 13], [446, 143]])
-h, status = cv2.findHomography(pts_src, pts_dst)
-label_pickle_path = 'data/train/image-121'
-new_im = create_projection_image(label_pickle_path, h)
-show_projected_label(new_im)
+
+if __name__ == '__main__':
+    pts_src = np.array([[153, 77], [347, 163], [228, 43], [391, 100]])
+    pts_dst = np.array([[395, 70], [396, 189], [446, 13], [446, 143]])
+    h, status = cv2.findHomography(pts_src, pts_dst)
+    label_pickle_path = 'data/train/image-121'
+    new_im = create_projection_image(label_pickle_path, h)
+    show_projected_label(new_im)
 
 

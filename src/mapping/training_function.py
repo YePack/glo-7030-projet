@@ -93,17 +93,17 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
         scheduler.step()
     for batch in train_loader:
 
-        inputs, targets = batch
+        inputs, labels = batch
         if use_gpu:
             inputs = inputs.cuda()
-            targets = targets.cuda()
+            labels = labels.cuda()
 
         #inputs = Variable(inputs)
         #targets = Variable(targets)
         optimizer.zero_grad()
-        output = model(inputs)
+        output_h = model(inputs)
 
-        loss = criterion(output, targets[:, 0])
+        loss = criterion(labels, h)
         loss.backward()
         optimizer.step()
 

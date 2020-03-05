@@ -24,4 +24,3 @@ class DiceCoeff(nn.Module):
         line = 0
         circle = 0
         for i in range
-
