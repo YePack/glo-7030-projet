@@ -16,9 +16,9 @@ from src.semantic import unet
 sys.modules['src.unet'] = unet
 net_semantic = readfile('unet_dice')
 
-from src.semantic import history
-sys.modules['src.history'] = history
-histo = readfile('history_cross')
+#from src.semantic import history
+#sys.modules['src.history'] = history
+#histo = readfile('history_cross')
 #del sys.modules['src.unet']
 #savefile(net, 'net_refactor')
 
@@ -27,7 +27,7 @@ VALID_FOLDER = 'data/valid/'
 PATH_DATA = 'data/raw/'
 #Create Setup
 path_to = os.path.normpath(PATH_DATA + os.sep + os.pardir) + '/'
-create_mapping_data(net_semantic, path_data=PATH_DATA, path_to=path_to, train_test_perc=0.9, train_valid_perc=0.9, max=10)
+#create_mapping_data(net_semantic, path_data=PATH_DATA, path_to=path_to, train_test_perc=0.9, train_valid_perc=0.9, max=10)
 
 
 def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -35,7 +35,8 @@ def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, c
     model_dir = os.path.join('model_dir', datetime.now().strftime("%Y%m%d_%H%M%S"))
     writer = SummaryWriter(log_dir=model_dir)
     writer.add_text("parameters", "incoming parameters")
-
+    if use_gpu:
+        net.cuda()
     optimizer = optim.SGD(net.parameters(),
                           lr=lr,
                           momentum=0.9,
@@ -49,4 +50,4 @@ def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, c
 
 if __name__ == '__main__':
     net = HomographyNet()
-    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 10, 2, 0.0001, MatchingLoss(), False)
+    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 10, 2, 0.0001, MatchingLoss(), True)

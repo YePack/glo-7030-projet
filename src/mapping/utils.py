@@ -36,16 +36,12 @@ def show_projected_label(projected_label):
     classes_color = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta', 'green']
     cmap = mpl.colors.ListedColormap(classes_color)
     plt.imshow(projected_label, cmap=cmap)
-    if writer is not None:
-        fig = plt.gcf()
-        writer.add_figure(f"{image_name}", fig, )
-
     plt.show()
 
 
 def warpPerspective(img, H):
     B, C, R = img.shape
-    dst = torch.full((B, C, R), 9.)
+    dst = torch.full((B, C, R), 9.).cuda()
     for b in range(B):
         for i in range(C):
             for j in range(R):

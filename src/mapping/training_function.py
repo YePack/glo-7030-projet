@@ -51,7 +51,7 @@ def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
         inputs, labels, image_name = batch
         if use_gpu:
             inputs = inputs.cuda()
-            targets = labels.cuda()
+            labels = labels.cuda()
 
         #inputs = Variable(inputs, volatile=True)
         #targets = Variable(targets, volatile=True)
