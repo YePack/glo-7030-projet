@@ -65,7 +65,7 @@ def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
         for i in range(len(inputs)):
             h = output_h[i].reshape(3, 3)
             projected_label = warpPerspective(labels[i].unsqueeze(0), h.unsqueeze(0))
-            plt.imshow(projected_label[0], cmap=cmap)
+            plt.imshow(projected_label[0].cpu(), cmap=cmap)
             fig = plt.gcf()
             writer.add_figure(f"{image_name[i]}", fig, n_epoch+1)
 
