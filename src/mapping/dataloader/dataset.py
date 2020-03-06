@@ -15,15 +15,15 @@ class DataGenerator(Dataset):
         filename = self.image[index]
         filenameGt = self.label[index]
 
-        image_array = readfile(filename.replace('.pkl', ''))
+        image_tensor = readfile(filename.replace('.pkl', ''))
         label_array = readfile(filenameGt.replace('.pkl', ''))
 
         label_array_crop = crop_center(label_array, 450, 256)
 
-        image_tensor = LongTensor(image_array).unsqueeze(0)
-        label_array = LongTensor(label_array_crop).unsqueeze(0)
+        image_tensor = image_tensor[0]
+        label_tensor = LongTensor(label_array_crop)
 
-        return image_tensor, label_array
+        return image_tensor, label_tensor
 
     def __len__(self):
         return len(self.image)

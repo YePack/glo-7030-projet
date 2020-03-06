@@ -19,12 +19,12 @@ histo = readfile('history_cross')
 #del sys.modules['src.unet']
 #savefile(net, 'net_refactor')
 
-TRAINING_FOLDER = 'data/train'
-VALID_FOLDER = 'data/valid'
+TRAINING_FOLDER = 'data/train/'
+VALID_FOLDER = 'data/valid/'
 PATH_DATA = 'data/raw/'
 #Create Setup
 path_to = os.path.normpath(PATH_DATA + os.sep + os.pardir) + '/'
-create_mapping_data(net_semantic, path_data=PATH_DATA, path_to=path_to, train_test_perc=0.9, train_valid_perc=0.9, max=4)
+# create_mapping_data(net_semantic, path_data=PATH_DATA, path_to=path_to, train_test_perc=0.9, train_valid_perc=0.9, max=4)
 
 
 def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, criterion, use_gpu):
@@ -42,4 +42,4 @@ def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, c
 
 if __name__ == '__main__':
     net = HomographyNet()
-    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 2, 2, 0.01, 'TBD', False)
+    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 2, 2, 0.01, , False)
