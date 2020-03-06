@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import torch
+
 
 from src.semantic.unet.generate_masks import create_labels_from_dir
 from src.semantic.training_function import predict
@@ -37,17 +39,17 @@ def show_projected_label(projected_label):
     plt.show()
 
 
-def warpPerspective(img, M):
-    mtr = img
-    C, R = img.shape
-    dst = np.full((C, R), 9.)
-    for i in range(C):
-        for j in range(R):
-            res = np.dot(M, [j, i, 1])
-            i2, j2, _ = (res / res[2] + 0.5).astype(int)
-            if i2 >= 0 and i2 < R:
-                if j2 >= 0 and j2 < C:
-                    dst[j2, i2] = mtr[i, j]
+def warpPerspective(img, H):
+    B, C, R = img.shape
+    dst = torch.full((B, C, R), 9.)
+    for b in range(B):
+        for i in range(C):
+            for j in range(R):
+                res = torch.mm(H[b], torch.tensor([[j], [i], [3]], dtype=torch.float))
+                i2, j2, _ = (res / res[2] + 0.5).type(torch.int).T.tolist()[0]
+                if i2 >= 0 and i2 < R:
+                    if j2 >= 0 and j2 < C:
+                        dst[b, j2, i2] = img[b, i, j]
     return dst
 
 

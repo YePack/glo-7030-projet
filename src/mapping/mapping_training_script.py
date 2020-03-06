@@ -7,6 +7,7 @@ from src.semantic.training_function import predict
 from src.mapping.utils import create_mapping_data
 from src.mapping.training_function import train
 from src.mapping.model.homography_net import HomographyNet
+from src.mapping.loss import MatchingLoss
 
 import sys
 from src.semantic import unet
@@ -42,4 +43,4 @@ def train_homography_net(net, path_train, path_valid, n_epoch, batch_size, lr, c
 
 if __name__ == '__main__':
     net = HomographyNet()
-    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 2, 2, 0.01, , False)
+    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 10, 2, 0.0001, MatchingLoss(), False)

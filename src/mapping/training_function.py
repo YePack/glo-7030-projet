@@ -8,7 +8,9 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
+
 from src.mapping.dataloader import DataGenerator
+from src.mapping.utils import warpPerspective, show_projected_label
 from src.semantic.history import History
 
 
@@ -42,20 +44,28 @@ def validate(model, val_loader, criterion, use_gpu=False):
 
     for j, batch in enumerate(val_loader):
 
-        inputs, targets = batch
+        inputs, labels = batch
         if use_gpu:
             inputs = inputs.cuda()
-            targets = targets.cuda()
+            targets = labels.cuda()
 
         #inputs = Variable(inputs, volatile=True)
         #targets = Variable(targets, volatile=True)
-        output = model(inputs)
+        output_h = model(inputs)
 
         # predictions = output.max(dim=1)[1]
 
-        val_loss.append(criterion(output, targets[:, 0]).item())
+        val_loss.append(criterion(labels, output_h).item())
         # true.extend(targets.data.cpu().numpy().tolist())
         # pred.extend(predictions.data.cpu().numpy().tolist())
+        h1 = output_h[0].reshape(3, 3)
+        h2 = output_h[1].reshape(3, 3)
+        projected_label_1 = warpPerspective(labels[0].unsqueeze(0), h1.unsqueeze(0))
+        show_projected_label(projected_label_1[0])
+        projected_label_2 = warpPerspective(labels[1].unsqueeze(0), h2.unsqueeze(0))
+        show_projected_label(projected_label_2[0])
+
+
 
     model.train(True)
     # return accuracy_score(true, pred) * 100, sum(val_loss) / len(val_loss)
@@ -64,34 +74,35 @@ def validate(model, val_loader, criterion, use_gpu=False):
 
 def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, criterion, use_gpu=False,
           scheduler=None, shuffle=True,):
-    # TODO adapt for mapping
     history = History()
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, batch_size=batch_size, shuffle=shuffle)
 
     for i in range(n_epoch):
         start = time.time()
+        train_loss = validate(model, train_loader, criterion, use_gpu)
+        print('Epoch {} - Train loss: {:.4f} '.format(i-1, train_loss))
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu)
 
         train_loss = validate(model, train_loader, criterion, use_gpu)
 
-        val_loss = validate(model, val_loader, criterion, use_gpu)
+        #val_loss = validate(model, val_loader, criterion, use_gpu)
         end = time.time()
-        history.save(train_loss, val_loss, optimizer.param_groups[0]['lr'])
+        #history.save(train_loss, val_loss, optimizer.param_groups[0]['lr'])
 
-        print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
-                                                                                               train_loss,
-                                                                                               val_loss,
-                                                                                               end - start))
+        print('Epoch {} - Train loss: {:.4f} Training time: {:.2f}s'.format(i, train_loss, end - start))
+        #print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
+         #                                                                                      train_loss,
+         #                                                                                      val_loss,
+          #                                                                                     end - start))
     return history
 
 
 def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
-    # TODO adapt for mapping
     model.train()
     if scheduler:
         scheduler.step()
-    for batch in train_loader:
+    for i, batch in enumerate(train_loader):
 
         inputs, labels = batch
         if use_gpu:
@@ -102,8 +113,9 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
         #targets = Variable(targets)
         optimizer.zero_grad()
         output_h = model(inputs)
-
-        loss = criterion(labels, h)
+        print(output_h)
+        loss = criterion(labels, output_h)
+        print(loss)
         loss.backward()
         optimizer.step()
 
