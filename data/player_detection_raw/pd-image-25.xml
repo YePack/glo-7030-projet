@@ -1,0 +1,60 @@
+<annotations><meta>
+    <task>
+      <id>14</id>
+      <name>object-detection-first-big</name>
+      <size>37</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-01-04 22:28:03.751000+03:00</created>
+      <updated>2020-01-04 23:20:48.671519+03:00</updated>
+      <source>37 images: pd-image-10.png, pd-image-11.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>14</id>
+          <start>0</start>
+          <stop>36</stop>
+          <url>http://localhost:8080/?id=14</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2020-01-04 23:21:21.969801+03:00</dumped>
+  </meta>
+  <image height="256" id="15" name="pd-image-25.png" width="447">
+    <box label="home-player" occluded="0" xbr="231.62" xtl="207.29" ybr="242.99" ytl="207.81">
+    </box>
+    <box label="home-player" occluded="0" xbr="371.22" xtl="344.27" ybr="115.33" ytl="82.39">
+    </box>
+    <box label="away-player" occluded="0" xbr="63.19" xtl="21.65" ybr="223.16" ytl="178.25">
+    </box>
+    <box label="home-player" occluded="0" xbr="387.31" xtl="358.87" ybr="186.85" ytl="148.30">
+    </box>
+    <box label="away-player" occluded="0" xbr="120.46" xtl="94.63" ybr="224.28" ytl="171.51">
+    </box>
+    <box label="home-player" occluded="0" xbr="305.72" xtl="278.40" ybr="135.91" ytl="99.61">
+    </box>
+    <box label="away-player" occluded="0" xbr="252.95" xtl="231.62" ybr="143.44" ytl="110.50">
+    </box>
+    <box label="home-player" occluded="0" xbr="128.69" xtl="105.49" ybr="142.32" ytl="103.73">
+    </box>
+    <box label="home-player" occluded="0" xbr="95.01" xtl="68.06" ybr="151.26" ytl="114.96">
+    </box>
+  </image>
+  </annotations>

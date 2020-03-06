@@ -1,0 +1,60 @@
+<annotations><meta>
+    <task>
+      <id>12</id>
+      <name>object-detection-ESCAFE</name>
+      <size>2</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2019-12-27 23:47:55.062714+03:00</created>
+      <updated>2019-12-27 23:52:25.900181+03:00</updated>
+      <source>2 images: pd-image-1.png, pd-image-2.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>12</id>
+          <start>0</start>
+          <stop>1</stop>
+          <url>http://localhost:8080/?id=12</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2019-12-27 23:52:28.002060+03:00</dumped>
+  </meta>
+  <image height="551" id="0" name="pd-image-1.png" width="1000">
+    <box label="home-player" occluded="0" xbr="544.40" xtl="458.22" ybr="296.32" ytl="194.25">
+    </box>
+    <box label="away-player" occluded="0" xbr="661.03" xtl="599.95" ybr="264.28" ytl="177.26">
+    </box>
+    <box label="home-player" occluded="0" xbr="274.40" xtl="196.59" ybr="386.35" ytl="271.72">
+    </box>
+    <box label="away-player" occluded="0" xbr="638.44" xtl="571.51" ybr="169.06" ytl="68.66">
+    </box>
+    <box label="home-player" occluded="0" xbr="846.44" xtl="766.12" ybr="190.15" ytl="69.67">
+    </box>
+    <box label="home-player" occluded="0" xbr="742.69" xtl="679.10" ybr="216.92" ytl="91.42">
+    </box>
+    <box label="away-player" occluded="0" xbr="561.97" xtl="460.73" ybr="413.12" ytl="297.66">
+    </box>
+    <box label="home-player" occluded="0" xbr="604.64" xtl="544.40" ybr="268.71" ytl="153.25">
+    </box>
+    <box label="home-player" occluded="0" xbr="371.21" xtl="310.13" ybr="256.25" ytl="146.64">
+    </box>
+  </image>
+  </annotations>

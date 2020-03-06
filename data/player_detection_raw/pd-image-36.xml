@@ -1,0 +1,62 @@
+<annotations><meta>
+    <task>
+      <id>14</id>
+      <name>object-detection-first-big</name>
+      <size>37</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-01-04 22:28:03.751000+03:00</created>
+      <updated>2020-01-04 23:20:48.671519+03:00</updated>
+      <source>37 images: pd-image-10.png, pd-image-11.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>14</id>
+          <start>0</start>
+          <stop>36</stop>
+          <url>http://localhost:8080/?id=14</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2020-01-04 23:21:21.969801+03:00</dumped>
+  </meta>
+  <image height="256" id="27" name="pd-image-36.png" width="436">
+    <box label="home-player" occluded="0" xbr="297.04" xtl="279.45" ybr="127.46" ytl="107.62">
+    </box>
+    <box label="away-player" occluded="0" xbr="293.30" xtl="273.46" ybr="111.74" ytl="84.04">
+    </box>
+    <box label="away-player" occluded="0" xbr="301.16" xtl="282.44" ybr="148.79" ytl="110.99">
+    </box>
+    <box label="away-player" occluded="0" xbr="310.14" xtl="294.04" ybr="134.57" ytl="97.14">
+    </box>
+    <box label="home-player" occluded="0" xbr="324.74" xtl="307.89" ybr="137.94" ytl="100.88">
+    </box>
+    <box label="home-player" occluded="0" xbr="418.68" xtl="401.46" ybr="114.36" ytl="79.17">
+    </box>
+    <box label="away-player" occluded="0" xbr="116.27" xtl="91.19" ybr="166.75" ytl="119.97">
+    </box>
+    <box label="home-player" occluded="0" xbr="417.56" xtl="395.47" ybr="172.74" ytl="124.84">
+    </box>
+    <box label="home-player" occluded="0" xbr="260.36" xtl="236.78" ybr="134.94" ytl="97.14">
+    </box>
+    <box label="away-player" occluded="0" xbr="157.44" xtl="134.23" ybr="127.83" ytl="96.02">
+    </box>
+  </image>
+  </annotations>

@@ -1,0 +1,56 @@
+<annotations><meta>
+    <task>
+      <id>12</id>
+      <name>object-detection-ESCAFE</name>
+      <size>2</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2019-12-27 23:47:55.062714+03:00</created>
+      <updated>2019-12-27 23:52:25.900181+03:00</updated>
+      <source>2 images: pd-image-1.png, pd-image-2.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>12</id>
+          <start>0</start>
+          <stop>1</stop>
+          <url>http://localhost:8080/?id=12</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2019-12-27 23:52:28.002060+03:00</dumped>
+  </meta>
+  <image height="256" id="1" name="pd-image-2.png" width="455">
+    <box label="away-player" occluded="0" xbr="413.77" xtl="374.77" ybr="225.92" ytl="157.19">
+    </box>
+    <box label="home-player" occluded="0" xbr="176.01" xtl="134.53" ybr="227.34" ytl="171.62">
+    </box>
+    <box label="home-player" occluded="0" xbr="141.96" xtl="121.46" ybr="46.85" ytl="31.93">
+    </box>
+    <box label="home-player" occluded="0" xbr="356.81" xtl="320.90" ybr="164.80" ytl="109.70">
+    </box>
+    <box label="away-player" occluded="0" xbr="144.43" xtl="115.95" ybr="88.77" ytl="43.57">
+    </box>
+    <box label="away-player" occluded="0" xbr="441.64" xtl="409.44" ybr="82.58" ytl="25.61">
+    </box>
+    <box label="away-player" occluded="0" xbr="270.74" xtl="245.98" ybr="62.15" ytl="16.33">
+    </box>
+  </image>
+</annotations>

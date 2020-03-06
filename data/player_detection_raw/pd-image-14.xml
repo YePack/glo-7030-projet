@@ -1,0 +1,52 @@
+<annotations><meta>
+    <task>
+      <id>14</id>
+      <name>object-detection-first-big</name>
+      <size>37</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-01-04 22:28:03.751000+03:00</created>
+      <updated>2020-01-04 23:20:48.671519+03:00</updated>
+      <source>37 images: pd-image-10.png, pd-image-11.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>14</id>
+          <start>0</start>
+          <stop>36</stop>
+          <url>http://localhost:8080/?id=14</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro</username>
+        <email />
+      </owner>
+    </task>
+    <dumped>2020-01-04 23:21:21.969801+03:00</dumped>
+  </meta>
+  <image height="256" id="4" name="pd-image-14.png" width="444">
+    <box label="away-player" occluded="0" xbr="361.94" xtl="320.66" ybr="145.85" ytl="96.83">
+    </box>
+    <box label="home-player" occluded="0" xbr="398.06" xtl="369.99" ybr="211.18" ytl="165.14">
+    </box>
+    <box label="home-player" occluded="0" xbr="201.94" xtl="169.37" ybr="105.56" ytl="73.79">
+    </box>
+    <box label="home-player" occluded="0" xbr="323.58" xtl="286.90" ybr="182.36" ytl="136.70">
+    </box>
+    <box label="away-player" occluded="0" xbr="352.51" xtl="308.34" ybr="202.38" ytl="157.10">
+    </box>
+  </image>
+  </annotations>
