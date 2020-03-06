@@ -45,7 +45,7 @@ def warpPerspective(img, H, device):
     for b in range(B):
         for i in range(C):
             for j in range(R):
-                res = torch.mm(H[b], torch.tensor([[j], [i], [3]], dtype=torch.float).to(device))
+                res = torch.mm(H[b], torch.tensor([[j], [i], [1]], dtype=torch.float).to(device))
                 i2, j2, _ = (res / res[2] + 0.5).type(torch.int).T.tolist()[0]
                 if i2 >= 0 and i2 < R:
                     if j2 >= 0 and j2 < C:

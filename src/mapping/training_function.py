@@ -77,7 +77,7 @@ def train_one_epoch(criterion, model, device, optimizer, train_loader):
         optimizer.zero_grad()
         output_h = model(inputs)
         loss = criterion(labels, output_h)
-        running_loss.append(loss)
+        running_loss.append(loss.item())
         loss.backward()
         optimizer.step()
     return np.array(running_loss).mean()

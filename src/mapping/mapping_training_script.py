@@ -11,7 +11,6 @@ from src.mapping.model.homography_net import HomographyNet
 from src.mapping.loss import MatchingLoss
 from src.mapping.utils import get_device
 
-
 import sys
 from src.semantic import unet
 sys.modules['src.unet'] = unet
@@ -22,12 +21,14 @@ VALID_FOLDER = 'data/valid/'
 PATH_DATA = 'data/raw/'
 
 
-def train_homography_net(net, n_epoch, batch_size, lr, do_setup):
+def train_homography_net(net, n_epoch, batch_size, lr):
     # Create Setup
-    if do_setup:
+    try:
         path_to = os.path.normpath(PATH_DATA + os.sep + os.pardir) + '/'
         create_mapping_data(net_semantic, path_data=PATH_DATA, path_to=path_to, train_test_perc=0.9,
-                            train_valid_perc=0.9, max=10)
+                            train_valid_perc=0.9, max=40000)
+    except FileExistsError:
+        print('setup already created')
 
     model_dir = os.path.join('model_dir', datetime.now().strftime("%Y%m%d_%H%M%S"))
     writer = SummaryWriter(log_dir=model_dir)
@@ -46,15 +47,15 @@ def train_homography_net(net, n_epoch, batch_size, lr, do_setup):
                                                    batch_size=batch_size)
     for i in range(n_epoch):
         start = time.time()
-        running_loss = train_one_epoch(criterion, net, optimizer, train_loader)
-        val_loss = validate_one_epoch(net, device, val_loader, criterion)
+        running_loss = train_one_epoch(criterion, net, device, optimizer, train_loader)
+        val_loss = validate_one_epoch(net, device, val_loader, criterion, i, writer)
         writer.add_scalar('Loss/train', running_loss, i + 1)
         writer.add_scalar('Loss/valid', val_loss, i+1)
         end = time.time()
-        print(f'Epoch {i+1} - Train loss: {round(running_loss, 4)} - Val loss: {val_loss} Training time: {round(end-start,2)}s')
+        print(f'Epoch {i+1} - Train loss: {round(running_loss, 4)} - Val loss: {round(val_loss, 4)} Training time: {round(end-start,2)}s')
 
     savefile(net, 'homo_net')
 
 if __name__ == '__main__':
-    net = HomographyNet()
-    train_homography_net(net, TRAINING_FOLDER, VALID_FOLDER, 10, 2, 0.0001)
+    homography_net = HomographyNet()
+    train_homography_net(net=homography_net, n_epoch=30, batch_size=4, lr=0.0001)
