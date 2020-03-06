@@ -1,10 +1,46 @@
 import os
 import pandas
 import numpy
+import cv2
+import itertools
 
 from PIL import Image
 from torch.utils.data import Dataset
+from detectron2.structures import BoxMode
 
+
+def get_players_dict(csv_file, img_dir, classes_file='src/player_detection/data/classes.csv'):
+    df = pandas.read_csv(csv_file)
+    df_classes = pandas.read_csv(classes_file)
+
+    classes = df_classes['label'].tolist()
+
+    df['filename'] = df['image_id'].map(lambda x: img_dir+x)
+    df['label_int'] = df['label'].map(lambda x: classes.index(x))
+
+    dataset_dicts = []
+    for filename in df['filename'].unique().tolist():
+        record = {}
+
+        height, width = cv2.imread(filename).shape[:2]
+
+        record["file_name"] = filename
+        record["height"] = height
+        record["width"] = width
+
+        objs = []
+        for index, row in df[(df['filename']==filename)].iterrows():
+          obj= {
+              'bbox': [row['xmin'], row['ymin'], row['xmax'], row['ymax']],
+              'bbox_mode': BoxMode.XYXY_ABS,
+              'category_id': row['label_int']
+          }
+          objs.append(obj)
+        record["annotations"] = objs
+        dataset_dicts.append(record)
+
+    return(dataset_dicts)
+    
 
 class DataBoxesGenerator(Dataset):
 
@@ -47,5 +83,8 @@ class DataBoxesGenerator(Dataset):
 
     def __len__(self):
         return len(self.images)
+
+if __name__ == "__main__":
+    get_players_dict('data/player_detection/train.csv', 'data/player_detection/train/')
 
 
