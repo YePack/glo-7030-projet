@@ -1,0 +1,9 @@
+image_filename,classname,x0,y0,x1,y1,class
+test.png,away_player,551,66,644,172,0
+test.png,home_player,200,267,288,391,0
+test.png,home_player,547,149,612,274,0
+test.png,home_player,457,194,538,296,0
+test.png,home_player,302,146,375,258,0
+test.png,away_player,457,291,563,413,0
+test.png,away_player,598,177,663,262,0
+test.png,home_player,674,90,748,221,0
