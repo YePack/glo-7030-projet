@@ -3,6 +3,8 @@ import torch
 import torch.nn as nn
 import time
 import glob
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import os
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
@@ -35,16 +37,18 @@ def train_valid_loaders(train_path, valid_path, batch_size, shuffle=True):
     return loader_train, loader_val
 
 
-def validate(model, val_loader, criterion, use_gpu=False):
+def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
     # TODO adapt for mapping
     model.train(False)
     val_loss = []
+    classes_color = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta', 'green']
+    cmap = mpl.colors.ListedColormap(classes_color)
 
     model.eval()
 
     for j, batch in enumerate(val_loader):
 
-        inputs, labels = batch
+        inputs, labels, image_name = batch
         if use_gpu:
             inputs = inputs.cuda()
             targets = labels.cuda()
@@ -58,12 +62,12 @@ def validate(model, val_loader, criterion, use_gpu=False):
         val_loss.append(criterion(labels, output_h).item())
         # true.extend(targets.data.cpu().numpy().tolist())
         # pred.extend(predictions.data.cpu().numpy().tolist())
-        h1 = output_h[0].reshape(3, 3)
-        h2 = output_h[1].reshape(3, 3)
-        projected_label_1 = warpPerspective(labels[0].unsqueeze(0), h1.unsqueeze(0))
-        show_projected_label(projected_label_1[0])
-        projected_label_2 = warpPerspective(labels[1].unsqueeze(0), h2.unsqueeze(0))
-        show_projected_label(projected_label_2[0])
+        for i in range(len(inputs)):
+            h = output_h[i].reshape(3, 3)
+            projected_label = warpPerspective(labels[i].unsqueeze(0), h.unsqueeze(0))
+            plt.imshow(projected_label[0], cmap=cmap)
+            fig = plt.gcf()
+            writer.add_figure(f"{image_name[i]}", fig, n_epoch+1)
 
 
 
@@ -72,25 +76,24 @@ def validate(model, val_loader, criterion, use_gpu=False):
     return sum(val_loss) / len(val_loss)
 
 
-def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, criterion, use_gpu=False,
-          scheduler=None, shuffle=True,):
+def train(model, model_dir, optimizer, train_path, valid_path, n_epoch, batch_size, criterion, use_gpu=False,
+          scheduler=None, shuffle=True, writer=None):
     history = History()
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, batch_size=batch_size, shuffle=shuffle)
 
     for i in range(n_epoch):
         start = time.time()
-        train_loss = validate(model, train_loader, criterion, use_gpu)
-        print('Epoch {} - Train loss: {:.4f} '.format(i-1, train_loss))
         do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu)
 
-        train_loss = validate(model, train_loader, criterion, use_gpu)
-
+        train_loss = validate(model, train_loader, criterion, i, writer, use_gpu)
+        writer.add_scalar('Loss/train', train_loss, i+1)
         #val_loss = validate(model, val_loader, criterion, use_gpu)
         end = time.time()
         #history.save(train_loss, val_loss, optimizer.param_groups[0]['lr'])
 
         print('Epoch {} - Train loss: {:.4f} Training time: {:.2f}s'.format(i, train_loss, end - start))
+        #model.save(os.path.join(model_dir, f"model_epoch_{i+1}")
         #print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
          #                                                                                      train_loss,
          #                                                                                      val_loss,
@@ -104,7 +107,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
         scheduler.step()
     for i, batch in enumerate(train_loader):
 
-        inputs, labels = batch
+        inputs, labels, _ = batch
         if use_gpu:
             inputs = inputs.cuda()
             labels = labels.cuda()
@@ -113,9 +116,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu):
         #targets = Variable(targets)
         optimizer.zero_grad()
         output_h = model(inputs)
-        print(output_h)
         loss = criterion(labels, output_h)
-        print(loss)
         loss.backward()
         optimizer.step()
 

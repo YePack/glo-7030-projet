@@ -23,12 +23,16 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
+    import sys
+    from src.semantic import unet
 
+    sys.modules['src.unet'] = unet
     net = readfile(args.path_model)
-
+    print(args.folder)
     i=0
 
     files_predict = [f for f in os.listdir(args.folder) if f.endswith(".png") and f.startswith("resized_")]
+    print(len(files_predict))
     files_predict.sort()
 
     for file in files_predict:

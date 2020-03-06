@@ -23,7 +23,7 @@ class DataGenerator(Dataset):
         image_tensor = image_tensor[0]
         label_tensor = LongTensor(label_array_crop)
 
-        return image_tensor, label_tensor
+        return image_tensor, label_tensor, filenameGt
 
     def __len__(self):
         return len(self.image)
