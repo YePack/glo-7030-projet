@@ -39,13 +39,13 @@ def show_projected_label(projected_label):
     plt.show()
 
 
-def warpPerspective(img, H):
+def warpPerspective(img, H, device):
     B, C, R = img.shape
-    dst = torch.full((B, C, R), 9.).cuda()
+    dst = torch.full((B, C, R), 9.).to(device)
     for b in range(B):
         for i in range(C):
             for j in range(R):
-                res = torch.mm(H[b], torch.tensor([[j], [i], [3]], dtype=torch.float).cuda())
+                res = torch.mm(H[b], torch.tensor([[j], [i], [3]], dtype=torch.float).to(device))
                 i2, j2, _ = (res / res[2] + 0.5).type(torch.int).T.tolist()[0]
                 if i2 >= 0 and i2 < R:
                     if j2 >= 0 and j2 < C:
@@ -58,6 +58,10 @@ def crop_center(img, cropx, cropy):
     startx = x // 2 - (cropx // 2)
     starty = y // 2 - (cropy // 2)
     return img[starty:starty+cropy, startx:startx+cropx]
+
+
+def get_device():
+    return torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
 if __name__ == '__main__':
