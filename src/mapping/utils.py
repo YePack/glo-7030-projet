@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import torch
 
 from src.semantic.unet.generate_masks import create_labels_from_dir
 from src.semantic.training_function import predict
@@ -50,6 +51,18 @@ def warpPerspective(img, M):
                     dst[j2, i2] = mtr[i, j]
     return dst
 
+def warpPerspectiveBatch(img, H, device):
+    B, C, R = img.shape
+    dst = torch.full((B, C, R), 9.).to(device)
+    for b in range(B):
+        for i in range(C):
+            for j in range(R):
+                res = torch.mm(H[b], torch.tensor([[j], [i], [1]], dtype=torch.float).to(device))
+                i2, j2, _ = (res / res[2] + 0.5).type(torch.int).T.tolist()[0]
+                if i2 >= 0 and i2 < R:
+                    if j2 >= 0 and j2 < C:
+                        dst[b, j2, i2] = img[b, i, j]
+    return dst
 
 def crop_center(img, cropx, cropy):
     y, x = img.shape[0:2]
