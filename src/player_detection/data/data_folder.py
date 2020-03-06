@@ -80,5 +80,5 @@ def create_data_folder(folder_from,
 
 
 if __name__ == '__main__':
-    create_data_folder("/Users/stephanecaron/Documents/universitee/maitrise-statistique/hiver-2019/glo-7030/glo-7030-projet/data/player_detection_raw/",
-                       "/Users/stephanecaron/Documents/universitee/maitrise-statistique/hiver-2019/glo-7030/glo-7030-projet/data/player_detection/")
+    create_data_folder("/misc/DLshare/home/stepcaro/university/glo-7030-projet/data/player_detection_raw/",
+                       "/misc/DLshare/home/stepcaro/university/glo-7030-projet/data/player_detection/")
