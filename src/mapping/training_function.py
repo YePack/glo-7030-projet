@@ -45,7 +45,7 @@ def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
     cmap = mpl.colors.ListedColormap(classes_color)
 
     model.eval()
-
+    image_print = 0
     for j, batch in enumerate(val_loader):
 
         inputs, labels, image_name = batch
@@ -62,13 +62,14 @@ def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
         val_loss.append(criterion(labels, output_h).item())
         # true.extend(targets.data.cpu().numpy().tolist())
         # pred.extend(predictions.data.cpu().numpy().tolist())
-        for i in range(len(inputs)):
-            h = output_h[i].reshape(3, 3)
-            projected_label = warpPerspective(labels[i].unsqueeze(0), h.unsqueeze(0))
-            plt.imshow(projected_label[0].cpu(), cmap=cmap)
-            fig = plt.gcf()
-            writer.add_figure(f"{image_name[i]}", fig, n_epoch+1)
-
+        if image_print < 4:
+            for i in range(len(inputs)):
+                h = output_h[i].reshape(3, 3)
+                projected_label = warpPerspective(labels[i].unsqueeze(0), h.unsqueeze(0))
+                plt.imshow(projected_label[0].cpu(), cmap=cmap)
+                fig = plt.gcf()
+                writer.add_figure(f"{image_name[i]}", fig, n_epoch+1)
+                image_print +=1
 
 
     model.train(True)
@@ -77,7 +78,7 @@ def validate(model, val_loader, criterion, n_epoch, writer, use_gpu=False):
 
 
 def train(model, model_dir, optimizer, train_path, valid_path, n_epoch, batch_size, criterion, use_gpu=False,
-          scheduler=None, shuffle=True, writer=None):
+          scheduler=None, shuffle=False, writer=None):
     history = History()
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, batch_size=batch_size, shuffle=shuffle)
