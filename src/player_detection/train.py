@@ -13,7 +13,7 @@ from src.player_detection.data.dataset import get_players_dict
 
 # Define hyperparameters
 PATH_DATA = 'data/player_detection/'
-CLASSES = ['player']
+CLASSES = ['away_player', 'home_player']
 
 
 def train_player_detection(data_path, classes):
@@ -31,11 +31,11 @@ def train_player_detection(data_path, classes):
     #cfg.DATASETS.TEST = ()
     cfg.DATALOADER.NUM_WORKERS = 0
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml")  # Let training initialize from model zoo
-    cfg.SOLVER.IMS_PER_BATCH = 2
-    cfg.SOLVER.BASE_LR = 0.00025  # pick a good LR
-    cfg.SOLVER.MAX_ITER = 300    # 300 iterations seems good enough for this toy dataset; you may need to train longer for a practical dataset
+    cfg.SOLVER.IMS_PER_BATCH = 4
+    cfg.SOLVER.BASE_LR = 0.001  # pick a good LR
+    cfg.SOLVER.MAX_ITER = 1000    # 300 iterations seems good enough for this toy dataset; you may need to train longer for a practical dataset
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128   # faster, and good enough for this toy dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1  # only has one class (ballon)
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2  # only has one class (ballon)
     #cfg.MODEL.DEVICE = 'cpu'
 
     os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)

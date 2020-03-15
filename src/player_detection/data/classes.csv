@@ -1,3 +1,3 @@
 classname,label
-away_player,player
-home_player,player
+away_player,away_player
+home_player,home_player

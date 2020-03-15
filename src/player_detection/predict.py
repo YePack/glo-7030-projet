@@ -1,4 +1,5 @@
 import os
+import argparse
 import random
 import cv2
 import matplotlib.pyplot as plt
@@ -11,7 +12,7 @@ from detectron2 import model_zoo
 
 from src.player_detection.data.dataset import get_players_dict
 
-CLASSES = ['player']
+CLASSES = ['a', 'h']
 
 
 if __name__ == "__main__":
@@ -31,9 +32,9 @@ if __name__ == "__main__":
     cfg.SOLVER.BASE_LR = 0.00025  # pick a good LR
     cfg.SOLVER.MAX_ITER = 300    # 300 iterations seems good enough for this toy dataset; you may need to train longer for a practical dataset
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128   # faster, and good enough for this toy dataset (default: 512)
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1  # only has one class (ballon)
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5   # set the testing threshold for this model
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2  # only has one class (ballon)
+    cfg.MODEL.WEIGHTS = "models/model_final.pth"
+    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.6   # set the testing threshold for this model
     predictor = DefaultPredictor(cfg)
 
     dataset_dicts = get_players_dict('data/player_detection/test.csv', 'data/player_detection/test/')
