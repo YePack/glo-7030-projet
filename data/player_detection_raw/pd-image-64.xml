@@ -1,0 +1,58 @@
+<annotations><meta>
+    <task>
+      <id>15</id>
+      <name>object-detection-2</name>
+      <size>25</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-03-21 21:19:12.645503+03:00</created>
+      <updated>2020-03-21 21:51:57.728120+03:00</updated>
+      <source>25 images: pd-image-40.png, pd-image-41.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>15</id>
+          <start>0</start>
+          <stop>24</stop>
+          <url>http://localhost:8080/?id=15</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro1</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2020-03-21 21:52:00.603878+03:00</dumped>
+  </meta>
+  <image height="1570" id="24" name="pd-image-64.png" width="2704">
+    <box label="home-player" occluded="0" xbr="1410.47" xtl="1180.94" ybr="1031.28" ytl="760.43">
+    </box>
+    <box label="home-player" occluded="0" xbr="188.24" xtl="17.05" ybr="1102.53" ytl="732.68">
+    </box>
+    <box label="away-player" occluded="0" xbr="1449.49" xtl="1238.32" ybr="1566.10" ytl="1189.66">
+    </box>
+    <box label="away-player" occluded="0" xbr="1187.82" xtl="1004.20" ybr="1104.73" ytl="817.81">
+    </box>
+    <box label="away-player" occluded="0" xbr="1036.33" xtl="825.16" ybr="618.12" ytl="347.27">
+    </box>
+    <box label="home-player" occluded="0" xbr="2369.93" xtl="2149.58" ybr="866.02" ytl="595.16">
+    </box>
+    <box label="home-player" occluded="0" xbr="2073.83" xtl="1837.41" ybr="1315.90" ytl="948.65">
+    </box>
+    <box label="home-player" occluded="0" xbr="1187.82" xtl="976.65" ybr="689.27" ytl="429.90">
+    </box>
+  </image>
+</annotations>

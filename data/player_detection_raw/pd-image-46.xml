@@ -1,0 +1,58 @@
+<annotations><meta>
+    <task>
+      <id>15</id>
+      <name>object-detection-2</name>
+      <size>25</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-03-21 21:19:12.645503+03:00</created>
+      <updated>2020-03-21 21:51:57.728120+03:00</updated>
+      <source>25 images: pd-image-40.png, pd-image-41.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>15</id>
+          <start>0</start>
+          <stop>24</stop>
+          <url>http://localhost:8080/?id=15</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro1</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2020-03-21 21:52:00.603878+03:00</dumped>
+  </meta>
+  <image height="1566" id="6" name="pd-image-46.png" width="2714">
+    <box label="home-player" occluded="0" xbr="2202.94" xtl="2042.68" ybr="620.67" ytl="320.74">
+    </box>
+    <box label="away-player" occluded="0" xbr="902.50" xtl="710.18" ybr="616.09" ytl="352.79">
+    </box>
+    <box label="away-player" occluded="0" xbr="1087.95" xtl="891.06" ybr="1199.91" ytl="996.14">
+    </box>
+    <box label="away-player" occluded="0" xbr="2035.81" xtl="1811.44" ybr="1186.17" ytl="796.96">
+    </box>
+    <box label="home-player" occluded="0" xbr="776.58" xtl="584.26" ybr="467.27" ytl="254.34">
+    </box>
+    <box label="home-player" occluded="0" xbr="989.50" xtl="847.56" ybr="577.17" ytl="313.87">
+    </box>
+    <box label="home-player" occluded="0" xbr="1058.19" xtl="861.29" ybr="730.56" ytl="467.27">
+    </box>
+    <box label="home-player" occluded="0" xbr="1765.65" xtl="1520.67" ybr="1025.91" ytl="682.48">
+    </box>
+  </image>
+  </annotations>

@@ -1,0 +1,60 @@
+<annotations><meta>
+    <task>
+      <id>15</id>
+      <name>object-detection-2</name>
+      <size>25</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-03-21 21:19:12.645503+03:00</created>
+      <updated>2020-03-21 21:51:57.728120+03:00</updated>
+      <source>25 images: pd-image-40.png, pd-image-41.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>15</id>
+          <start>0</start>
+          <stop>24</stop>
+          <url>http://localhost:8080/?id=15</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro1</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2020-03-21 21:52:00.603878+03:00</dumped>
+  </meta>
+  <image height="1564" id="14" name="pd-image-54.png" width="2720">
+    <box label="home-player" occluded="0" xbr="2618.86" xtl="2399.35" ybr="1135.78" ytl="799.66">
+    </box>
+    <box label="away-player" occluded="0" xbr="844.24" xtl="707.05" ybr="1046.61" ytl="705.91">
+    </box>
+    <box label="away-player" occluded="0" xbr="608.73" xtl="482.96" ybr="847.67" ytl="566.42">
+    </box>
+    <box label="away-player" occluded="0" xbr="1269.55" xtl="1102.63" ybr="1053.47" ytl="744.78">
+    </box>
+    <box label="away-player" occluded="0" xbr="1427.32" xtl="1228.39" ybr="859.11" ytl="635.02">
+    </box>
+    <box label="home-player" occluded="0" xbr="938.22" xtl="787.31" ybr="897.98" ytl="609.87">
+    </box>
+    <box label="home-player" occluded="0" xbr="1070.84" xtl="915.36" ybr="1032.89" ytl="689.90">
+    </box>
+    <box label="home-player" occluded="0" xbr="1539.59" xtl="1372.67" ybr="1085.48" ytl="783.65">
+    </box>
+    <box label="home-player" occluded="0" xbr="2387.91" xtl="2246.15" ybr="776.79" ytl="529.84">
+    </box>
+  </image>
+  </annotations>

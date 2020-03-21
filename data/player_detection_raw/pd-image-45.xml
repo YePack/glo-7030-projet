@@ -1,0 +1,54 @@
+<annotations><meta>
+    <task>
+      <id>15</id>
+      <name>object-detection-2</name>
+      <size>25</size>
+      <mode>annotation</mode>
+      <overlap>0</overlap>
+      <bugtracker />
+      <flipped>False</flipped>
+      <created>2020-03-21 21:19:12.645503+03:00</created>
+      <updated>2020-03-21 21:51:57.728120+03:00</updated>
+      <source>25 images: pd-image-40.png, pd-image-41.png, ...</source>
+      <labels>
+        <label>
+          <name>away-player</name>
+          <attributes>
+          </attributes>
+        </label>
+        <label>
+          <name>home-player</name>
+          <attributes>
+          </attributes>
+        </label>
+      </labels>
+      <segments>
+        <segment>
+          <id>15</id>
+          <start>0</start>
+          <stop>24</stop>
+          <url>http://localhost:8080/?id=15</url>
+        </segment>
+      </segments>
+      <owner>
+        <username>stepcaro1</username>
+        <email>ste.caron@icloud.com</email>
+      </owner>
+    </task>
+    <dumped>2020-03-21 21:52:00.603878+03:00</dumped>
+  </meta>
+  <image height="1518" id="5" name="pd-image-45.png" width="2704">
+    <box label="home-player" occluded="0" xbr="608.84" xtl="484.41" ybr="607.49" ytl="354.10">
+    </box>
+    <box label="home-player" occluded="0" xbr="240.08" xtl="61.35" ybr="734.18" ytl="451.38">
+    </box>
+    <box label="away-player" occluded="0" xbr="1688.00" xtl="1468.55" ybr="605.22" ytl="435.55">
+    </box>
+    <box label="home-player" occluded="0" xbr="2624.63" xtl="2402.91" ybr="702.51" ytl="433.28">
+    </box>
+    <box label="away-player" occluded="0" xbr="409.75" xtl="233.29" ybr="994.35" ytl="670.83">
+    </box>
+    <box label="home-player" occluded="0" xbr="2414.23" xtl="2208.35" ybr="1517.19" ytl="1227.61">
+    </box>
+  </image>
+  </annotations>
