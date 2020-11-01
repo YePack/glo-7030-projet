@@ -8,8 +8,7 @@ from src.semantic.unet.unet_model import UNet
 from src.semantic import train
 from src.semantic.dataloader import NormalizeCropTransform
 from src.semantic.loss import DiceCoeff
-from src.semantic.modeling_data_creation.split_modeling_data import create_labels_from_dir
-from src.semantic.dataloader.flip_images import flip_images
+
 from src.semantic.utils.show_images_sample import see_image_output
 from src.data_creation.file_manager import readfile, savefile
 from src.semantic.net_parameters import (p_weight_augmentation, p_normalize, p_model_name_save, p_max_images,
@@ -83,10 +82,6 @@ def get_args():
                       default=False, help='use gpu')
     parser.add_option('-n', '--model_load_name', type=str, dest='model_name', default='',
                       help='Model to load (path to the pickle)')
-    parser.add_option('-s', '--setup', dest='setup', action='store_true',
-                      default=False, help='Setup the datasets otpion.')
-    parser.add_option('-a', '--augmentation', dest='augmentation', action='store_true',
-                      default=False, help='data augmentation option. Need to have set up to true.')
 
     (options, args) = parser.parse_args()
     return options
@@ -117,12 +112,6 @@ if __name__ == '__main__':
 
     # We assume the path to save is the path parent to the raw/ data
     path_to = os.path.normpath(args.path + os.sep + os.pardir) + '/'
-    if args.setup:
-        # Split train and test in 2 different folders (and save arrays instead of XMLs)
-        create_labels_from_dir(path_data=args.path, path_to=path_to, train_test_perc=0.8, train_valid_perc=0.8,
-                               max=p_max_images)
-        if args.augmentation:
-            flip_images(path_to+'train/')
 
     try:
         history = train_unet(net=net,

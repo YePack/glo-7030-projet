@@ -1,6 +1,7 @@
 import glob
 import math
 import os
+from pathlib import Path
 import numpy as np
 
 from shutil import copyfile
@@ -21,8 +22,8 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
     The XML files are created using cvat tool (see labeling-tool/)
     """
 
-    images = glob.glob(path_data + '*.png')
-    xml = glob.glob(path_data + '*.xml')
+    images = glob.glob(str(Path(path_data, '*.png')))
+    xml = glob.glob(str(Path(path_data, '*.xml')))
 
     images.sort()
     xml.sort()
@@ -41,21 +42,18 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
     train_idx, test_idx = indices[:split], indices[split:]
 
     nb_images_train = len(train_idx)
-    indices_train = np.arange(nb_images_train)
-
-    if shuffle:
-        np.random.shuffle(indices_train)
+    #indices_train = np.arange(nb_images_train)
 
     split_train = math.floor(train_valid_perc * nb_images_train)
-    train_idx, valid_idx = indices_train[:split_train], indices_train[split_train:]
+    train_idx, valid_idx = train_idx[:split_train], train_idx[split_train:]
 
     if max is not None:
         train_idx = train_idx[:max]
 
     # Create new folders for train and test datasets
-    os.mkdir(path_to + 'train/')
-    os.mkdir(path_to + 'valid/')
-    os.mkdir(path_to + 'test/')
+    os.mkdir(str(Path(path_to, 'train')))
+    os.mkdir(str(Path(path_to, 'valid/')))
+    os.mkdir(str(Path(path_to, 'test/')))
 
     for id in train_idx:
         filename_png = images[id].split('/')[-1]

@@ -1,0 +1,15 @@
+{
+  "model_name":"",
+  "model_type": "unet",
+
+  "data_parameters":{
+    "raw_data_path": "data/raw/",
+    "data_creation_folder_path": "data/",
+    "data_augmentation": false,
+    "train_test_perc": 0.8,
+    "train_valid_perc": 0.8,
+    "max_image": null
+  },
+
+  "use_gpu": true
+}
