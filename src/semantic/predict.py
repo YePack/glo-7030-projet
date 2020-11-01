@@ -4,7 +4,7 @@ from optparse import OptionParser
 import matplotlib.pyplot as plt
 
 from src.semantic.training_function import predict
-from src.semantic.utils.utils import readfile, savefile
+from src.data_creation.file_manager import readfile, savefile
 
 from src.semantic.net_parameters import p_classes_color
 

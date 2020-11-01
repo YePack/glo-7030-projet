@@ -5,14 +5,13 @@ import sys
 from optparse import OptionParser
 from torch import optim
 from src.semantic.unet.unet_model import UNet
-
 from src.semantic import train
 from src.semantic.dataloader import NormalizeCropTransform
 from src.semantic.loss import DiceCoeff
-from src.semantic.unet.generate_masks import create_labels_from_dir
+from src.semantic.modeling_data_creation.split_modeling_data import create_labels_from_dir
 from src.semantic.dataloader.flip_images import flip_images
 from src.semantic.utils.show_images_sample import see_image_output
-from src.semantic.utils.utils import readfile, savefile
+from src.data_creation.file_manager import readfile, savefile
 from src.semantic.net_parameters import (p_weight_augmentation, p_normalize, p_model_name_save, p_max_images,
                                 p_number_of_classes, net_dict, p_history_save_name, p_save_name)
 from src.semantic.vgg.vggnet import vgg16_bn

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import mahotas
-from src.semantic.parser.xml_parser import parse_xml_data
+from src.data_creation.parser.xml_parser import parse_xml_data
 from src.semantic.net_parameters import p_label_to_int
 from PIL import Image
 
@@ -54,7 +54,3 @@ class CreateLabel:
             plt.imshow(self.frame_image)
             plt.show()
 
-
-#Label2 = CreateLabel(path_xml='./data/xml/test2_polygon.xml', path_image='./data/image/test2_polygon.png')
-#label2_array = Label2.get_label()
-#Label2.show_plot()
