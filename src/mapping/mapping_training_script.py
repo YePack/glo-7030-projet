@@ -47,15 +47,17 @@ def train_homography_net(net, n_epoch, batch_size, lr):
                                                    batch_size=batch_size)
     for i in range(n_epoch):
         start = time.time()
+        print('start epoch')
         running_loss = train_one_epoch(criterion, net, device, optimizer, train_loader)
-        val_loss = validate_one_epoch(net, device, val_loader, criterion, i, writer)
+        #val_loss = validate_one_epoch(net, device, val_loader, criterion, i, writer)
+        val_loss = 999
         writer.add_scalar('Loss/train', running_loss, i + 1)
         writer.add_scalar('Loss/valid', val_loss, i+1)
         end = time.time()
         print(f'Epoch {i+1} - Train loss: {round(running_loss, 4)} - Val loss: {round(val_loss, 4)} Training time: {round(end-start,2)}s')
-
+    writer.close()
     savefile(net, 'homo_net')
 
 if __name__ == '__main__':
     homography_net = HomographyNet()
-    train_homography_net(net=homography_net, n_epoch=30, batch_size=4, lr=0.0001)
+    train_homography_net(net=homography_net, n_epoch=30, batch_size=2, lr=0.0001)
