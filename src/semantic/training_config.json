@@ -5,7 +5,7 @@
   "data_parameters":{
     "raw_data_path": "data/raw/",
     "data_creation_folder_path": "data/",
-    "data_augmentation": false,
+    "data_augmentation": true,
     "train_test_perc": 0.8,
     "train_valid_perc": 0.8,
     "max_image": null

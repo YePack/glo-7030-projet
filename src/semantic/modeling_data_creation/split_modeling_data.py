@@ -42,7 +42,6 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
     train_idx, test_idx = indices[:split], indices[split:]
 
     nb_images_train = len(train_idx)
-    #indices_train = np.arange(nb_images_train)
 
     split_train = math.floor(train_valid_perc * nb_images_train)
     train_idx, valid_idx = train_idx[:split_train], train_idx[split_train:]
