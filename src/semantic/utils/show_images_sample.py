@@ -6,11 +6,13 @@ from pathlib import PurePath
 
 from src.semantic.dataloader.transform import NormalizeCropTransform
 from src.semantic.dataloader.dataset import DataGenerator
-from src.semantic.net_parameters import p_classes_color
+
+
+CLASSES_COLOR = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 
 
 def see_image_output(net, path_train, path_test, path_save):
-    cmap = mpl.colors.ListedColormap(p_classes_color)
+    cmap = mpl.colors.ListedColormap(CLASSES_COLOR)
     net.cpu()
     net.eval()
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))

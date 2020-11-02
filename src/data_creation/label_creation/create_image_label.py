@@ -2,8 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mahotas
 from src.data_creation.parser.xml_parser import parse_xml_data
-from src.semantic.net_parameters import p_label_to_int
 from PIL import Image
+
+LABEL_TO_INT = {'ice': 1, 'board': 2, 'circlezone': 3, 'circlemid': 4, 'goal': 5, 'blue': 6, 'red': 7, 'fo': 8}
 
 
 class CreateLabel:
@@ -42,8 +43,8 @@ class CreateLabel:
             poly = points[i]
             x, y = zip(*CreateLabel.render(poly))
             for k in range(len(y)):
-                if p_label_to_int[labels[i]] > frame_image[x[k]][y[k]]:
-                    frame_image[x[k]][y[k]] = p_label_to_int[labels[i]]
+                if LABEL_TO_INT[labels[i]] > frame_image[x[k]][y[k]]:
+                    frame_image[x[k]][y[k]] = LABEL_TO_INT[labels[i]]
         self.frame_image = frame_image.transpose()
         return frame_image.transpose()
 

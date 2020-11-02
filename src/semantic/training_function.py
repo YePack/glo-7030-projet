@@ -8,21 +8,21 @@ import math
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
+from pathlib import Path
 
 from src.semantic.dataloader import DataGenerator
-from src.semantic.net_parameters import p_number_of_classes
 from src.semantic.dataloader.dataset import load_image
 from src.semantic.dataloader import NormalizeCropTransform
-from src.semantic.history import History
+from src.semantic.training_script import NUMBER_OF_CLASSES
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):
 
     # List the files in train and valid
-    train_images = glob.glob(train_path + '*.png')
-    train_labels = glob.glob(train_path + '*.pkl')
-    valid_images = glob.glob(valid_path + '*.png')
-    valid_labels = glob.glob(valid_path + '*.pkl')
+    train_images = glob.glob(str(Path(train_path, '*.png')))
+    train_labels = glob.glob(str(Path(train_path, '*.pkl')))
+    valid_images = glob.glob(str(Path(valid_path, '*.png')))
+    valid_labels = glob.glob(str(Path(valid_path, '*.pkl')))
 
     train_images.sort()
     train_labels.sort()
@@ -69,7 +69,6 @@ def validate(model, val_loader, criterion, use_gpu=False):
 
 def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transform, criterion, use_gpu=False,
           scheduler=None, shuffle=True, weight_adaptation=None):
-    history = History()
 
     train_loader, val_loader = train_valid_loaders(train_path, valid_path, transform=transform,
                                                    batch_size=batch_size, shuffle=shuffle)
@@ -82,13 +81,11 @@ def train(model, optimizer, train_path, valid_path, n_epoch, batch_size, transfo
 
         val_loss = validate(model, val_loader, criterion, use_gpu)
         end = time.time()
-        history.save(train_loss, val_loss, optimizer.param_groups[0]['lr'])
 
         print('Epoch {} - Train loss: {:.4f} - Val loss: {:.4f} Training time: {:.2f}s'.format(i,
                                                                                                train_loss,
                                                                                                val_loss,
                                                                                                end - start))
-    return history
 
 
 def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weight_adaptation):
@@ -109,7 +106,7 @@ def do_epoch(criterion, model, optimizer, scheduler, train_loader, use_gpu, weig
 
         if isinstance(criterion, torch.nn.modules.loss.CrossEntropyLoss):
             weight_learn = torch.FloatTensor(
-                np.array([1/(np.log(1.1 + (np.array(targets.cpu() == i)).mean())) for i in range(p_number_of_classes)]))
+                np.array([1/(np.log(1.1 + (np.array(targets.cpu() == i)).mean())) for i in range(NUMBER_OF_CLASSES)]))
             if weight_adaptation is not None:
                 pred_unique = output.max(dim=1)[1].unique()
                 targets_unique = targets.unique()

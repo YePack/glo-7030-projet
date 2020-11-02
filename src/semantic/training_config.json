@@ -1,6 +1,11 @@
 {
   "model_name":"",
   "model_type": "unet",
+  "model_parameters": {
+    "n_channels": 3,
+    "n_classes": 9
+  },
+  "model_save_name": "",
 
   "data_parameters":{
     "raw_data_path": "data/raw/",
@@ -11,5 +16,30 @@
     "max_image": null
   },
 
-  "use_gpu": true
+  "loss_type": "CrossEntropy",
+  "use_gpu": true,
+
+  "transform_params": {
+    "normalize": true,
+    "crop": [450, 256]
+  },
+
+  "optimizer_type": "SGD",
+  "optimizer_params": {
+    "lr": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 0.0005
+  },
+
+  "schedular_type": "onecyclelr",
+  "schedular_params": {
+    "max_lr": 0.1
+  },
+
+  "training_parameters": {
+    "n_epoch": 30,
+    "batch_size": 2,
+    "shuffle": true,
+    "weight_adaptation": null
+  }
 }
