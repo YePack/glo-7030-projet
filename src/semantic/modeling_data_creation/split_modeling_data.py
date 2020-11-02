@@ -51,8 +51,8 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
 
     # Create new folders for train and test datasets
     os.mkdir(str(Path(path_to, 'train')))
-    os.mkdir(str(Path(path_to, 'valid/')))
-    os.mkdir(str(Path(path_to, 'test/')))
+    os.mkdir(str(Path(path_to, 'valid')))
+    os.mkdir(str(Path(path_to, 'test')))
 
     for id in train_idx:
         filename_png = images[id].split('/')[-1]
