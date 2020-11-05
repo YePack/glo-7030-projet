@@ -48,6 +48,8 @@ def create_labels_from_dir(path_data, path_to, train_test_perc=0.8, train_valid_
 
     if max is not None:
         train_idx = train_idx[:max]
+        valid_idx = valid_idx[:max]
+        test_idx = test_idx[:max]
 
     # Create new folders for train and test datasets
     os.mkdir(str(Path(path_to, 'train')))

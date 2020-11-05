@@ -4,7 +4,6 @@ import torch.nn as nn
 import time
 import glob
 import os
-import math
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
@@ -12,8 +11,9 @@ from pathlib import Path
 
 from src.semantic.dataloader import DataGenerator
 from src.semantic.dataloader.dataset import load_image
-from src.semantic.dataloader import NormalizeCropTransform
-from src.semantic.training_script import NUMBER_OF_CLASSES
+
+
+NUMBER_OF_CLASSES = 9
 
 
 def train_valid_loaders(train_path, valid_path, batch_size, transform, shuffle=True):

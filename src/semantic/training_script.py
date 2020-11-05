@@ -7,16 +7,13 @@ from pathlib import Path
 from optparse import OptionParser
 from torch import optim
 from src.semantic.unet.unet_model import UNet
-from src.semantic import train
+from src.semantic.training_function import train
 from src.semantic.dataloader import NormalizeCropTransform
 from src.semantic.loss import DiceCoeff
 
 from src.semantic.utils.show_images_sample import see_image_output
 from src.data_creation.file_manager import readfile, savefile
 from src.semantic.vgg.vggnet import vgg16_bn
-
-
-NUMBER_OF_CLASSES = 9
 
 
 def create_model(model_type, model_params):
@@ -122,7 +119,3 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     training(args.config)
-
-
-
-

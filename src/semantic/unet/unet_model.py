@@ -1,6 +1,7 @@
 import torch.nn.functional as F
 from src.semantic.unet.unet_utils import *
 
+
 class UNet(nn.Module):
     def __init__(self, n_channels, n_classes):
         super(UNet, self).__init__()
