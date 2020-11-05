@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from optparse import OptionParser
+import torch
 from torch import optim
 from src.semantic.model.unet.unet_model import UNet
 from src.semantic.training_function import train
@@ -17,7 +18,7 @@ from src.data_creation.file_manager import readfile, savefile
 
 def create_model(model_type, model_params):
     if model_type.lower() == 'vgg16':
-        return NotImplementedError('Need to import the net from model and adapt the script. Old Stuff there')
+        raise NotImplementedError('Need to import the net from model and adapt the script. Old Stuff there')
     if model_type.lower() == 'unet':
         return UNet(**model_params)
     else:
@@ -43,6 +44,13 @@ def create_scheduler():
     return None
 
 
+def create_device(use_gpu):
+    if use_gpu:
+        return torch.device("cuda")
+    else:
+        return torch.device("cpu")
+
+
 def training(config_file):
     with open(config_file, "r") as f:
         config = json.load(f)
@@ -62,8 +70,9 @@ def training(config_file):
 
     scheduler = create_scheduler()
 
-    if config["use_gpu"]:
-        net.cuda()
+    device = create_device(config["use_gpu"])
+
+    net.to(device)
 
     data_creation_folder_path = config["data_parameters"]["data_creation_folder_path"]
     training_path = Path(data_creation_folder_path, "train")
@@ -77,7 +86,7 @@ def training(config_file):
         "valid_path": validation_path,
         "transform": transform,
         "criterion": loss_criterion,
-        "use_gpu": config["use_gpu"],
+        "device": device,
         "scheduler": scheduler,
         **config["training_parameters"]
     }
@@ -101,8 +110,7 @@ def training(config_file):
         except SystemExit:
             os._exit(0)
 
-
-    net.cpu()
+    net.to(torch.device("cpu"))
     savefile(net, config["model_save_name"])
 
 
