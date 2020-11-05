@@ -116,7 +116,7 @@ def training(config_file):
 
 def get_args():
     parser = OptionParser()
-    parser.add_option('-c', '--config', type=str, dest='config',
+    parser.add_option('-c', '--config', type=str, dest='config', default='src/semantic/training_config.json',
                       help='Config file to setup training')
 
     (options, args) = parser.parse_args()
