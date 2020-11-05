@@ -6,19 +6,18 @@ from pathlib import Path
 
 from optparse import OptionParser
 from torch import optim
-from src.semantic.unet.unet_model import UNet
+from src.semantic.model.unet.unet_model import UNet
 from src.semantic.training_function import train
 from src.semantic.dataloader import NormalizeCropTransform
 from src.semantic.loss import DiceCoeff
 
 from src.semantic.utils.show_images_sample import see_image_output
 from src.data_creation.file_manager import readfile, savefile
-from src.semantic.vgg.vggnet import vgg16_bn
 
 
 def create_model(model_type, model_params):
     if model_type.lower() == 'vgg16':
-        return vgg16_bn(**model_params)
+        return NotImplementedError('Need to import the net from model and adapt the script. Old Stuff there')
     if model_type.lower() == 'unet':
         return UNet(**model_params)
     else:
@@ -26,7 +25,7 @@ def create_model(model_type, model_params):
 
 
 def create_optimizer(optimizer_type, model, optimizer_params):
-    trainable_parameters = [p for p in model.parameters() if p.required_grad]
+    trainable_parameters = [p for p in model.parameters() if p.requires_grad]
     if optimizer_type.lower() == "sgd":
         return optim.SGD(trainable_parameters, **optimizer_params)
     else:
@@ -66,9 +65,10 @@ def training(config_file):
     if config["use_gpu"]:
         net.cuda()
 
-    training_path = Path(config["data_creation_folder_path"], "train")
-    validation_path = Path(config["data_creation_folder_path"], "valid")
-    testing_path = Path(config["data_creation_folder_path"], "test")
+    data_creation_folder_path = config["data_parameters"]["data_creation_folder_path"]
+    training_path = Path(data_creation_folder_path, "train")
+    validation_path = Path(data_creation_folder_path, "valid")
+    testing_path = Path(data_creation_folder_path, "test")
 
     training_dict = {
         "model": net,
@@ -80,7 +80,6 @@ def training(config_file):
         "use_gpu": config["use_gpu"],
         "scheduler": scheduler,
         **config["training_parameters"]
-
     }
 
     try:
@@ -90,7 +89,7 @@ def training(config_file):
             net,
             path_train=training_path,
             path_test=testing_path,
-            path_save=config["data_creation_folder_path"]
+            path_save=data_creation_folder_path
         )
 
     except KeyboardInterrupt:

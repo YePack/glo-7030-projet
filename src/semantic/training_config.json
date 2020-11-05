@@ -17,7 +17,7 @@
   },
 
   "loss_type": "CrossEntropy",
-  "use_gpu": true,
+  "use_gpu": false,
 
   "transform_params": {
     "normalize": true,
@@ -37,7 +37,7 @@
   },
 
   "training_parameters": {
-    "n_epoch": 30,
+    "n_epoch": 3,
     "batch_size": 2,
     "shuffle": true,
     "weight_adaptation": null
