@@ -18,7 +18,7 @@ CLASSES = ['away_player', 'home_player']
 
 def train_player_detection(data_path, classes):
 
-    classes = ['player']
+    # classes = ['player']
 
     for d in ["train", "test", "valid"]:
         DatasetCatalog.register('player_detection_' + d, lambda d=d: get_players_dict(data_path + d + '.csv', data_path + d + '/'))
@@ -36,7 +36,7 @@ def train_player_detection(data_path, classes):
     cfg.SOLVER.MAX_ITER = 1000    # 300 iterations seems good enough for this toy dataset; you may need to train longer for a practical dataset
     cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128   # faster, and good enough for this toy dataset (default: 512)
     cfg.MODEL.ROI_HEADS.NUM_CLASSES = 2  # only has one class (ballon)
-    #cfg.MODEL.DEVICE = 'cpu'
+    cfg.MODEL.DEVICE = 'cpu'
 
     os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
     trainer = DefaultTrainer(cfg)

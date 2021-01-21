@@ -18,6 +18,7 @@ def xml_to_csv(data_folder, output_file, dt_mapping=dt_mapping):
     # Loop through each XML file
     for xml_file in xml_files:
 
+        xml_file = xml_file.split('/')[-1]
         tree = ET.parse(os.path.join(data_folder, xml_file))
         root = tree.getroot()
 

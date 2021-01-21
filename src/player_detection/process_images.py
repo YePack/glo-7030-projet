@@ -56,11 +56,11 @@ def parse_args():
     # Mutliprocessing settings
     ap.add_argument("--gpus",
                     type=int,
-                    default=1,
-                    help="number of GPUs (default: 1)")
+                    default=0,
+                    help="number of GPUs (default: 0)")
     ap.add_argument("--cpus",
                     type=int,
-                    default=0,
+                    default=1,
                     help="number of CPUs (default: 1)")
 
     return ap.parse_args()
