@@ -3,7 +3,8 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 
-from src.semantic.net_parameters import p_number_of_classes
+
+NUMBER_OF_CLASSES = 9
 
 
 model_urls = {
@@ -56,5 +57,5 @@ adapt_state_dict["features.19.weight"] = ori_state_dict["features.21.weight"]
 adapt_state_dict["features.19.bias"] = ori_state_dict["features.21.bias"]
 adapt_state_dict["features.19.running_mean"] = ori_state_dict["features.21.running_mean"]
 adapt_state_dict["features.19.running_var"] = ori_state_dict["features.21.running_var"]
-adapt_state_dict["conv_out.weight"] = nn.init.normal(torch.zeros((p_number_of_classes, 256, 1, 1)), 0)
+adapt_state_dict["conv_out.weight"] = nn.init.normal(torch.zeros((NUMBER_OF_CLASSES, 256, 1, 1)), 0)
 adapt_state_dict["conv_out.bias"] = torch.zeros(p_number_of_classes)

@@ -1,15 +1,16 @@
 import glob
+from pathlib import Path
 import numpy as np
 
 from PIL import Image
 from torchvision import transforms
-from src.semantic.utils.utils import readfile, savefile
+from src.data_creation.file_manager import readfile, savefile
 
 
 def flip_images(path_data):
 
-    images = glob.glob(path_data + '*.png')
-    labels = glob.glob(path_data + '*.pkl')
+    images = glob.glob(str(Path(path_data, '*.png')))
+    labels = glob.glob(str(Path(path_data, '*.pkl')))
 
     preprocess_flip = transforms.Compose([
             transforms.RandomHorizontalFlip(1)
@@ -21,7 +22,6 @@ def flip_images(path_data):
 
         image_flip = preprocess_flip(image_flip)
         image_flip.save(image.replace('image', 'rimage'))
-
 
     for label in labels:
         label_flip = readfile(label.replace('.pkl', ''))

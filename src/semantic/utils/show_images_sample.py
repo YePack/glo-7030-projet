@@ -2,21 +2,23 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import glob
 import numpy as np
-from pathlib import PurePath
+from pathlib import PurePath, Path
 
 from src.semantic.dataloader.transform import NormalizeCropTransform
 from src.semantic.dataloader.dataset import DataGenerator
-from src.semantic.net_parameters import p_classes_color
+
+
+CLASSES_COLOR = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
 
 
 def see_image_output(net, path_train, path_test, path_save):
-    cmap = mpl.colors.ListedColormap(p_classes_color)
+    cmap = mpl.colors.ListedColormap(CLASSES_COLOR)
     net.cpu()
     net.eval()
     transform = NormalizeCropTransform(normalize=True, crop=(450, 256))
 
     # Sample 2 images from train
-    train_images = glob.glob(path_train + '*.png')
+    train_images = glob.glob(str(Path(path_train, '*.png')))
     nb_images = len(train_images)
     indices = np.arange(nb_images)
     np.random.shuffle(indices)
@@ -26,7 +28,7 @@ def see_image_output(net, path_train, path_test, path_save):
     labels_train.sort()
 
     # Sample 2 images from test
-    test_images = glob.glob(path_test + '*.png')
+    test_images = glob.glob(str(Path(path_test, '*.png')))
     nb_images = len(test_images)
     indices = np.arange(nb_images)
     np.random.shuffle(indices)
@@ -59,7 +61,6 @@ def see_image_output(net, path_train, path_test, path_save):
 
         fig.suptitle("Sample predicted from train dataset", fontsize=16, y=1.002, x=0.4)
         plt.savefig(path_save+'train-sample.png')
-        plt.show()
 
     i = 0
     while i < len(data_test):
@@ -79,4 +80,3 @@ def see_image_output(net, path_train, path_test, path_save):
 
         fig.suptitle("Sample predicted from test dataset", fontsize=16, y=1.002, x=0.4)
         plt.savefig(path_save+'test-sample.png')
-        plt.show()

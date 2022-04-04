@@ -1,11 +1,9 @@
 import numpy as np
-import os
 
 from PIL import Image
 from torch.utils.data import Dataset
 
-from src.semantic.utils.create_image_label import CreateLabel
-from src.semantic.utils.utils import readfile
+from src.data_creation.file_manager import readfile
 
 
 def load_image(file):
@@ -16,8 +14,6 @@ class DataGenerator(Dataset):
     def __init__(self, imagepath, labelpath, transform):
         #  make sure label match with image
         self.transform = transform
-        #assert os.path.exists(imagepath), "{} not exists !".format(imagepath)
-        #assert os.path.exists(labelpath), "{} not exists !".format(labelpath)
         self.image = imagepath
         self.label = labelpath
 

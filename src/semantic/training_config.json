@@ -1,0 +1,45 @@
+{
+  "model_load_name": null,
+  "model_type": "unet",
+  "model_parameters": {
+    "n_channels": 3,
+    "n_classes": 9
+  },
+  "model_save_name": "test_phil_unet",
+
+  "data_parameters":{
+    "raw_data_path": "data/raw/",
+    "data_creation_folder_path": "data/",
+    "data_augmentation": true,
+    "train_test_perc": 0.8,
+    "train_valid_perc": 0.8,
+    "max_image": 2
+  },
+
+  "loss_type": "CrossEntropy",
+  "use_gpu": false,
+
+  "transform_params": {
+    "normalize": true,
+    "crop": [450, 256]
+  },
+
+  "optimizer_type": "SGD",
+  "optimizer_params": {
+    "lr": 0.1,
+    "momentum": 0.9,
+    "weight_decay": 0.0005
+  },
+
+  "schedular_type": "onecyclelr",
+  "schedular_params": {
+    "max_lr": 0.1
+  },
+
+  "training_parameters": {
+    "n_epoch": 3,
+    "batch_size": 2,
+    "shuffle": true,
+    "weight_adaptation": null
+  }
+}

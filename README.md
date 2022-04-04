@@ -25,7 +25,7 @@ pip install -r requirements.txt
 Once you have NHL recap screenshosts saved on your computer, you must first resize them before creating the labels. To do so, use the following script by specifying the path of the folder where your images are saved:
 
 ```
-python -m src.utils.resize_images --path your_path
+python -m src.data_creation.resize_images --path your_path
 ```
 
 It should save all the `*.png` files inside that folder in the correct dimensions.
@@ -63,7 +63,7 @@ Once you launched the labeling tool, you are up and running to import you resize
 The last part before splitting the dataset and running the model is to extract the XML from the labeling tool and split it into separate XMLs (one for each file). To split the XML downloaded from the labeling tool:
 
 ```
-python -m src.parser.xml_splitter --file path_xml_file --dir dir_save_xmls
+python -m src.data_creation.parser.xml_splitter --file path_xml_file --dir dir_save_xmls
 ```
 
 The very last step is to add the resized images and the accompagning XML to the `data/raw/` directory and push it to the repo.

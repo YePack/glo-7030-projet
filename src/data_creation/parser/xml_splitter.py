@@ -28,14 +28,14 @@ def split_xml(path_file, path_to):
 
 
 def get_args():
-    parser = OptionParser()
-    parser.add_option('-f', '--file', type=str, dest='file',
+	parser = OptionParser()
+	parser.add_option('-f', '--file', type=str, dest='file',
 					  help='File Path (including filename) of the XML.')
-    parser.add_option('-d', '--dir', type=str, dest='dir',
+	parser.add_option('-d', '--dir', type=str, dest='dir',
 					  help='Directory to save the XMLs')
 
-    (options, args) = parser.parse_args()
-    return options
+	(options, args) = parser.parse_args()
+	return options
 
 
 if __name__ == '__main__':

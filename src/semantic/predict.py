@@ -4,11 +4,13 @@ from optparse import OptionParser
 import matplotlib.pyplot as plt
 
 from src.semantic.training_function import predict
-from src.semantic.utils.utils import readfile, savefile
+from src.data_creation.file_manager import readfile, savefile
 
-from src.semantic.net_parameters import p_classes_color
 
-cmap = mpl.colors.ListedColormap(p_classes_color)
+CLASSES_COLOR = ['black', 'white', 'yellow', 'pink', 'coral', 'crimson', 'blue', 'red', 'magenta']
+
+
+cmap = mpl.colors.ListedColormap(CLASSES_COLOR)
 
 def get_args():
     parser = OptionParser()
