@@ -69,6 +69,7 @@ python -m src.data_creation.parser.xml_splitter --file path_xml_file --dir dir_s
 The very last step is to add the resized images and the accompagning XML to the `data/raw/` directory and push it to the repo.
 
 # Generate predictions
+>USE MAKE FILE! DESCRIPTION BELOW IS OUTDATED.
 
 To generate predictions out of a sequence (mp4 video), you must have these two system libraries installed: `ffmpeg` and `ImageMagick`. To install them on Mac, use the following commands:
 
