@@ -37,9 +37,9 @@
   },
 
   "training_parameters": {
-    "n_epoch": 3,
-    "batch_size": 2,
-    "shuffle": true,
+    "n_epoch": 2,
+    "batch_size": 15,
+    "shuffle": false ,
     "weight_adaptation": null
   }
 }

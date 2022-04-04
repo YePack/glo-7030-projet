@@ -29,6 +29,8 @@ def create_optimizer(optimizer_type, model, optimizer_params):
     trainable_parameters = [p for p in model.parameters() if p.requires_grad]
     if optimizer_type.lower() == "sgd":
         return optim.SGD(trainable_parameters, **optimizer_params)
+    elif optimizer_type.lower() == "adam":
+        return optim.Adam(trainable_parameters)
     else:
         raise NotImplementedError
 
@@ -36,7 +38,7 @@ def create_optimizer(optimizer_type, model, optimizer_params):
 def create_loss(loss_type):
     if loss_type.lower() == 'crossentropy':
         return nn.CrossEntropyLoss()
-    if loss_type.lower() == 'Dice':
+    if loss_type.lower() == 'dice':
         return DiceCoeff()
 
 
